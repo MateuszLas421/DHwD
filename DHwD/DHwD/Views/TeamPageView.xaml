@@ -7,7 +7,7 @@
     <StackLayout>
         <Label Text="You Team" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Center"
                Padding="0,10,0,15" />
-        <CollectionView ItemsSource="">  <!--add Source-->
+        <!--<CollectionView ItemsSource="">  --><!--add Source--><!--
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Horizontal" Span="4" />
             </CollectionView.ItemsLayout>
@@ -22,11 +22,11 @@
                             <ColumnDefinition Width="140" />
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0"  Aspect="AspectFill" HeightRequest="60"
-                            WidthRequest="60" /> <!--Source="{Binding ImageUrl}"-->
-                        <Label Grid.Column="1" Text="{Binding TeamPlayerNickName}" FontAttributes="Bold"  /> <!--LineBreakMode="TailTruncation"-->
+                            WidthRequest="60" /> --><!--Source="{Binding ImageUrl}"--><!--
+                        <Label Grid.Column="1" Text="{Binding TeamPlayerNickName}" FontAttributes="Bold"  /> --><!--LineBreakMode="TailTruncation"--><!--
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+        </CollectionView>-->
     </StackLayout>
 </ContentPage>
