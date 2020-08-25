@@ -25,8 +25,8 @@ namespace DHwD
         {
             InitializeComponent();
 
-            //await NavigationService.NavigateAsync("NavigationPage/MainPage");
-            await NavigationService.NavigateAsync("NavigationPage/TeamPageView");
+            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            //await NavigationService.NavigateAsync("NavigationPage/TeamPageView");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -35,7 +35,9 @@ namespace DHwD
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<TeamPageView, TeamPageViewViewModel>();
+            containerRegistry.RegisterForNavigation<InfoView, InfoViewModel>();
         }
     }
 }

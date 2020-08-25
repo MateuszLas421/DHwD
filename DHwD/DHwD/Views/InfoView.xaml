@@ -4,7 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DHwD.Info">
+             x:Class="DHwD.Views.InfoView"
+             Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout  Orientation="Vertical" VerticalOptions="FillAndExpand"  HorizontalOptions="Center">
             <Label Text="START" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Fill" Padding="0,15,0,0"/>

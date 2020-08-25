@@ -5,7 +5,8 @@
              Title="{Binding Title}">
 
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
+        <Label Text="Login Page" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+        <Button Command="{Binding LoginCommand}" Text="Login" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" WidthRequest="300" CornerRadius="50"/>
     </StackLayout>
 
 </ContentPage>
