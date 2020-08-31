@@ -24,7 +24,6 @@ namespace DHwD
         protected override async void OnInitialized()
         {
             InitializeComponent();
-
             await NavigationService.NavigateAsync("NavigationPage/MainPage");
             //await NavigationService.NavigateAsync("NavigationPage/TeamPageView");
         }
@@ -35,7 +34,6 @@ namespace DHwD
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
-            containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<TeamPageView, TeamPageViewViewModel>();
             containerRegistry.RegisterForNavigation<InfoView, InfoViewModel>();
         }
