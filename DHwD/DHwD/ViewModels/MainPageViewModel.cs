@@ -10,16 +10,19 @@ using Plugin.DeviceInfo;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using DHwD.Model;
+using DHwD.Service;
+using Prism.Services;
 
 namespace DHwD.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
         #region constructor 
-        public MainPageViewModel(INavigationService navigationService)
+        public MainPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService)
         {
             _navigationService = navigationService;
+            _dialogService = dialogService;
             Title = "Login Page";
             user = new User();
         }
@@ -28,6 +31,7 @@ namespace DHwD.ViewModels
         # region variables
         private DelegateCommand _logincommand;
         private INavigationService _navigationService;
+        private IPageDialogService _dialogService;
         #endregion
 
         #region  Property
@@ -36,13 +40,15 @@ namespace DHwD.ViewModels
             _logincommand ?? (_logincommand = new DelegateCommand(ExecuteLoginCommand));
         #endregion
 
-        void ExecuteLoginCommand()
+        void ExecuteLoginCommand() //async Task
         {
             Hash hash = new Hash();
             Func<string, string> token = r =>hash.ComputeHash(r, new SHA256CryptoServiceProvider());
             user.Token = token(CrossDeviceInfo.Current.Id.ToString());
+            RestService restService = new RestService(_dialogService);
+            Task task= Task.Run(async ()=> await restService.RegisterNewUserAsync(user, true)); 
             Title = user.NickName;
-            //await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
+            // _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
         }
 
     }

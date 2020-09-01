@@ -340,3 +340,5 @@ ASALocalRun/
 healthchecksdb
 
 *.vsdx
+
+/DHwD/DHwD/Service/Url_data.cs
