@@ -72,11 +72,14 @@ namespace DHwD.ViewModels
                 }
             });
             
-            if (CheckUserExists) 
-            { return; }                                                                          //TODO
-            else { task = Task.Run(async () => await restService.RegisterNewUserAsync(user, true)); task.Wait(); } 
-           
-            await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
+            if (CheckUserExists) { return; }                                                                          //TODO
+            else 
+            {
+                bool Register;
+                Register= await restService.RegisterNewUserAsync(user);
+                if (Register)
+                    await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
+            } 
         }
 
     }

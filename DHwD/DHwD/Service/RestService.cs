@@ -24,7 +24,7 @@ namespace DHwD.Service
         public async Task<bool> CheckUserExistsAsync(UserRegistration item)
         {
             bool isNewItem = false;
-            item.NickName = "TestData"; item.Token = "sdadsfs-gsfg-rgdsads64-c5rsd";    //delete
+            //item.NickName = "TestData"; item.Token = "sdadsfs-gsfg-rgdsads64-c5rsd";    //delete
             Url_data url_ = null;
             HttpResponseMessage response = null;
             try { url_ = new Url_data(); }
@@ -48,30 +48,31 @@ namespace DHwD.Service
             }
             return isNewItem;
         }
-        public async Task RegisterNewUserAsync(UserRegistration item, bool isNewItem = true)//isNewItem = false
+        public async Task<bool> RegisterNewUserAsync(UserRegistration item)//isNewItem = false
         {
+            bool result = false;
             Url_data url_=null;
             HttpResponseMessage response = null;
             string json = JsonConvert.SerializeObject(item);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             try { url_ = new Url_data(); }
-            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return; } 
+            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return result; } 
             Uri uri;
 
             try { uri = new Uri(string.Format(url_.RegisterUri.ToString(), string.Empty)); } 
-            catch (Exception ex) { Debug.WriteLine(ex.Message);  return; }
+            catch (Exception ex) { Debug.WriteLine(ex.Message);  return result; }
             
             response = null;
+            try { response = await client.PostAsync(uri, content); }                                      //  POST  //            TODO !!!!! check
+            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return result; }
 
-            if (isNewItem)
-            {
-                try { response = await client.PostAsync(uri, content); }                                      //  POST  //            TODO !!!!! check
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); /*await _dialogService.DisplayAlertAsync("Alert", "You have an unknown registration error.", "OK"); */ return; }
-            }
             if (response.IsSuccessStatusCode)
             {
+                result = true;
                 Debug.WriteLine(@"successfully saved.");
+                return result;
             }
+            return result;
         }
     }
 }
