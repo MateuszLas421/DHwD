@@ -12,6 +12,7 @@ using System.Security.Cryptography;
 using DHwD.Model;
 using DHwD.Service;
 using Prism.Services;
+using System.Threading;
 
 namespace DHwD.ViewModels
 {
@@ -24,7 +25,8 @@ namespace DHwD.ViewModels
             _navigationService = navigationService;
             _dialogService = dialogService;
             Title = "Login Page";
-            user = new User();
+            user = new UserRegistration();
+            NickNameColor = Color.Default;
         }
         #endregion
 
@@ -32,23 +34,49 @@ namespace DHwD.ViewModels
         private DelegateCommand _logincommand;
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
+        private Color _nickNameColor;
         #endregion
 
         #region  Property
-        public User user { get; set; }
+
+        public Color NickNameColor
+        {
+            get => _nickNameColor;
+            set => SetProperty(ref _nickNameColor, value);
+        }
+        public UserRegistration user { get; set; }
         public DelegateCommand LoginCommand =>
             _logincommand ?? (_logincommand = new DelegateCommand(ExecuteLoginCommand));
         #endregion
 
-        void ExecuteLoginCommand() //async Task
+        async void ExecuteLoginCommand()
         {
+            Task task;
+            bool CheckUserExists;
             Hash hash = new Hash();
-            Func<string, string> token = r =>hash.ComputeHash(r, new SHA256CryptoServiceProvider());
+            Func<string, string> token = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());
+            if (string.IsNullOrEmpty(user.NickName)) { NickNameColor = Color.Red; await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK"); return; }
             user.Token = token(CrossDeviceInfo.Current.Id.ToString());
             RestService restService = new RestService(_dialogService);
-            Task task= Task.Run(async ()=> await restService.RegisterNewUserAsync(user, true)); 
-            Title = user.NickName;
-            // _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
+            CheckUserExists = await restService.CheckUserExistsAsync(user);
+            Task responseTask = Task.Run(() =>
+            {
+                bool a = true; 
+                while (a)
+                {
+                    try { { if (CheckUserExists == true || CheckUserExists == false) { a = false; return; } else Thread.Sleep(300); } }
+                    catch (Exception)
+                    {
+                        Thread.Sleep(300);
+                    }
+                }
+            });
+            
+            if (CheckUserExists) 
+            { return; }                                                                          //TODO
+            else { task = Task.Run(async () => await restService.RegisterNewUserAsync(user, true)); task.Wait(); } 
+           
+            await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
         }
 
     }

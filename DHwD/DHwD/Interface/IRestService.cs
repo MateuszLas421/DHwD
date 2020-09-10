@@ -8,6 +8,7 @@ namespace DHwD.Interface
 {
     public interface IRestService
     {
-        Task RegisterNewUserAsync(User item, bool isNewItem);
+        Task RegisterNewUserAsync(UserRegistration item, bool isNewItem);
+        Task<bool> CheckUserExistsAsync(UserRegistration item);
     }
 }

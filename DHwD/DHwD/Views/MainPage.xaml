@@ -5,8 +5,11 @@
              Title="{Binding Title}">
 
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Entry WidthRequest="300" Text="{Binding user.NickName}" />
-        <Label Text="Login Page" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+        <Label Text="Hello, please enter your nickname." VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="NickName" VerticalOptions="Center" HorizontalOptions="Center" Margin="8,0,0,0"/>
+            <Entry WidthRequest="300" Text="{Binding user.NickName}" BackgroundColor="{Binding NickNameColor}"/>
+        </StackLayout>
         <Button Command="{Binding LoginCommand}" Text="Login" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" WidthRequest="300" CornerRadius="50"/>
     </StackLayout>
 
