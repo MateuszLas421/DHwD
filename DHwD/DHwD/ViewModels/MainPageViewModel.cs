@@ -51,7 +51,6 @@ namespace DHwD.ViewModels
 
         async void ExecuteLoginCommand()
         {
-            Task task;
             bool CheckUserExists;
             Hash hash = new Hash();
             Func<string, string> token = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());
@@ -72,7 +71,7 @@ namespace DHwD.ViewModels
                 }
             });
             
-            if (CheckUserExists) { return; }                                                                          //TODO
+            if (CheckUserExists) { return; }                                                                        
             else 
             {
                 bool Register;
