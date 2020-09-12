@@ -15,55 +15,40 @@ namespace DHwD.Service
     class RestService: IRestService
     {
         HttpClient client;
-        IPageDialogService _dialogService;
-        public RestService(IPageDialogService dialogService)
+        public RestService()
         {
             client = new HttpClient();
-            _dialogService = dialogService;
         }
         public async Task<bool> CheckUserExistsAsync(UserRegistration item)
         {
             bool isNewItem = false;
-            //item.NickName = "TestData"; item.Token = "sdadsfs-gsfg-rgdsads64-c5rsd";    //delete
             Url_data url_ = null;
             HttpResponseMessage response = null;
-            try { url_ = new Url_data(); }
-            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return isNewItem; }
+            url_ = new Url_data();
             Uri uri;
-            try { uri = new Uri(string.Format(url_.CheckLogin + item.NickName + "/" + item.Token)); }
+            uri = new Uri(string.Format(url_.CheckLogin + item.NickName + "/" + item.Token));
+            try { response = await client.GetAsync(uri.ToString()); }
             catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return isNewItem; }
-           // if (isNewItem==false)
-           // {
-                try { response = await client.GetAsync(uri.ToString()); }
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return isNewItem; }
-            //}
             if (response.IsSuccessStatusCode)  /// The user exists
             {
-                //string responseContent = await response.Content.ReadAsStringAsync();
-                //var t= JsonConvert.DeserializeObject<User>(responseContent);              //////// //////////////////////////////////////////////////////////TODO
                 Debug.WriteLine(@" The user exists. ");
                 isNewItem=true;
                 return isNewItem;
-
             }
             return isNewItem;
         }
-        public async Task<bool> RegisterNewUserAsync(UserRegistration item)//isNewItem = false
+        public async Task<bool> RegisterNewUserAsync(UserRegistration item)
         {
             bool result = false;
             Url_data url_=null;
             HttpResponseMessage response = null;
             string json = JsonConvert.SerializeObject(item);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            try { url_ = new Url_data(); }
-            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return result; } 
+             url_ = new Url_data(); 
             Uri uri;
-
-            try { uri = new Uri(string.Format(url_.RegisterUri.ToString(), string.Empty)); } 
-            catch (Exception ex) { Debug.WriteLine(ex.Message);  return result; }
-            
+            uri = new Uri(string.Format(url_.RegisterUri.ToString(), string.Empty));
             response = null;
-            try { response = await client.PostAsync(uri, content); }                                      //  POST  //            TODO !!!!! check
+            try { response = await client.PostAsync(uri, content); }                                      //  POST  // 
             catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return result; }
 
             if (response.IsSuccessStatusCode)
@@ -73,6 +58,23 @@ namespace DHwD.Service
                 return result;
             }
             return result;
+        }
+        public async Task<User> GetUserAsync(UserRegistration item)
+        {
+            Url_data url_ = null;
+            HttpResponseMessage response = null;
+            url_ = new Url_data(); 
+            Uri uri;
+            uri = new Uri(string.Format(url_.CheckLogin + item.NickName + "/" + item.Token));
+            try { response = await client.GetAsync(uri.ToString()); }               // REST GET
+            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return null; }
+            if (response.IsSuccessStatusCode)  /// when user exists
+            {
+                string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                var captureduser = JsonConvert.DeserializeObject<User>(responseContent);          // Deserialize JSON
+                return captureduser;
+            }
+            return null;
         }
     }
 }

@@ -27,7 +27,17 @@ namespace DHwD.ViewModels
             Title = "Login Page";
             user = new UserRegistration();
             NickNameColor = Color.Default;
+            sqliteService = new SqliteService();
+            Task.Run(async() => 
+            {
+                User fulluser = await sqliteService.GetItemAsync();
+                if (fulluser != null)
+                {
+                    await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
+                }
+            });
         }
+
         #endregion
 
         # region variables
@@ -35,6 +45,7 @@ namespace DHwD.ViewModels
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
         private Color _nickNameColor;
+        private SqliteService sqliteService;
         #endregion
 
         #region  Property
@@ -56,7 +67,7 @@ namespace DHwD.ViewModels
             Func<string, string> token = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());
             if (string.IsNullOrEmpty(user.NickName)) { NickNameColor = Color.Red; await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK"); return; }
             user.Token = token(CrossDeviceInfo.Current.Id.ToString());
-            RestService restService = new RestService(_dialogService);
+            RestService restService = new RestService();
             CheckUserExists = await restService.CheckUserExistsAsync(user);
             Task responseTask = Task.Run(() =>
             {
@@ -75,7 +86,10 @@ namespace DHwD.ViewModels
             else 
             {
                 bool Register;
-                Register= await restService.RegisterNewUserAsync(user);
+                User fulluser;
+                Register = await restService.RegisterNewUserAsync(user);
+                fulluser = await restService.GetUserAsync(user);
+                await sqliteService.SaveUser(fulluser);
                 if (Register)
                     await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
             } 

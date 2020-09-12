@@ -10,5 +10,6 @@ namespace DHwD.Interface
     {
         Task<bool> RegisterNewUserAsync(UserRegistration item);
         Task<bool> CheckUserExistsAsync(UserRegistration item);
+        Task<User> GetUserAsync(UserRegistration item);
     }
 }
