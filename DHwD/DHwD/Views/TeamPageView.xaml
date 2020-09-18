@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="DHwD.Views.TeamPageView">
+             x:Class="DHwD.Views.TeamPageView"
+             NavigationPage.HasNavigationBar="False">
     <StackLayout>
         <Label Text="You Team" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Center"
                Padding="0,10,0,15" />
-        <!--<CollectionView ItemsSource="">  --><!--add Source--><!--
+        <!--<CollectionView ItemsSource=""> 
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Horizontal" Span="4" />
             </CollectionView.ItemsLayout>
@@ -22,8 +23,9 @@
                             <ColumnDefinition Width="140" />
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0"  Aspect="AspectFill" HeightRequest="60"
-                            WidthRequest="60" /> --><!--Source="{Binding ImageUrl}"--><!--
-                        <Label Grid.Column="1" Text="{Binding TeamPlayerNickName}" FontAttributes="Bold"  /> --><!--LineBreakMode="TailTruncation"--><!--
+                            WidthRequest="60" Source="{Binding ImageUrl}"/>
+                        <Label Grid.Column="1" Text="{Binding TeamPlayerNickName}" FontAttributes="Bold"  
+                        LineBreakMode="TailTruncation"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

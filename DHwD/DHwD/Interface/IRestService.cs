@@ -1,7 +1,4 @@
-﻿using DHwD.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DHwD.Models;
 using System.Threading.Tasks;
 
 namespace DHwD.Interface
@@ -10,6 +7,8 @@ namespace DHwD.Interface
     {
         Task<bool> RegisterNewUserAsync(UserRegistration item);
         Task<bool> CheckUserExistsAsync(UserRegistration item);
-        Task<User> GetUserAsync(UserRegistration item);
+        Task<UserRegistration> GetUserAsync(UserRegistration item);
+        Task<JWTToken> LoginAsync(UserRegistration item);
+        Task<Team> GetTeamAsync();
     }
 }

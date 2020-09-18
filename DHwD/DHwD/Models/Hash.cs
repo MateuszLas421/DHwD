@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace DHwD.Model
+namespace DHwD.Models
 {
     public class Hash: IHash
     {

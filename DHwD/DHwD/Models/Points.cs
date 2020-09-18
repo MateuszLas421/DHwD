@@ -1,7 +1,6 @@
-﻿using DHwD.Model;
-using System;
+﻿using System;
 
-namespace DHwD_web.Models
+namespace DHwD.Models
 {
     public class Points
     {

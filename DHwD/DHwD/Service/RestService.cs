@@ -1,14 +1,11 @@
 ﻿using DHwD.Interface;
-using DHwD.Model;
+using DHwD.Models;
 using Newtonsoft.Json;
-using Prism.Services;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace DHwD.Service
 {
@@ -39,7 +36,7 @@ namespace DHwD.Service
         }
         public async Task<bool> RegisterNewUserAsync(UserRegistration item)
         {
-            bool result = false;
+
             Url_data url_=null;
             HttpResponseMessage response = null;
             string json = JsonConvert.SerializeObject(item);
@@ -47,19 +44,17 @@ namespace DHwD.Service
              url_ = new Url_data(); 
             Uri uri;
             uri = new Uri(string.Format(url_.RegisterUri.ToString(), string.Empty));
-            response = null;
             try { response = await client.PostAsync(uri, content); }                                      //  POST  // 
-            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return result; }
+            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return false; }
 
             if (response.IsSuccessStatusCode)
             {
-                result = true;
                 Debug.WriteLine(@"successfully saved.");
-                return result;
+                return true;
             }
-            return result;
+            return false;
         }
-        public async Task<User> GetUserAsync(UserRegistration item)
+        public async Task<UserRegistration> GetUserAsync(UserRegistration item)
         {
             Url_data url_ = null;
             HttpResponseMessage response = null;
@@ -75,6 +70,29 @@ namespace DHwD.Service
                 return captureduser;
             }
             return null;
+        }
+
+        public async Task<JWTToken> LoginAsync(UserRegistration item)
+        {
+            Url_data url_ = null;
+            HttpResponseMessage response = null;
+            url_ = new Url_data();
+            Uri uri;
+            uri = new Uri(string.Format(url_.CheckLogin + item.NickName + "/" + item.Token));
+            try { response = await client.GetAsync(uri.ToString()); }               // REST GET
+            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return null; }
+            if (response.IsSuccessStatusCode)  /// when user exists
+            {
+                string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                var captured = JsonConvert.DeserializeObject<JWTToken>(responseContent);          // Deserialize JSON
+                return captured;
+            }
+            return null;
+        }
+
+        public Task<Team> GetTeamAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

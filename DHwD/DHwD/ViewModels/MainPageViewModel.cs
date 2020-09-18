@@ -1,18 +1,13 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xamarin.Forms;
 using Plugin.DeviceInfo;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
-using DHwD.Model;
 using DHwD.Service;
 using Prism.Services;
-using System.Threading;
+using DHwD.Models;
 
 namespace DHwD.ViewModels
 {
@@ -27,14 +22,26 @@ namespace DHwD.ViewModels
             Title = "Login Page";
             user = new UserRegistration();
             NickNameColor = Color.Default;
-            sqliteService = new SqliteService();
+            _sqliteService = new SqliteService();
+            _restService = new RestService();
             Task.Run(async() => 
             {
-                User fulluser = await sqliteService.GetItemAsync();
-                if (fulluser != null)
+                bool a = false;
+                UserRegistration user = await _sqliteService.GetItemAsync();
+                if (user != null)
                 {
-                    await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
+                    JWTToken jwt = new JWTToken();
+                    jwt=await _restService.LoginAsync(user);
+                    if (jwt != null)
+                    {
+                        await _sqliteService.SaveToken(jwt);
+                        jwt = null;
+                        a = true;
+                    }
                 }
+                if (a)
+                    try { await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true); }
+                    catch(Exception) { }///not working ?????
             });
         }
 
@@ -45,7 +52,8 @@ namespace DHwD.ViewModels
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
         private Color _nickNameColor;
-        private SqliteService sqliteService;
+        private SqliteService _sqliteService;
+        private RestService _restService;
         #endregion
 
         #region  Property
@@ -62,36 +70,32 @@ namespace DHwD.ViewModels
 
         async void ExecuteLoginCommand()
         {
-            bool CheckUserExists;
+            JWTToken jWT;
             Hash hash = new Hash();
             Func<string, string> token = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());
             if (string.IsNullOrEmpty(user.NickName)) { NickNameColor = Color.Red; await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK"); return; }
             user.Token = token(CrossDeviceInfo.Current.Id.ToString());
-            RestService restService = new RestService();
-            CheckUserExists = await restService.CheckUserExistsAsync(user);
-            Task responseTask = Task.Run(() =>
+            jWT = await _restService.LoginAsync(user);
+            if (jWT!=null) 
             {
-                bool a = true; 
-                while (a)
-                {
-                    try { { if (CheckUserExists == true || CheckUserExists == false) { a = false; return; } else Thread.Sleep(300); } }
-                    catch (Exception)
-                    {
-                        Thread.Sleep(300);
-                    }
-                }
-            });
-            
-            if (CheckUserExists) { return; }                                                                        
+                await _sqliteService.SaveUser(user);
+                await _sqliteService.SaveToken(jWT);
+                await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true); 
+            }                                                                        
             else 
             {
-                bool Register;
-                User fulluser;
-                Register = await restService.RegisterNewUserAsync(user);
-                fulluser = await restService.GetUserAsync(user);
-                await sqliteService.SaveUser(fulluser);
-                if (Register)
+                bool Register=false;
+                Register = await _restService.RegisterNewUserAsync(user);
+                if (!Register) { await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return; }
+                jWT = await _restService.LoginAsync(user);
+                if (jWT != null)
+                {
+                    await _sqliteService.SaveUser(user);
+                    await _sqliteService.SaveToken(jWT);
                     await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
+                }
+                else
+                    await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return;   
             } 
         }
 

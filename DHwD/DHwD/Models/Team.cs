@@ -1,8 +1,7 @@
-﻿using DHwD.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace DHwD_web.Models
+namespace DHwD.Models
 {
     public class Team
     {

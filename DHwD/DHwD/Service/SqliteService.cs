@@ -1,8 +1,7 @@
 ﻿using DHwD.Interface;
-using DHwD.Model;
+using DHwD.Models;
 using SQLite;
 using System.Threading.Tasks;
-
 namespace DHwD.Service
 {
     public class SqliteService : ISqliteService
@@ -12,16 +11,58 @@ namespace DHwD.Service
         {
             db = new SQLiteAsyncConnection(SqlConst.DatabasePath);
         }
-        public async Task<User> GetItemAsync()
+        #region USER
+        public async Task<UserRegistration> GetItemAsync()
         {
-            var check = IsTableExists(nameof(User));
+            var check = IsTableExists(nameof(UserRegistration));
             if (check)
             {
-                var userdb = await db.Table<User>().FirstOrDefaultAsync();
+                var userdb = await db.Table<UserRegistration>().FirstOrDefaultAsync();
                 return userdb;
             }
             return null;
         }
+
+        public async Task SaveUser(UserRegistration user)
+        {
+            var exist = IsTableExists(nameof(UserRegistration));
+            if (!exist)
+            {
+                await db.CreateTableAsync<UserRegistration>();
+            }
+            await db.InsertAsync(user);
+        }
+
+        #endregion
+
+        #region Token
+        public async Task<bool> DeleteToken()
+        {
+            var exist = IsTableExists(nameof(JWTToken));
+            if (exist)
+            {
+                await db.DeleteAllAsync<JWTToken>();
+                return true;
+            }
+            return false;
+        }
+
+        public Task<string> GetToken()
+        {
+            throw new System.NotImplementedException();
+        }
+        public async Task SaveToken(JWTToken jWT)
+        {
+            bool check = IsTableExists(nameof(JWTToken));
+            if (!check)
+            {
+                await db.CreateTableAsync<JWTToken>();
+            }
+            await DeleteToken();
+            await db.InsertAsync(jWT);
+        }
+        #endregion
+
         public bool IsTableExists(string tableName)
         {
             try
@@ -41,11 +82,8 @@ namespace DHwD.Service
                 return false;
             }
         }
-        public async Task SaveUser(User user)
-        {
-            await db.CreateTableAsync<User>();
-            await db.InsertAsync(user);
-        }
+
+
 
     }
 }

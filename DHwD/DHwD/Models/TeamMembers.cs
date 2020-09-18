@@ -1,6 +1,4 @@
-﻿using DHwD.Model;
-
-namespace DHwD_web.Models
+﻿namespace DHwD.Models
 {
     public class TeamMembers
     {

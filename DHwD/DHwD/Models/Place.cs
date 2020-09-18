@@ -1,4 +1,4 @@
-﻿namespace DHwD_web.Models
+﻿namespace DHwD.Models
 {
     public class Place  //TODO
     {

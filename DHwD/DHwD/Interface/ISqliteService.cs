@@ -1,12 +1,15 @@
-﻿using DHwD.Model;
+﻿using DHwD.Models;
 using System.Threading.Tasks;
 
 namespace DHwD.Interface
 {
     interface ISqliteService
     {
-        Task<User> GetItemAsync();
-        Task SaveUser(User user);
+        Task<UserRegistration> GetItemAsync();
+        Task SaveUser(UserRegistration user);
         bool IsTableExists(string tableName);
+        Task<string> GetToken();
+        Task<bool> DeleteToken();
+        Task SaveToken(JWTToken token);
     }
 }

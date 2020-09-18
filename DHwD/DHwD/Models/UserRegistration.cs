@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DHwD.Model
+namespace DHwD.Models
 {
     public class UserRegistration
     {
