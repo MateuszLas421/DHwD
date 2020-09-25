@@ -4,9 +4,10 @@
              x:Class="DHwD.Views.MainPage"
              Title="{Binding Title}"
              BackgroundColor="#c3c3c3"
+             xmlns:local="clr-namespace:DHwD;assembly=DHwD"
              NavigationPage.HasNavigationBar="False">
     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
-        <Image Source="ic_launcher.png" VerticalOptions="Center" HorizontalOptions="Center" Margin="20"/>
+        <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.sampleLogo.png}" VerticalOptions="Center" HorizontalOptions="Center" Margin="20"/>
         <Label Text="Hello, please enter your nickname." VerticalOptions="Center" HorizontalOptions="CenterAndExpand" BackgroundColor="#e7121d"/>
         <Frame CornerRadius="50" Margin="10" BorderColor="Black" >
             <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
