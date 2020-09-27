@@ -40,7 +40,7 @@ namespace DHwD.ViewModels
                     }
                 }
                 if (a)
-                    try { await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true); }
+                    try { await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true); }
                     catch(Exception) { }///not working ?????
             });
         }
@@ -80,19 +80,20 @@ namespace DHwD.ViewModels
             {
                 await _sqliteService.SaveUser(user);
                 await _sqliteService.SaveToken(jWT);
-                await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true); 
+                await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true); 
             }                                                                        
             else 
             {
                 bool Register=false;
                 Register = await _restService.RegisterNewUserAsync(user);
-                if (!Register) { await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return; }
+                if (Register==false) 
+                { await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return; }
                 jWT = await _restService.LoginAsync(user);
                 if (jWT != null)
                 {
                     await _sqliteService.SaveUser(user);
                     await _sqliteService.SaveToken(jWT);
-                    await _navigationService.NavigateAsync("NavigationPage/TeamPageView", useModalNavigation: true);
+                    await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true);
                 }
                 else
                     await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return;   

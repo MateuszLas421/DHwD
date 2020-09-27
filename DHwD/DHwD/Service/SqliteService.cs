@@ -47,9 +47,15 @@ namespace DHwD.Service
             return false;
         }
 
-        public Task<string> GetToken()
+        public async Task<JWTToken> GetToken()
         {
-            throw new System.NotImplementedException();
+            bool check = IsTableExists(nameof(JWTToken));
+            if (check)
+            {
+                var token = await db.Table<JWTToken>().FirstOrDefaultAsync();
+                return token;
+            }
+            return null;
         }
         public async Task SaveToken(JWTToken jWT)
         {

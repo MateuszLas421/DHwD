@@ -1,4 +1,5 @@
 ﻿using DHwD.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DHwD.Interface
@@ -10,5 +11,6 @@ namespace DHwD.Interface
         Task<UserRegistration> GetUserAsync(UserRegistration item);
         Task<JWTToken> LoginAsync(UserRegistration item);
         Task<Team> GetTeamAsync();
+        IAsyncEnumerable<Games> GetGames(JWTToken jWT);
     }
 }

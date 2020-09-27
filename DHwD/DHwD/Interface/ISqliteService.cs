@@ -8,7 +8,7 @@ namespace DHwD.Interface
         Task<UserRegistration> GetItemAsync();
         Task SaveUser(UserRegistration user);
         bool IsTableExists(string tableName);
-        Task<string> GetToken();
+        Task<JWTToken> GetToken();
         Task<bool> DeleteToken();
         Task SaveToken(JWTToken token);
     }

@@ -2,6 +2,7 @@
 using DHwD.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
@@ -90,9 +91,28 @@ namespace DHwD.Service
             return null;
         }
 
-        public Task<Team> GetTeamAsync()
+        public Task<Team> GetTeamAsync()  // NotImplemented
         {
             throw new NotImplementedException();
+        }
+
+        public async IAsyncEnumerable<Games> GetGames(JWTToken jWT)            // TODO
+        {
+            Url_data url_ = null;
+            HttpResponseMessage response = null;
+            List<Games> ListGames=null;
+            try { response = await client.GetAsync(url_.ToString()); }                // REST GET 
+                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+            if (response.IsSuccessStatusCode)  /// when user exists
+            {
+                string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                ListGames = JsonConvert.DeserializeObject<List<Games>>(responseContent);          // Deserialize JSON
+            }
+            else {/* return ;*/ } //???                                                     TODO
+            for (int i = 1; i <= ListGames.Count; i++)
+            {
+                yield return ListGames[i];
+            }
         }
     }
 }
