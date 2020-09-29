@@ -6,6 +6,8 @@ namespace DHwD.Models
     public class Games
     {  
         public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public DateTime DateTimeStart { get; set; }
         public DateTime DateTimeEnd { get; set; }
         public DateTime DateTimeCreate { get; set; }

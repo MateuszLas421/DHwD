@@ -21,20 +21,27 @@ namespace DHwD.ViewModels
             _dialogService = dialogService;
             _sqliteService = new SqliteService();
             _restService = new RestService();
-            Task.Run(async () =>
-            {
-                jwt = new JWTToken();
-                jwt = await _sqliteService.GetToken();
-                await foreach (var item in _restService.GetGames(jwt))
-                {
-                    ListGames.Add(item);
-                }
-            });
+            _initializingTask = Init();
+            ObGames = new ObservableCollection<Games>();
         }
         #endregion
+        private async Task Init()
+        {
+            await Task.Run(async () =>
+             {
+                 jwt = new JWTToken();
+                 jwt = await _sqliteService.GetToken();
+                 await foreach (var item in _restService.GetGames(jwt))
+                 {
+                     ObGames.Add(item);
+                 }
+             });
+        }
 
         #region variables
-        List<Games> ListGames;
+        private DelegateCommand _command;
+        private ObservableCollection<Games> _obGames;
+        private readonly Task _initializingTask;
         private JWTToken jwt;
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
@@ -43,7 +50,11 @@ namespace DHwD.ViewModels
         #endregion
 
         #region  Property
-
+        public DelegateCommand Command =>
+            _command ?? (_command = new DelegateCommand(JoinCommand));
+        public ObservableCollection<Games> ObGames { get => _obGames; set => SetProperty(ref _obGames, value); }
         #endregion
+        async void JoinCommand()
+        { }
     }
 }

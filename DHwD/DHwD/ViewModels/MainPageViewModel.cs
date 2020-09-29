@@ -24,14 +24,14 @@ namespace DHwD.ViewModels
             NickNameColor = Color.Default;
             _sqliteService = new SqliteService();
             _restService = new RestService();
-            Task.Run(async() => 
+            bool a = false;
+            Task.Run(async () =>
             {
-                bool a = false;
                 UserRegistration user = await _sqliteService.GetItemAsync();
                 if (user != null)
                 {
                     JWTToken jwt = new JWTToken();
-                    jwt=await _restService.LoginAsync(user);
+                    jwt = await _restService.LoginAsync(user);
                     if (jwt != null)
                     {
                         await _sqliteService.SaveToken(jwt);
@@ -39,9 +39,11 @@ namespace DHwD.ViewModels
                         a = true;
                     }
                 }
+                await Task.Delay(1000);
                 if (a)
-                    try { await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true); }
-                    catch(Exception) { }///not working ?????
+                {
+                    await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);   //#Error 1 
+                }
             });
         }
 
@@ -80,7 +82,7 @@ namespace DHwD.ViewModels
             {
                 await _sqliteService.SaveUser(user);
                 await _sqliteService.SaveToken(jWT);
-                await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true); 
+                await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);
             }                                                                        
             else 
             {
@@ -93,7 +95,7 @@ namespace DHwD.ViewModels
                 {
                     await _sqliteService.SaveUser(user);
                     await _sqliteService.SaveToken(jWT);
-                    await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true);
+                    await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);
                 }
                 else
                     await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return;   

@@ -4,7 +4,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -98,20 +100,24 @@ namespace DHwD.Service
 
         public async IAsyncEnumerable<Games> GetGames(JWTToken jWT)            // TODO
         {
-            Url_data url_ = null;
+            Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
-            List<Games> ListGames=null;
-            try { response = await client.GetAsync(url_.ToString()); }                // REST GET 
+            List<Games> ListGames = null;
+            var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+            using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
+            { 
+                try { response = await client.GetAsync(url_.GameList.ToString()); }                // REST GET 
                 catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
-            if (response.IsSuccessStatusCode)  /// when user exists
-            {
-                string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
-                ListGames = JsonConvert.DeserializeObject<List<Games>>(responseContent);          // Deserialize JSON
-            }
-            else {/* return ;*/ } //???                                                     TODO
-            for (int i = 1; i <= ListGames.Count; i++)
-            {
-                yield return ListGames[i];
+                if (response.IsSuccessStatusCode)  /// when user exists
+                {
+                   string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                   ListGames = JsonConvert.DeserializeObject<List<Games>>(responseContent);          // Deserialize JSON
+                }
+                else {/* return ;*/ } //???                                                     TODO
+                for (int i = 0; i < ListGames.Count; i++)
+                {
+                    yield return ListGames[i];
+                }
             }
         }
     }
