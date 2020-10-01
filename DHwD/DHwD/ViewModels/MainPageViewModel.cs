@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using DHwD.Service;
 using Prism.Services;
 using DHwD.Models;
+using System.Diagnostics;
 
 namespace DHwD.ViewModels
 {
@@ -25,7 +26,7 @@ namespace DHwD.ViewModels
             _sqliteService = new SqliteService();
             _restService = new RestService();
             bool a = false;
-            Task.Run(async () =>
+            Task t = Task.Run(async () =>
             {
                 UserRegistration user = await _sqliteService.GetItemAsync();
                 if (user != null)
@@ -39,12 +40,21 @@ namespace DHwD.ViewModels
                         a = true;
                     }
                 }
-                await Task.Delay(1000);
+                
+            });
+            try
+            {
+                t.Wait(3000);
                 if (a)
                 {
-                    await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);   //#Error 1 
+                   _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);                        //#Error 1 
                 }
-            });
+            }
+            catch (Exception ex) 
+            {
+                Debug.WriteLine(ex.Message);
+                _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK");
+            }
         }
 
         #endregion

@@ -5,3 +5,4 @@
  * Newtonsoft.Json Version "12.0.3"
  * Xam.Plugin.DeviceInfo Version "4.1.1"
  * sqlite-net-pcl Version "1.7.335"
+ * Microsoft.Bcl.AsyncInterfaces "1.1.1"
