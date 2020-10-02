@@ -8,16 +8,25 @@
              NavigationPage.HasNavigationBar="False">
     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
         <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.sampleLogo.png}" VerticalOptions="Center" HorizontalOptions="Center" Margin="20"/>
-        <Label Text="Hello, please enter your nickname." VerticalOptions="Center" HorizontalOptions="CenterAndExpand" BackgroundColor="#e7121d"/>
-        <Frame CornerRadius="50" Margin="10" BorderColor="Black" >
-            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="NickName" VerticalOptions="Center" MinimumWidthRequest="100" HorizontalOptions="Center" Margin="8,0,0,0"/>
-                    <Entry WidthRequest="300" Text="{Binding user.NickName}" BackgroundColor="{Binding NickNameColor}"/>
-                </StackLayout>
-                <Button Command="{Binding LoginCommand}" Text="Login" VerticalOptions="Center" Margin="0,15,0,15" HorizontalOptions="CenterAndExpand" 
-                WidthRequest="300" CornerRadius="50" BackgroundColor="#7f7f7f"/>
-            </StackLayout>
+        <Frame CornerRadius="40" Margin="10" BorderColor="Black" >
+            <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" FontSize="Large" Text="Hello, please enter your nickname." VerticalTextAlignment="Center" 
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="#e7121d"/>
+                <Label Grid.Row="1" Grid.Column="0" Text="NickName" VerticalOptions="Center" MinimumWidthRequest="100" HorizontalOptions="Center" Margin="8,0,0,0"/>
+                <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" WidthRequest="300" Text="{Binding user.NickName}" BackgroundColor="{Binding NickNameColor}"/>
+                <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Command="{Binding LoginCommand}" Text="Login" VerticalOptions="Center" Margin="0,15,0,15" 
+                        HorizontalOptions="Center" WidthRequest="300" CornerRadius="50" BackgroundColor="#7f7f7f"/>
+            </Grid>
         </Frame>
     </StackLayout>
 </ContentPage>

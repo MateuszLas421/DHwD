@@ -53,5 +53,6 @@ namespace DHwD.ViewModels
         #endregion
         async void JoinCommand()
         { }
+
     }
 }

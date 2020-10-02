@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Service\Rest\**" />
+    <EmbeddedResource Remove="Service\Rest\**" />
+    <None Remove="Service\Rest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\sampleLogo.png" />
     <None Remove="sampleLogo.svg" />
   </ItemGroup>
@@ -41,10 +47,6 @@
     <EmbeddedResource Update="Views\TeamPageView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Service\Rest\" />
   </ItemGroup>
 
 </Project>
