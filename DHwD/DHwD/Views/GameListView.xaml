@@ -8,6 +8,11 @@
              xmlns:local="clr-namespace:DHwD;assembly=DHwD">
     <ScrollView Margin="25">
         <ListView ItemsSource="{Binding ObGames}" HasUnevenRows="True" >
+            <ListView.Behaviors>
+                <prism:EventToCommandBehavior EventName="ItemTapped"
+                                              EventArgsParameterPath="Item"
+                                              Command="{Binding SelectedCommand}" />
+            </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

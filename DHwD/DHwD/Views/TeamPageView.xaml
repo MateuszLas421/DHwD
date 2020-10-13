@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="DHwD.Views.TeamPageView"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="True">
     <StackLayout>
         <Label Text="You Team" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Center"
                Padding="0,10,0,15" />
