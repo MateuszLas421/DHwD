@@ -20,6 +20,7 @@ namespace DHwD.ViewModels
             _restService = new RestService();
             _initializingTask = Init();
             ObGames = new ObservableCollection<Games>();
+            SelectedCommand = new DelegateCommand<Games>(Selected, _ => !IsBusy).ObservesProperty(() => IsBusy);
         }
         #endregion
         private async Task Init()
@@ -47,12 +48,26 @@ namespace DHwD.ViewModels
         #endregion
 
         #region  Property
-        public DelegateCommand Command =>
-            _command ?? (_command = new DelegateCommand(JoinCommand));
+        public DelegateCommand<Games> SelectedCommand { get; }
         public ObservableCollection<Games> ObGames { get => _obGames; set => SetProperty(ref _obGames, value); }
         #endregion
-        async void JoinCommand()
-        { }
 
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
+        private async void Selected(Games games)
+        {
+            IsBusy = true;
+            var p = new NavigationParameters
+            {
+                { "Games", games }
+            };
+
+            await _navigationService.NavigateAsync("TeamPageView", p);
+            IsBusy = false;
+        }
     }
 }

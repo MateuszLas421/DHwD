@@ -47,7 +47,7 @@ namespace DHwD.ViewModels
                 t.Wait(3000);
                 if (a)
                 {
-                   //_navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);                        
+                   _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);                        
                 }
             }
             catch (Exception ex) 
