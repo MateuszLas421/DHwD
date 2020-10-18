@@ -11,7 +11,7 @@
             <ListView.Behaviors>
                 <prism:EventToCommandBehavior EventName="ItemTapped"
                                               EventArgsParameterPath="Item"
-                                              Command="{Binding SelectedCommand}" />
+                                              Command="{Binding SelectedCommand}"/>
             </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -31,7 +31,6 @@
                             <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding DateTimeStart, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>
                             <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding DateTimeEnd, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>
                             <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" Text="{Binding Description, Mode=OneWay}" />
-                            <!--<Button Grid.Column="3" Command="{Binding JoinCommand}" Text="Join"/>-->
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

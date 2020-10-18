@@ -12,5 +12,6 @@ namespace DHwD.Interface
         Task<JWTToken> LoginAsync(UserRegistration item);
         Task<Team> GetTeamAsync();
         IAsyncEnumerable<Games> GetGames(JWTToken jWT);
+        IAsyncEnumerable<Team> GetTeams(JWTToken jWT, int IdGame);
     }
 }

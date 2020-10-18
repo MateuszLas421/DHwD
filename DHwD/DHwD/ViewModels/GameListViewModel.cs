@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace DHwD.ViewModels
 {
-    public class GameListViewModel : BindableBase
+    public class GameListViewModel : ViewModelBase
     {
         #region constructor 
-        public GameListViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public GameListViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
             _navigationService = navigationService;
             _dialogService = dialogService;

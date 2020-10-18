@@ -1,17 +1,91 @@
 ﻿using DHwD.Models;
+using DHwD.Service;
+using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
+using Prism.Services;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace DHwD.ViewModels
 {
-    public class TeamPageViewViewModel : BindableBase
+    public class TeamPageViewViewModel: ViewModelBase, INavigationAware
     {
-        ObservableCollection<Team> Teams;
         HttpClient httpClient;
-        public TeamPageViewViewModel()
+        public TeamPageViewViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
-           
+            Title = "Error";
+            _navigationService = navigationService;
+            _dialogService = dialogService;
+            _sqliteService = new SqliteService();
+            _restService = new RestService();
+            ObTeam = new ObservableCollection<Team>();
+            _game = new Games();
+            //SelectedCommand = new DelegateCommand<Team>(Selected, _ => !IsBusy).ObservesProperty(() => IsBusy);
         }
+        private async Task Init()
+        {
+            await Task.Run(async () =>
+            {
+                jwt = new JWTToken();
+                jwt = await _sqliteService.GetToken();
+                await foreach (var item in _restService.GetTeams(jwt,_game.Id))
+                {
+                    ObTeam.Add(item);
+                }
+            });
+        }
+        public override void Initialize(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("Games"))
+            {
+                _game=parameters.GetValue<Games>("Games");
+                Title = _game.Name;
+            }
+            _initializingTask = Init();
+        }
+
+        #region variables
+        private Games _game;
+        private ObservableCollection<Team> _obTeam;
+        private Task _initializingTask;
+        private JWTToken jwt;
+        private INavigationService _navigationService;
+        private IPageDialogService _dialogService;
+        private SqliteService _sqliteService;
+        private RestService _restService;
+        private DelegateCommand _btnCreateTeam;
+        #endregion
+
+        #region  Property
+        public DelegateCommand<Team> SelectedCommand { get; }
+        public ObservableCollection<Team> ObTeam { get => _obTeam; set => SetProperty(ref _obTeam, value); }
+        public DelegateCommand BtnCreateTeam =>
+        _btnCreateTeam ?? (_btnCreateTeam = new DelegateCommand(CreateTeamCommand));
+        #endregion
+
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
+        async void CreateTeamCommand()
+        {
+            await _dialogService.DisplayAlertAsync("dasdasd", "click", "ok");
+        }
+        //private async void Selected(Team teams)
+        //{
+        //    IsBusy = true;
+        //    var p = new NavigationParameters
+        //    {
+        //        { "Team", teams }
+        //    };
+
+        //    await _navigationService.NavigateAsync("TeamPageView", p);
+        //    IsBusy = false;
+        //}
     }
 }
