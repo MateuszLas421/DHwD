@@ -17,20 +17,18 @@ namespace DHwD.ViewModels
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
-            _game = new Games();
+            Game = new Games();
         }
         public override void Initialize(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("Games"))
             {
-                _game = parameters.GetValue<Games>("Games");
+                Game = parameters.GetValue<Games>("Games");
             }
             ChboX = false;
         }
         #region variables
-
         private bool _chboX;
-        private Games _game;
         private Task _initializingTask;
         private JWTToken jwt;
         private INavigationService _navigationService;
@@ -45,6 +43,7 @@ namespace DHwD.ViewModels
             get => _chboX;
             set => SetProperty(ref _chboX, value);
         }
+        public Games Game { get; set; }
         #endregion
     }
 }

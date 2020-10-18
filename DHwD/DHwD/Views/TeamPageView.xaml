@@ -5,10 +5,12 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="DHwD.Views.TeamPageView"
              NavigationPage.HasNavigationBar="True"
-             xmlns:local="clr-namespace:DHwD;assembly=DHwD" 
-             Title="{Binding Title}">
+             xmlns:local="clr-namespace:DHwD;assembly=DHwD">
     <NavigationPage.TitleView>
-        <Button Text="Create" Command="{Binding BtnCreateTeam}" HorizontalOptions="EndAndExpand" WidthRequest="120" CornerRadius="40"/>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{Binding Title}" VerticalOptions="Center" TextColor="White" FontSize="Large"/>
+            <Button Text="Create" Command="{Binding BtnCreateTeam}" HorizontalOptions="EndAndExpand" WidthRequest="120" CornerRadius="40"/>
+        </StackLayout>
     </NavigationPage.TitleView>
     <ListView ItemsSource="{Binding ObTeam}" HasUnevenRows="True" >
             <ListView.Behaviors>
