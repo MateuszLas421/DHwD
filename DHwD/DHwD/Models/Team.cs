@@ -10,5 +10,6 @@ namespace DHwD.Models
         public bool StatusPassword { get; set; }  //Password Exist
         public string Password { get; set; }
         public string UserNickName { get; set; }
+        public string Description { get; set; }
     }
 }

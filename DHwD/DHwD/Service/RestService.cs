@@ -142,5 +142,25 @@ namespace DHwD.Service
                 }
             }
         }
+        public async Task<bool> CreateNewTeam(JWTToken jWT, Team item)
+        {
+            HttpResponseMessage response;
+            string json = JsonConvert.SerializeObject(item);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            Url_data url_ = new Url_data();
+            var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+            using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
+            {
+                try { response = await client.PostAsync(url_.TeamList.ToString(), content); }                                      //  POST  // 
+                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return false; }
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine(@"successfully saved.");
+                    return true;
+                }
+                return false;
+            }
+        }
     }
 }

@@ -74,7 +74,11 @@ namespace DHwD.ViewModels
         }
         async void CreateTeamCommand()
         {
-            await _dialogService.DisplayAlertAsync("dasdasd", "click", "ok");
+            var p = new NavigationParameters
+            {
+                { "Game", _game }
+            };
+            await _navigationService.NavigateAsync("CreateNewTeam", p);
         }
         //private async void Selected(Team teams)
         //{
