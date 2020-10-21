@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="DHwD.Views.CreateNewTeam">
+             x:Class="DHwD.Views.CreateNewTeam"
+             xmlns:local="clr-namespace:DHwD;assembly=DHwD">
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="300"/>
+            <RowDefinition Height="250"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -17,15 +19,17 @@
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image Grid.ColumnSpan="2" Grid.RowSpan="0" HorizontalOptions="Center" VerticalOptions="Center"/>   <!-- TODO IMAGE -->
+        <Image Grid.ColumnSpan="2" Grid.Row="0" Source="{local:ImageResource DHwD.Resources.sampleLogo.png}" HorizontalOptions="Center" VerticalOptions="Center"/>    <!-- ERORR API 30 --> 
         <Label Text="Name" Grid.Column="0" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-        <Entry Grid.Column="1" Grid.Row="1" Placeholder="Name"/>
+        <Entry Grid.Column="1" Grid.Row="1" Text="{Binding Team.Name}" Placeholder="Name"/>
         <Label Text="Description" Grid.Column="0" Grid.Row="2" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-        <Entry Grid.Column="1" Grid.Row="2" Placeholder="Description"/>
+        <Entry Grid.Column="1" Grid.Row="2" Text="{Binding Team.Description}" Placeholder="Description"/>
         <Label Text="Create Password?" Grid.Column="0" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
         <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding ChboX}"/>
         <Label Text="Password" Grid.Column="0" Grid.Row="4" IsVisible="{Binding ChboX}" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-        <Entry Grid.Column="1" Grid.Row="4" IsPassword="True" IsVisible="{Binding ChboX}" Placeholder="Password"/>
-        <Button Grid.ColumnSpan="2" Grid.Row="5" Text="Create" CornerRadius="40" Margin="25"/>
+        <Entry Grid.Column="1" Grid.Row="4" Text="{Binding Team.Password}" IsPassword="True" IsVisible="{Binding ChboX}" Placeholder="Password"/>
+        <Label Text="Team with only one player" Grid.Column="0" Grid.Row="5" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+        <CheckBox Grid.Column="1" Grid.Row="5" IsChecked="{Binding Team.OnlyOnePlayer}"/>
+        <Button Grid.ColumnSpan="2" Grid.Row="6" Command="{Binding BtnCreateTeam}" Text="Create" CornerRadius="40" Margin="25"/>
     </Grid>
 </ContentPage>

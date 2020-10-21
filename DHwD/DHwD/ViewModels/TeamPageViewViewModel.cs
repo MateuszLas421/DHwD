@@ -1,10 +1,8 @@
 ﻿using DHwD.Models;
 using DHwD.Service;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -60,7 +58,7 @@ namespace DHwD.ViewModels
         #endregion
 
         #region  Property
-        public Games Game { get => _game; set => SetProperty(ref _game, value); }
+        public Games Game { get; set; }
         public DelegateCommand<Team> SelectedCommand { get; }
         public ObservableCollection<Team> ObTeam { get => _obTeam; set => SetProperty(ref _obTeam, value); }
         public DelegateCommand BtnCreateTeam =>

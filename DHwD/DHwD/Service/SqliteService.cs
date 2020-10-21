@@ -41,7 +41,7 @@ namespace DHwD.Service
             var exist = IsTableExists(nameof(JWTToken));
             if (exist)
             {
-                await db.DeleteAllAsync<JWTToken>();
+                //await db.DeleteAllAsync<JWTToken>();
                 return true;
             }
             return false;

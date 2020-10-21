@@ -11,5 +11,11 @@ namespace DHwD.Models
         public string Password { get; set; }
         public string UserNickName { get; set; }
         public string Description { get; set; }
+        public bool OnlyOnePlayer { get; set; }
+        public Games Games { get; set; }
+        public Team()
+        {
+            Games = new Games(); 
+        }
     }
 }
