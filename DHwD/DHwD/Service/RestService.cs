@@ -128,7 +128,7 @@ namespace DHwD.Service
             var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
-                try { response = await client.GetAsync(url_.TeamList.ToString() + IdGame); }                // REST GET 
+                try { response = await client.GetAsync(url_.TeamList.ToString() + "all/" + IdGame); }                // REST GET 
                 catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
                 if (response.IsSuccessStatusCode)  /// when user exists
                 {
@@ -156,8 +156,19 @@ namespace DHwD.Service
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine(@"successfully saved.");
-                    return true;
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    TeamMembers teamMembers = new TeamMembers();
+                    var deserializeJSON= JsonConvert.DeserializeObject<Team>(responseContent);
+                    teamMembers.Team = item;
+                    teamMembers.Team.Id = deserializeJSON.Id;
+                    json = JsonConvert.SerializeObject(teamMembers);
+                    content = new StringContent(json, Encoding.UTF8, "application/json");
+                    try { response = await client.PostAsync(url_.TeamMembersNewTeam.ToString(), content); }                                      //  POST  // 
+                    catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return false; }
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
                 }
                 return false;
             }
