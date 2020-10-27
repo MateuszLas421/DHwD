@@ -2,6 +2,7 @@
 
 namespace DHwD.Views
 {
+
     public partial class CreateNewTeam : ContentPage
     {
         public CreateNewTeam()

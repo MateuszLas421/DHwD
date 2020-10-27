@@ -21,7 +21,7 @@ namespace DHwD.ViewModels
             _restService = new RestService();
             ObTeam = new ObservableCollection<Team>();
             Game = new Games();
-            //SelectedCommand = new DelegateCommand<Team>(Selected, _ => !IsBusy).ObservesProperty(() => IsBusy);
+            SelectedCommand = new DelegateCommand<Team>(Selected, _ => !IsBusy).ObservesProperty(() => IsBusy);
         }
         private async Task Init()
         {
@@ -80,16 +80,16 @@ namespace DHwD.ViewModels
             };
             await _navigationService.NavigateAsync("CreateNewTeam", p);
         }
-        //private async void Selected(Team teams)
-        //{
-        //    IsBusy = true;
-        //    var p = new NavigationParameters
-        //    {
-        //        { "Team", teams }
-        //    };
+        private async void Selected(Team teams)
+        {
+            IsBusy = true;
+            var p = new NavigationParameters
+            {
+                { "Team", teams }
+            };
 
-        //    await _navigationService.NavigateAsync("TeamPageView", p);
-        //    IsBusy = false;
-        //}
+            await _navigationService.NavigateAsync("NavigationPage/MainTabbedPage", useModalNavigation: true, animated: false);
+            IsBusy = false;
+        }
     }
 }

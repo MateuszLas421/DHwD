@@ -85,11 +85,7 @@ namespace DHwD.ViewModels
             Team.Name = null;
             Team.Password = null;
             Team.Description = null;
-            //var p = new NavigationParameters
-            //{
-            //    { "Game", Game }
-            //};
-            //await _navigationService.NavigateAsync("CreateNewTeam", p);
+            await _navigationService.GoBackAsync();
         }
     }
 }
