@@ -3,6 +3,7 @@ using DHwD.Service;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,7 +12,6 @@ namespace DHwD.ViewModels
 {
     public class TeamPageViewViewModel: ViewModelBase, INavigationAware
     {
-        HttpClient httpClient;
         public TeamPageViewViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
         {
             Title = "Error";
@@ -22,6 +22,8 @@ namespace DHwD.ViewModels
             ObTeam = new ObservableCollection<Team>();
             Game = new Games();
             SelectedCommand = new DelegateCommand<Team>(Selected, _ => !IsBusy).ObservesProperty(() => IsBusy);
+            ListScrolled = new DelegateCommand(ListScrolledCommand);
+            ListviewIsRefreshing = false;
         }
         private async Task Init()
         {
@@ -54,7 +56,9 @@ namespace DHwD.ViewModels
         private IPageDialogService _dialogService;
         private SqliteService _sqliteService;
         private RestService _restService;
-        private DelegateCommand _btnCreateTeam;
+        private DelegateCommand _btnCreateTeam, _listScrolled;
+        private bool _isBusy;
+        private bool _listviewIsRefreshing;
         #endregion
 
         #region  Property
@@ -63,14 +67,18 @@ namespace DHwD.ViewModels
         public ObservableCollection<Team> ObTeam { get => _obTeam; set => SetProperty(ref _obTeam, value); }
         public DelegateCommand BtnCreateTeam =>
         _btnCreateTeam ?? (_btnCreateTeam = new DelegateCommand(CreateTeamCommand));
-        #endregion
-
-        private bool _isBusy;
+        public DelegateCommand ListScrolled { get; }
         public bool IsBusy
         {
             get => _isBusy;
             set => SetProperty(ref _isBusy, value);
         }
+        public bool ListviewIsRefreshing
+        {
+            get => _listviewIsRefreshing;
+            set => SetProperty(ref _listviewIsRefreshing, value);
+        }
+        #endregion
 
         async void CreateTeamCommand()
         {
@@ -91,5 +99,13 @@ namespace DHwD.ViewModels
             await _navigationService.NavigateAsync("NavigationPage/MainTabbedPage", useModalNavigation: true, animated: false);
             IsBusy = false;
         }
+        private async void ListScrolledCommand()
+        {
+            ListviewIsRefreshing = true;
+            ObTeam.Clear();
+            await Init();
+            ListviewIsRefreshing = false;
+        }
     }
 }
+

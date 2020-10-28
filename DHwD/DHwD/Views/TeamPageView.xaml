@@ -12,12 +12,18 @@
             <Button Text="Create" Command="{Binding BtnCreateTeam}" HorizontalOptions="EndAndExpand" WidthRequest="120" CornerRadius="40"/>
         </StackLayout>
     </NavigationPage.TitleView>
-    <ListView ItemsSource="{Binding ObTeam}" HasUnevenRows="True" >
+    <ListView ItemsSource="{Binding ObTeam}"
+            HasUnevenRows="True" 
+            IsPullToRefreshEnabled="true"
+            RefreshControlColor="Red"
+            IsRefreshing="{Binding ListviewIsRefreshing}" >
             <ListView.Behaviors>
                 <prism:EventToCommandBehavior EventName="ItemTapped"
                                               EventArgsParameterPath="Item"
                                               Command="{Binding SelectedCommand}" />
-            </ListView.Behaviors>
+                <prism:EventToCommandBehavior EventName="Refreshing"
+                                              Command="{Binding ListScrolled}" />
+        </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
