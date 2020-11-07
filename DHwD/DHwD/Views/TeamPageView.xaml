@@ -37,12 +37,13 @@
                                 <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="{local:ImageResource DHwD.Resources.sampleLogo.png}" IsVisible="{Binding StatusPassword}" Scale="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
-                            <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" Text="{Binding Name, Mode=OneWay}" />
-                            <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding UserNickName, Mode=OneWay}"/>
-                            <!--<Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding DateTimeEnd, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>
-                            <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" Text="{Binding Description, Mode=OneWay}" />-->
-                        </Grid>
+                            <Image Source="{local:ImageResource DHwD.Resources.ic_padlock.png}" IsVisible="{Binding StatusPassword}" Scale="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+                        <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" Text="{Binding Name, Mode=OneWay}" />
+                        <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding UserNickName, Mode=OneWay}"/>
+                        <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding OnlyOnePlayer, Mode=OneWay}"/>
+                        <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"  TextColor="Green" IsVisible="{Binding MyTeam}"
+                                   HorizontalTextAlignment="Center" Text="{Binding MyteamTEXT}" />
+                    </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

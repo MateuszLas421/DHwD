@@ -4,8 +4,9 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Net.Http;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace DHwD.ViewModels
@@ -28,27 +29,35 @@ namespace DHwD.ViewModels
         private async Task Init()
         {
             await Task.Run(async () =>
-            {
-                jwt = new JWTToken();
-                jwt = await _sqliteService.GetToken();
-                await foreach (var item in _restService.GetTeams(jwt,Game.Id))
-                {
-                    ObTeam.Add(item);
-                }
-            });
+                                     {
+                                         jwt = new JWTToken();
+                                         jwt = await _sqliteService.GetToken();
+                                         var Member = await _restService.GetMyTeams(jwt, Game.Id);
+                                         await foreach (var item in _restService.GetTeams(jwt, Game.Id))
+                                         {
+                                             if (item.Id == Member.Team.Id)
+                                             {
+                                                 item.MyTeam = true;
+                                                 item.MyteamTEXT = "Attached";
+                                                 ObTeam.Add(item);
+                                                 continue;
+                                             }
+                                             item.MyTeam = false;
+                                             ObTeam.Add(item);
+                                         }
+                                     });
         }
         public override void Initialize(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("Games"))
             {
-                Game=parameters.GetValue<Games>("Games");
+                Game = parameters.GetValue<Games>("Games");
                 Title = Game.Name;
             }
             _initializingTask = Init();
         }
 
         #region variables
-        private Games _game;
         private ObservableCollection<Team> _obTeam;
         private Task _initializingTask;
         private JWTToken jwt;
@@ -56,7 +65,7 @@ namespace DHwD.ViewModels
         private IPageDialogService _dialogService;
         private SqliteService _sqliteService;
         private RestService _restService;
-        private DelegateCommand _btnCreateTeam, _listScrolled;
+        private DelegateCommand _btnCreateTeam;
         private bool _isBusy;
         private bool _listviewIsRefreshing;
         #endregion
@@ -91,12 +100,59 @@ namespace DHwD.ViewModels
         private async void Selected(Team teams)
         {
             IsBusy = true;
+            List<TeamMembers> list=new List<TeamMembers>();
             var p = new NavigationParameters
             {
-                { "Team", teams }
+                { "Team", teams },
+                { "JWT", jwt }
             };
-
-            await _navigationService.NavigateAsync("NavigationPage/MainTabbedPage", useModalNavigation: true, animated: false);
+            if (!teams.MyTeam)  ///
+            { 
+                await foreach (var item in _restService.GetTeamMembers(jwt, teams.Id))
+                {
+                    try
+                    {
+                        list.Add(item);
+                    }
+                    catch(NullReferenceException)
+                    {
+                        await _dialogService.DisplayAlertAsync("ALERT", "You  jsdfggrdtvbrdtgvdtteam.", "OK");
+                        IsBusy = false;
+                        return;
+                    }
+                }
+                int count;
+                try
+                {
+                    count = list.Count;
+                }
+                catch (NullReferenceException)
+                {
+                    await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
+                    IsBusy = false;
+                    return;
+                }
+                if (count >= 4)
+                {
+                    await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
+                    IsBusy = false;
+                    return;
+                }
+                if (teams.OnlyOnePlayer)
+                {
+                    await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
+                    IsBusy = false;
+                    return;
+                }
+               // bool result = await _restService.JoinToTeam(jwt, teams);
+                //if (!result)
+                //{
+                //    await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
+                //    IsBusy = false;
+                //    return;
+                //}
+            }
+            await _navigationService.NavigateAsync("NavigationPage/JoinToTeamPassword", p, animated: false,useModalNavigation:true);
             IsBusy = false;
         }
         private async void ListScrolledCommand()

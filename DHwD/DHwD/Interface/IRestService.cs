@@ -14,5 +14,8 @@ namespace DHwD.Interface
         IAsyncEnumerable<Games> GetGames(JWTToken jWT);
         IAsyncEnumerable<Team> GetTeams(JWTToken jWT, int IdGame);
         Task<bool> CreateNewTeam(JWTToken jWT, Team item);
+        Task<bool> JoinToTeam(JWTToken jWT, Team item);
+        Task<TeamMembers> GetMyTeams(JWTToken jWT, int idgame);
+        IAsyncEnumerable<TeamMembers> GetTeamMembers(JWTToken jWT, int IdGame);
     }
 }

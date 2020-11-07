@@ -4,9 +4,9 @@ using Xamarin.Forms.Xaml;
 namespace DHwD.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CreateNewTeam : ContentPage
+    public partial class JoinToTeamPassword : ContentPage
     {
-        public CreateNewTeam()
+        public JoinToTeamPassword()
         {
             InitializeComponent();
         }

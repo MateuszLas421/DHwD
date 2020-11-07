@@ -173,5 +173,66 @@ namespace DHwD.Service
                 return false;
             }
         }
+
+        public async Task<bool> JoinToTeam(JWTToken jWT, Team item)
+        {
+            HttpResponseMessage response;
+            string json = JsonConvert.SerializeObject(item);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            Url_data url_ = new Url_data();
+            var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+            using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
+            {
+                try { response = await client.PostAsync(url_.TeamMembers.ToString(), content); }                                      //  POST  // 
+                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return false; }
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public async Task<TeamMembers> GetMyTeams(JWTToken jWT, int idGame)
+        {
+            Url_data url_ = new Url_data();
+            HttpResponseMessage response = null;
+            TeamMembers ListTeams = null;
+            var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+            using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
+            {
+                try { response = await client.GetAsync(url_.TeamMembers_I.ToString() + "/" + idGame); }                // REST GET 
+                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                if (response.IsSuccessStatusCode)  /// Status Code
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                    ListTeams = JsonConvert.DeserializeObject<TeamMembers>(responseContent);          // Deserialize JSON
+                }
+                else {/* return ;*/ } //???                                                     TODO 
+                return ListTeams;
+            }
+        }
+        public async IAsyncEnumerable<TeamMembers> GetTeamMembers(JWTToken jWT, int IdTeam)            // TODO
+        {
+            Url_data url_ = new Url_data();
+            HttpResponseMessage response = null;
+            List<TeamMembers> ListTeams = null;
+            var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+            using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
+            {
+                try { response = await client.GetAsync(url_.TeamMembers.ToString() + IdTeam); }                // REST GET 
+                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                if (response.IsSuccessStatusCode)  /// when user exists
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                    ListTeams = JsonConvert.DeserializeObject<List<TeamMembers>>(responseContent);          // Deserialize JSON
+                }
+                else {/* return ;*/ } //???                                                     TODO
+                for (int i = 0; i < ListTeams.Count; i++)
+                {
+                    yield return ListTeams[i];
+                }
+            }
+        }
     }
 }

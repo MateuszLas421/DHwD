@@ -12,11 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\ic_padlock.png" />
     <None Remove="Resources\sampleLogo.png" />
     <None Remove="sampleLogo.svg" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\ic_padlock.png" />
     <EmbeddedResource Include="Resources\sampleLogo.png" />
   </ItemGroup>
 
@@ -43,6 +45,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\GameListView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\JoinToTeamPassword.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MainTabbedPage.xaml">
