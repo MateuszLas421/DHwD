@@ -17,5 +17,6 @@ namespace DHwD.Interface
         Task<bool> JoinToTeam(JWTToken jWT, Team item);
         Task<TeamMembers> GetMyTeams(JWTToken jWT, int idgame);
         IAsyncEnumerable<TeamMembers> GetTeamMembers(JWTToken jWT, int IdGame);
+        Task<bool> CheckTeamPass(JWTToken jWT, int idTeam, string hashpass);
     }
 }

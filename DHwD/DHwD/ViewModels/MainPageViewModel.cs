@@ -40,7 +40,6 @@ namespace DHwD.ViewModels
                         a = true;
                     }
                 }
-                
             });
             try
             {

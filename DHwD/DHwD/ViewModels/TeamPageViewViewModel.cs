@@ -6,7 +6,6 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace DHwD.ViewModels
@@ -144,15 +143,8 @@ namespace DHwD.ViewModels
                     IsBusy = false;
                     return;
                 }
-               // bool result = await _restService.JoinToTeam(jwt, teams);
-                //if (!result)
-                //{
-                //    await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
-                //    IsBusy = false;
-                //    return;
-                //}
             }
-            await _navigationService.NavigateAsync("NavigationPage/JoinToTeamPassword", p, animated: false,useModalNavigation:true);
+            await _navigationService.NavigateAsync("JoinToTeamPassword", p, animated: false,useModalNavigation:false);
             IsBusy = false;
         }
         private async void ListScrolledCommand()

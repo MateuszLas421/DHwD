@@ -234,5 +234,22 @@ namespace DHwD.Service
                 }
             }
         }
+
+        public async Task<bool> CheckTeamPass(JWTToken jWT,int idteam, string hashpass)
+        {
+            Url_data url_ = new Url_data();
+            HttpResponseMessage response = null;
+            var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+            using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
+            {
+                try { response = await client.GetAsync(url_.TeamList.ToString() + idteam + "/" + hashpass); }                // REST GET 
+                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                if (response.IsSuccessStatusCode)  /// Status Code
+                {
+                    return true; // Password is correct
+                }
+                return false; // Password is incorrect
+            }
+        }
     }
 }
