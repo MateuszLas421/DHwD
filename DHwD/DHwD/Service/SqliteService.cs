@@ -32,7 +32,6 @@ namespace DHwD.Service
             }
             await db.InsertAsync(user);
         }
-
         #endregion
 
         #region Token
@@ -88,8 +87,5 @@ namespace DHwD.Service
                 return false;
             }
         }
-
-
-
     }
 }

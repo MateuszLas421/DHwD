@@ -4,9 +4,9 @@ using Xamarin.Forms.Xaml;
 namespace DHwD.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TeamPageView : ContentPage
+    public partial class CreateNewTeam : ContentPage
     {
-        public TeamPageView()
+        public CreateNewTeam()
         {
             InitializeComponent();
         }

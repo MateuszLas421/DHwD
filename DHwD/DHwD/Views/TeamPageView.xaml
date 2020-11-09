@@ -4,31 +4,48 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="DHwD.Views.TeamPageView"
-             NavigationPage.HasNavigationBar="True">
-    <StackLayout>
-        <Label Text="You Team" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Center"
-               Padding="0,10,0,15" />
-        <!--<CollectionView ItemsSource=""> 
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Horizontal" Span="4" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
+             NavigationPage.HasNavigationBar="True"
+             xmlns:local="clr-namespace:DHwD;assembly=DHwD">
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{Binding Title}" VerticalOptions="Center" TextColor="White" FontSize="Large"/>
+            <Button Text="Create" Command="{Binding BtnCreateTeam}" HorizontalOptions="EndAndExpand" WidthRequest="120" CornerRadius="40"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    <ListView ItemsSource="{Binding ObTeam}"
+            HasUnevenRows="True" 
+            IsPullToRefreshEnabled="true"
+            RefreshControlColor="Red"
+            IsRefreshing="{Binding ListviewIsRefreshing}" >
+            <ListView.Behaviors>
+                <prism:EventToCommandBehavior EventName="ItemTapped"
+                                              EventArgsParameterPath="Item"
+                                              Command="{Binding SelectedCommand}" />
+                <prism:EventToCommandBehavior EventName="Refreshing"
+                                              Command="{Binding ListScrolled}" />
+        </ListView.Behaviors>
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="60" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="70" />
-                            <ColumnDefinition Width="140" />
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0"  Aspect="AspectFill" HeightRequest="60"
-                            WidthRequest="60" Source="{Binding ImageUrl}"/>
-                        <Label Grid.Column="1" Text="{Binding TeamPlayerNickName}" FontAttributes="Bold"  
-                        LineBreakMode="TailTruncation"/>
+                    <ViewCell>
+                        <Grid Margin="5,0,5,15">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="45"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{local:ImageResource DHwD.Resources.ic_padlock.png}" IsVisible="{Binding StatusPassword}" Scale="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+                        <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" Text="{Binding Name, Mode=OneWay}" />
+                        <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding UserNickName, Mode=OneWay}"/>
+                        <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding OnlyOnePlayer, Mode=OneWay}"/>
+                        <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"  TextColor="Green" IsVisible="{Binding MyTeam}"
+                                   HorizontalTextAlignment="Center" Text="{Binding MyteamTEXT}" />
                     </Grid>
+                    </ViewCell>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>-->
-    </StackLayout>
+            </ListView.ItemTemplate>
+        </ListView>
 </ContentPage>

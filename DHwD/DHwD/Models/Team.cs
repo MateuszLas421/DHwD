@@ -7,12 +7,17 @@ namespace DHwD.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public User Id_Founder { get; set; }// FK
-        public DateTime DateTimeCreate { get; set; }  //  User creation date
-        public DateTime DateTimeEdit { get; set; }   // User edition date
         public bool StatusPassword { get; set; }  //Password Exist
         public string Password { get; set; }
-        public ICollection<TeamMembers> TeamMembers { get; set; }
+        public string UserNickName { get; set; }
+        public string Description { get; set; }
+        public bool OnlyOnePlayer { get; set; }
+        public string MyteamTEXT { get; set; }
+        public bool MyTeam { get; set; }
         public Games Games { get; set; }
+        public Team()
+        {
+            Games = new Games(); 
+        }
     }
 }

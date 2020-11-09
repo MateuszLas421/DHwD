@@ -25,18 +25,18 @@ namespace DHwD
         {
             InitializeComponent();
             await NavigationService.NavigateAsync("NavigationPage/MainPage");
-            //await NavigationService.NavigateAsync("NavigationPage/TeamPageView");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<TeamPageView, TeamPageViewViewModel>();
-            containerRegistry.RegisterForNavigation<InfoView, InfoViewModel>();
             containerRegistry.RegisterForNavigation<GameListView, GameListViewModel>();
+            containerRegistry.RegisterForNavigation<CreateNewTeam, CreateNewTeamViewModel>();
+            containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
+            containerRegistry.RegisterForNavigation<JoinToTeamPassword, JoinToTeamPasswordViewModel>();
         }
     }
 }
