@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="DHwD.Views.StartPage"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:local="clr-namespace:DHwD;assembly=DHwD"
+             BackgroundImageSource="{local:ImageResource DHwD.Resources.backgroundstartpage.jpg}"
+             >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Label
+            Text="12:12"
+            TextColor="WhiteSmoke"
+            FontSize="Header"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            HorizontalOptions="Center"
+            />
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            Command="{Binding MapCommand}" 
+            ImageSource="{local:ImageResource DHwD.Resources.sampleLogo.png}"
+            BorderColor="Transparent" 
+            BackgroundColor="Transparent"
+            />
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            Command="{Binding ChatCommand}" 
+            ImageSource="{local:ImageResource DHwD.Resources.sampleLogo.png}"
+            BorderColor="Transparent" 
+            BackgroundColor="Transparent"
+            />
+        <Button
+            Grid.Row="1"
+            Grid.Column="2"
+            Command="{Binding MyTeampageCommand}" 
+            ImageSource="{local:ImageResource DHwD.Resources.sampleLogo.png}"
+            BorderColor="Transparent" 
+            BackgroundColor="Transparent"
+            />
+        <Button
+            Grid.Row="1"
+            Grid.Column="3"
+            Command="{Binding SettingsCommand}" 
+            ImageSource="{local:ImageResource DHwD.Resources.sampleLogo.png}"
+            BorderColor="Transparent" 
+            BackgroundColor="Transparent"
+            />
+        <Label 
+            Text="Team"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            Grid.Row="2"
+            TextColor="WhiteSmoke"
+            VerticalTextAlignment="Center"
+            FontSize="Medium"
+            HorizontalOptions="Center"
+               />
+        <Label 
+            Text="XYZJKHBNUHNBOPP"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            Grid.Row="3"
+            FontSize="Large"
+            TextColor="WhiteSmoke"
+            HorizontalOptions="Center"
+               />
+        <!--<StackLayout  Orientation="Vertical" VerticalOptions="FillAndExpand"  HorizontalOptions="Center">
+            <Label Text="START" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Fill" Padding="0,15,0,0"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <Image Source=""/>
+                <Label Text="10.10.2010"/>
+            </StackLayout>
+            <Label Text="16:00"  HorizontalOptions="Center" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
+                <Label Text="Drużyna"/>
+                <Label Text="A"/>
+            </StackLayout>
+            <Label Text="Miejsce rozpoczęcia rozgrywki" FontSize="Medium" HorizontalOptions="Center" Padding="0,15,0,0"/>
+            <Image  Source="" VerticalOptions="FillAndExpand" />
+            <Label Text="Przystanek tramwajowy" FontSize="Medium" HorizontalOptions="Center"/>
+            <Label Text="OSOBOWICKA CMENTARZ" FontSize="Medium" HorizontalOptions="Center" Padding="0,0,0,15"/>
+        </StackLayout>-->
+        <Label
+            Text="Time to "
+            Grid.Row="4"
+            Grid.Column="0"
+            TextColor="White"
+            HorizontalOptions="End"
+            />
+        <Label
+            Text="end"
+            Grid.Row="4"
+            Grid.Column="1"
+            TextColor="White"
+            HorizontalOptions="Start"
+            />
+        <Label
+            Text="03:32"
+            Grid.Row="4"
+            Grid.Column="2"
+            TextColor="White"
+            HorizontalOptions="Start"
+            />
+    </Grid>
+</ContentPage>

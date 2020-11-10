@@ -37,6 +37,11 @@ namespace DHwD
             containerRegistry.RegisterForNavigation<CreateNewTeam, CreateNewTeamViewModel>();
             containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
             containerRegistry.RegisterForNavigation<JoinToTeamPassword, JoinToTeamPasswordViewModel>();
+            containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
+            containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
+            containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
+            containerRegistry.RegisterForNavigation<ChatPage, ChatPageViewModel>();
+            containerRegistry.RegisterForNavigation<MyTeamPage, MyTeamPageViewModel>();
         }
     }
 }
