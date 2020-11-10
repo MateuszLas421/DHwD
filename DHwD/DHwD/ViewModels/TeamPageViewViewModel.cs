@@ -56,11 +56,6 @@ namespace DHwD.ViewModels
             }
             _initializingTask = Init();
             _initializingTask.Wait(1000);
-            for(int i = 0;i<ObTeam.Count;i++)
-            {
-                if(ObTeam[i].MyTeam==true)
-                    _navigationService.NavigateAsync("NavigationPage/StartPage", animated: false, useModalNavigation: false);
-            }
         }
 
         #region variables
