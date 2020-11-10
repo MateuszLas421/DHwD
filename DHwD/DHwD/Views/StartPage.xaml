@@ -98,6 +98,16 @@
             <Label Text="Przystanek tramwajowy" FontSize="Medium" HorizontalOptions="Center"/>
             <Label Text="OSOBOWICKA CMENTARZ" FontSize="Medium" HorizontalOptions="Center" Padding="0,0,0,15"/>
         </StackLayout>-->
+
+
+
+        <!--<StackLayout Orientation="Horizontal">
+            <Label Text="Points" VerticalOptions="Start" HorizontalTextAlignment="End" TextColor="White" FontSize="Large"/>
+            <Label Text="16x18e16" HorizontalOptions="Start" TextColor="White" FontSize="Large"/>
+        </StackLayout>-->
+        
+        
+        
         <Label
             Text="Time to "
             Grid.Row="4"

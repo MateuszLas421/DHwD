@@ -35,13 +35,13 @@ namespace DHwD.ViewModels
                     { "JWT", jwt }
                 };
             if (_Team.MyTeam == true)
-                _navigationService.NavigateAsync("NavigationPage/MainTabbedPage", p, animated: false, useModalNavigation: true);
+                _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
             if (_Team.StatusPassword == false)
             {
                 _initializingTask = Init();
                 Thread.Sleep(1000);
                 if (_initializingTask.Result==true)
-                    _navigationService.NavigateAsync("NavigationPage/MainTabbedPage", p, animated: false, useModalNavigation: true);
+                    _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
             }
         }
         private async Task<bool> Init()
@@ -108,7 +108,7 @@ namespace DHwD.ViewModels
                 await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
                 return;
             }
-            await _navigationService.NavigateAsync("NavigationPage/MainTabbedPage", p, animated: false, useModalNavigation: true);
+            await _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
         }
     }
 }

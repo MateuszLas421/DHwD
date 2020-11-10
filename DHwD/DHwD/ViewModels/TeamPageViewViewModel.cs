@@ -38,6 +38,7 @@ namespace DHwD.ViewModels
                                              {
                                                  item.MyTeam = true;
                                                  item.MyteamTEXT = "Attached";
+                                                 MyTeamExist = true;
                                                  ObTeam.Add(item);
                                                  continue;
                                              }
@@ -54,9 +55,16 @@ namespace DHwD.ViewModels
                 Title = Game.Name;
             }
             _initializingTask = Init();
+            _initializingTask.Wait(1000);
+            for(int i = 0;i<ObTeam.Count;i++)
+            {
+                if(ObTeam[i].MyTeam==true)
+                    _navigationService.NavigateAsync("NavigationPage/StartPage", animated: false, useModalNavigation: false);
+            }
         }
 
         #region variables
+        private bool _myTeamExist = false;
         private ObservableCollection<Team> _obTeam;
         private Task _initializingTask;
         private JWTToken jwt;
@@ -86,6 +94,7 @@ namespace DHwD.ViewModels
             get => _listviewIsRefreshing;
             set => SetProperty(ref _listviewIsRefreshing, value);
         }
+        public bool MyTeamExist { get => _myTeamExist; set => _myTeamExist = value; }
         #endregion
 
         async void CreateTeamCommand()
@@ -105,17 +114,23 @@ namespace DHwD.ViewModels
                 { "Team", teams },
                 { "JWT", jwt }
             };
-            if (!teams.MyTeam)  ///
-            { 
+            if (!teams.MyTeam)  
+            {
+                if (MyTeamExist == true)
+                {
+                    await _dialogService.DisplayAlertAsync("Alert", "If you want join other team, you must leave your team.", "OK");
+                    IsBusy = false;
+                    return;
+                }
                 await foreach (var item in _restService.GetTeamMembers(jwt, teams.Id))
                 {
                     try
                     {
                         list.Add(item);
                     }
-                    catch(NullReferenceException)
+                    catch(NullReferenceException ex)
                     {
-                        await _dialogService.DisplayAlertAsync("ALERT", "You  jsdfggrdtvbrdtgvdtteam.", "OK");
+                        await _dialogService.DisplayAlertAsync("ALERT", ex.Message.ToString(), "OK");
                         IsBusy = false;
                         return;
                     }

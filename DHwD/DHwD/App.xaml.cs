@@ -35,7 +35,6 @@ namespace DHwD
             containerRegistry.RegisterForNavigation<TeamPageView, TeamPageViewViewModel>();
             containerRegistry.RegisterForNavigation<GameListView, GameListViewModel>();
             containerRegistry.RegisterForNavigation<CreateNewTeam, CreateNewTeamViewModel>();
-            containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
             containerRegistry.RegisterForNavigation<JoinToTeamPassword, JoinToTeamPasswordViewModel>();
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
