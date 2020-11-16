@@ -6,7 +6,7 @@
              x:Class="DHwD.Views.MapPage"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Forms;assembly=Mapsui.UI.Forms">
     <StackLayout>
-        <mapsui:MapView x:Name="mapView"
+        <mapsui:MapView x:Name="MyMap"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="Fill"
                     BackgroundColor="Gray" />
