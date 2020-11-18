@@ -6,7 +6,7 @@
              x:Class="DHwD.Views.StartPage"
              NavigationPage.HasNavigationBar="False"
              xmlns:local="clr-namespace:DHwD;assembly=DHwD"
-             BackgroundImageSource="{local:ImageResource DHwD.Resources.backgroundstartpage.jpg}"
+             BackgroundImageSource="{local:ImageResource DHwD.Resources.126203687.png}"
              >
     <Grid>
         <Grid.RowDefinitions>

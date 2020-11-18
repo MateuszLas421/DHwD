@@ -9,6 +9,7 @@ using DHwD.Service;
 using Prism.Services;
 using DHwD.Models;
 using System.Diagnostics;
+using System.Threading;
 
 namespace DHwD.ViewModels
 {
@@ -43,7 +44,10 @@ namespace DHwD.ViewModels
             });
             try
             {
-                t.Wait(3000);
+                while (t.IsCompleted==false)
+                {
+                    Thread.Sleep(250);
+                }
                 if (a)
                 {
                     //_navigationService.NavigateAsync("NavigationPage/StartPage", useModalNavigation: true, animated: false);
