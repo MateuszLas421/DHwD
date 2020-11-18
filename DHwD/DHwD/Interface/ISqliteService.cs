@@ -11,5 +11,6 @@ namespace DHwD.Interface
         Task<JWTToken> GetToken();
         Task<bool> DeleteToken();
         Task SaveToken(JWTToken token);
+        Task<bool> DeleteUser();
     }
 }

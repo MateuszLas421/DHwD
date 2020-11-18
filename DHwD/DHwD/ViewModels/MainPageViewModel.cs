@@ -40,6 +40,10 @@ namespace DHwD.ViewModels
                         jwt = null;
                         a = true;
                     }
+                    if (jwt == null)
+                    {
+                        await _sqliteService.DeleteUser();
+                    }
                 }
             });
             try

@@ -36,13 +36,13 @@ namespace DHwD.ViewModels
                 };
             if (_Team.MyTeam == true)
                 _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
-            if (_Team.StatusPassword == false)
+            if (_Team.StatusPassword == false && _Team.MyTeam == false)
             {
                 _initializingTask = Init();
-                ///while (_initializingTask.IsCompleted == false)
-                //{
-                    Thread.Sleep(250);
-                //}
+                while (_initializingTask.IsCompleted == false)
+                {
+                    Thread.Sleep(500);
+                }
                 if (_initializingTask.Result == true)
                     _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
             }

@@ -32,6 +32,17 @@ namespace DHwD.Service
             }
             await db.InsertAsync(user);
         }
+
+        public async Task<bool> DeleteUser()
+        {
+            var exist = IsTableExists(nameof(UserRegistration));
+            if (exist)
+            {
+                await db.DeleteAllAsync<UserRegistration>();
+                return true;
+            }
+            return false;
+        }
         #endregion
 
         #region Token

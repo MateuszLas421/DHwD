@@ -187,7 +187,11 @@ namespace DHwD.Service
                 {
                     response = await client.PostAsync(url_.TeamMembers.ToString(), content); 
                 }                                      //  POST  // 
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return false; }
+                catch (Exception ex) 
+                {
+                    Debug.WriteLine(ex.Message.ToString()); 
+                    return false; 
+                }
                 if (response.IsSuccessStatusCode)
                 {
                     return true;
