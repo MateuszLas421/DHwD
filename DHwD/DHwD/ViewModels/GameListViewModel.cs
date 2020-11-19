@@ -1,7 +1,6 @@
 ﻿using DHwD.Models;
 using DHwD.Service;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System.Collections.ObjectModel;

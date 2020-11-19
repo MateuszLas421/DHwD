@@ -9,6 +9,7 @@ using DHwD.Service;
 using Prism.Services;
 using DHwD.Models;
 using System.Diagnostics;
+using System.Threading;
 
 namespace DHwD.ViewModels
 {
@@ -39,14 +40,22 @@ namespace DHwD.ViewModels
                         jwt = null;
                         a = true;
                     }
+                    if (jwt == null)
+                    {
+                        await _sqliteService.DeleteUser();
+                    }
                 }
             });
             try
             {
-                t.Wait(3000);
+                while (t.IsCompleted==false)
+                {
+                    Thread.Sleep(250);
+                }
                 if (a)
                 {
-                   _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);                        
+                    //_navigationService.NavigateAsync("NavigationPage/StartPage", useModalNavigation: true, animated: false);
+                    _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);                        
                 }
             }
             catch (Exception ex) 

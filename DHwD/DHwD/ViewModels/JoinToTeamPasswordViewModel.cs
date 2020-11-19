@@ -32,37 +32,35 @@ namespace DHwD.ViewModels
             var p = new NavigationParameters
                 {
                     { "Team", _Team },
-                    { "JWT", jwt }
+                    { "JWT", jWT }
                 };
             if (_Team.MyTeam == true)
-                _navigationService.NavigateAsync("NavigationPage/MainTabbedPage", p, animated: false, useModalNavigation: true);
-            if (_Team.StatusPassword == false)
+                _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
+            if (_Team.StatusPassword == false && _Team.MyTeam == false)
             {
                 _initializingTask = Init();
-                Thread.Sleep(1000);
-                if (_initializingTask.Result==true)
-                    _navigationService.NavigateAsync("NavigationPage/MainTabbedPage", p, animated: false, useModalNavigation: true);
+                while (_initializingTask.IsCompleted == false)
+                {
+                    Thread.Sleep(500);
+                }
+                if (_initializingTask.Result == true)
+                    _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
             }
         }
         private async Task<bool> Init()
         {
-            bool v = await Task.Run(async () =>
-            {
-                bool result = await _restService.JoinToTeam(jwt, _Team);
+                bool result = await _restService.JoinToTeam(jWT, _Team);
                 if (!result)
                 {
                     await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
                     return false;
                 }
                 return true;
-            });
-            return v;
         }
 
         #region variables
         private Task<bool> _initializingTask;
         private DelegateCommand _logincommand;
-        private JWTToken jwt;
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
         private SqliteService _sqliteService;
@@ -91,7 +89,7 @@ namespace DHwD.ViewModels
             var p = new NavigationParameters
                 {
                     { "Team", _Team },
-                    { "JWT", jwt }
+                    { "JWT", jWT }
                 };
             Hash hash = new Hash();
             Func<string, string> pass = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());
@@ -108,7 +106,7 @@ namespace DHwD.ViewModels
                 await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
                 return;
             }
-            await _navigationService.NavigateAsync("NavigationPage/MainTabbedPage", p, animated: false, useModalNavigation: true);
+            await _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
         }
     }
 }
