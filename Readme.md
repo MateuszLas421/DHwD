@@ -7,3 +7,4 @@
  * sqlite-net-pcl Version "1.7.335"
  * Microsoft.Bcl.AsyncInterfaces "1.1.1"
  * Mapsui.Forms "2.0.3"
+ * Xam.Plugin.Geolocator" Version="4.5.0.6
