@@ -15,6 +15,8 @@ namespace DHwD.Models
         public string MyteamTEXT { get; set; }
         public bool MyTeam { get; set; }
         public Games Games { get; set; }
+        public int StatusRef { get; set; }
+        public Status Status { get; set; }
         public Team()
         {
             Games = new Games(); 
