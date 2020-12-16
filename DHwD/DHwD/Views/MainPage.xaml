@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:DHwD;assembly=DHwD"
              NavigationPage.HasNavigationBar="False">
     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
-        <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.sampleLogo.png}" VerticalOptions="Center" HorizontalOptions="Center" Margin="20"/>
+        <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Horror.png}" VerticalOptions="Center" HorizontalOptions="Center" Margin="20"/>
         <Frame CornerRadius="40" Margin="5" BorderColor="Black" >
             <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.RowDefinitions>

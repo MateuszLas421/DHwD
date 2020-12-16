@@ -39,12 +39,11 @@ namespace DHwD.ViewModels
             if (_Team.StatusPassword == false && _Team.MyTeam == false)
             {
                 _initializingTask = Init();
-                while (_initializingTask.IsCompleted == false)
-                {
-                    Thread.Sleep(500);
-                }
-                if (_initializingTask.Result == true)
-                    _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
+
+                //_initializingTask.RunSynchronously();
+                Thread.Sleep(1500);
+                //if (_initializingTask.Result == true) //
+                _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
             }
         }
         private async Task<bool> Init()

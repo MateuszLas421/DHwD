@@ -38,7 +38,7 @@ namespace DHwD.ViewModels
             {
                 TextAlignment = Mapsui.Widgets.Alignment.Center,
                 HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
-                VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
+                VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom     
             });
             Map = map;
             var startTimeSpan = TimeSpan.Zero;
@@ -57,6 +57,7 @@ namespace DHwD.ViewModels
             var location = await Geolocation.GetLocationAsync(request);
             var coords = new Mapsui.UI.Forms.Position(location.Latitude, location.Longitude);
             MyMap.MyLocationLayer.UpdateMyLocation(coords);
+            MyMap.MyLocationFollow=true;
         }
      
         public Plugin.Geolocator.Abstractions.Position CurrentLocation

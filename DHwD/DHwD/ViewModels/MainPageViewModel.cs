@@ -93,7 +93,7 @@ namespace DHwD.ViewModels
             JWTToken jWT;
             Hash hash = new Hash();
             Func<string, string> token = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());
-            if (string.IsNullOrEmpty(user.NickName)) { NickNameColor = Color.Red; await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK"); return; }
+            if (string.IsNullOrEmpty(user.NickName))        { NickNameColor = Color.Red; await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK"); return; }
             user.Token = token(CrossDeviceInfo.Current.Id.ToString());
             jWT = await _restService.LoginAsync(user);
             if (jWT!=null) 
@@ -106,8 +106,7 @@ namespace DHwD.ViewModels
             {
                 bool Register=false;
                 Register = await _restService.RegisterNewUserAsync(user);
-                if (Register==false) 
-                { await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return; }
+                if (Register==false)    { await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return; }
                 jWT = await _restService.LoginAsync(user);
                 if (jWT != null)
                 {

@@ -26,7 +26,7 @@
                                 <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="{local:ImageResource DHwD.Resources.sampleLogo.png}" Scale="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+                            <Image Source="{local:ImageResource DHwD.Resources.Story_1.png}" Scale="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
                             <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" Text="{Binding Name, Mode=OneWay}" />
                             <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding DateTimeStart, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>
                             <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding DateTimeEnd, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>

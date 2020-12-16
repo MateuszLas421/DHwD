@@ -36,7 +36,7 @@ namespace DHwD.ViewModels
         }
 
         #region variables
-        private DelegateCommand _command;
+        //private DelegateCommand _command;
         private ObservableCollection<Games> _obGames;
         private readonly Task _initializingTask;
         private JWTToken jwt;
@@ -64,7 +64,6 @@ namespace DHwD.ViewModels
             {
                 { "Games", games }
             };
-
             await _navigationService.NavigateAsync("TeamPageView", p);
             IsBusy = false;
         }
