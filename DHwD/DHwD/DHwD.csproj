@@ -14,17 +14,53 @@
   <ItemGroup>
     <None Remove="Resources\12589656.png" />
     <None Remove="Resources\126203687.png" />
+    <None Remove="Resources\Action.png" />
     <None Remove="Resources\backgroundstartpage.jpg" />
+    <None Remove="Resources\Chat.png" />
+    <None Remove="Resources\Comedy.png" />
+    <None Remove="Resources\Educational.png" />
+    <None Remove="Resources\Fantasy.png" />
+    <None Remove="Resources\GPS.png" />
+    <None Remove="Resources\Horror.png" />
     <None Remove="Resources\ic_padlock.png" />
+    <None Remove="Resources\Kids.png" />
+    <None Remove="Resources\Log_in.png" />
+    <None Remove="Resources\Map.png" />
     <None Remove="Resources\sampleLogo.png" />
+    <None Remove="Resources\Sport.png" />
+    <None Remove="Resources\Story_1.png" />
+    <None Remove="Resources\Teams.png" />
+    <None Remove="Resources\wallpaper_1.1.png" />
+    <None Remove="Resources\Wallpaper_1.png" />
+    <None Remove="Resources\wallpaper_2.png" />
+    <None Remove="Resources\Wallpaper_3 %281%29.png" />
+    <None Remove="Resources\wallpaper_3.png" />
     <None Remove="sampleLogo.svg" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\126203687.png" />
+    <EmbeddedResource Include="Resources\Action.png" />
     <EmbeddedResource Include="Resources\backgroundstartpage.jpg" />
+    <EmbeddedResource Include="Resources\Chat.png" />
+    <EmbeddedResource Include="Resources\Comedy.png" />
+    <EmbeddedResource Include="Resources\Educational.png" />
+    <EmbeddedResource Include="Resources\Fantasy.png" />
+    <EmbeddedResource Include="Resources\GPS.png" />
+    <EmbeddedResource Include="Resources\Horror.png" />
     <EmbeddedResource Include="Resources\ic_padlock.png" />
+    <EmbeddedResource Include="Resources\Kids.png" />
+    <EmbeddedResource Include="Resources\Log_in.png" />
+    <EmbeddedResource Include="Resources\Map.png" />
     <EmbeddedResource Include="Resources\sampleLogo.png" />
+    <EmbeddedResource Include="Resources\Sport.png" />
+    <EmbeddedResource Include="Resources\Story_1.png" />
+    <EmbeddedResource Include="Resources\Teams.png" />
+    <EmbeddedResource Include="Resources\wallpaper_1.1.png" />
+    <EmbeddedResource Include="Resources\Wallpaper_1.png" />
+    <EmbeddedResource Include="Resources\wallpaper_2.png" />
+    <EmbeddedResource Include="Resources\Wallpaper_3 (1).png" />
+    <EmbeddedResource Include="Resources\wallpaper_3.png" />
   </ItemGroup>
 
   <ItemGroup>

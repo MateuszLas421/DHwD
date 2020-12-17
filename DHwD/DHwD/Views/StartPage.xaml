@@ -6,7 +6,7 @@
              x:Class="DHwD.Views.StartPage"
              NavigationPage.HasNavigationBar="False"
              xmlns:local="clr-namespace:DHwD;assembly=DHwD"
-             BackgroundImageSource="{local:ImageResource DHwD.Resources.126203687.png}"
+             BackgroundImageSource="{local:ImageResource DHwD.Resources.wallpaper_3.png}"
              >
     <Grid>
         <Grid.RowDefinitions>
@@ -35,7 +35,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Command="{Binding MapCommand}" 
-            ImageSource="{local:ImageResource DHwD.Resources.sampleLogo.png}"
+            ImageSource="{local:ImageResource DHwD.Resources.Map.png}"
             BorderColor="Transparent" 
             BackgroundColor="Transparent"
             />
@@ -43,7 +43,7 @@
             Grid.Row="1"
             Grid.Column="1"
             Command="{Binding ChatCommand}" 
-            ImageSource="{local:ImageResource DHwD.Resources.sampleLogo.png}"
+            ImageSource="{local:ImageResource DHwD.Resources.Chat.png}"
             BorderColor="Transparent" 
             BackgroundColor="Transparent"
             />
@@ -51,7 +51,7 @@
             Grid.Row="1"
             Grid.Column="2"
             Command="{Binding MyTeampageCommand}" 
-            ImageSource="{local:ImageResource DHwD.Resources.sampleLogo.png}"
+            ImageSource="{local:ImageResource DHwD.Resources.Teams.png}"
             BorderColor="Transparent" 
             BackgroundColor="Transparent"
             />
