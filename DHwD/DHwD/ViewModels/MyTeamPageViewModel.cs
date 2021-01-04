@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using DHwD.Models;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
@@ -16,5 +17,20 @@ namespace DHwD.ViewModels
             _navigationService = navigationService;
         }
         private INavigationService _navigationService;
+        public override void Initialize(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("Team"))
+            {
+                _Team = parameters.GetValue<Team>("Team");
+            }
+            if (parameters.ContainsKey("JWT"))
+            {
+                jWT = parameters.GetValue<JWTToken>("JWT");
+            }
+        }
+        #region  Property
+        public Team _Team { get; set; }
+        public JWTToken jWT { get; private set; }
+        #endregion
     }
 }
