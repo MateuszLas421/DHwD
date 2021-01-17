@@ -128,14 +128,20 @@ namespace DHwD.Service
             var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
-                try { response = await client.GetAsync(url_.TeamList.ToString() + "all/" + IdGame); }                // REST GET 
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                try 
+                { 
+                    response = await client.GetAsync(url_.TeamList.ToString() + "all/" + IdGame);    // REST GET 
+                }             
+                catch (Exception ex)
+                { 
+                    Debug.WriteLine(ex.Message.ToString());
+                }
                 if (response.IsSuccessStatusCode)  /// when user exists
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     ListTeams = JsonConvert.DeserializeObject<List<Team>>(responseContent);          // Deserialize JSON
                 }
-                else {/* return ;*/ } //???                                                     TODO
+                else { yield return null; } //???                                                     TODO
                 for (int i = 0; i < ListTeams.Count; i++)
                 {
                     yield return ListTeams[i];
