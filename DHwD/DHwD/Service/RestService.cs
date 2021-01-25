@@ -39,7 +39,6 @@ namespace DHwD.Service
         }
         public async Task<bool> RegisterNewUserAsync(UserRegistration item)
         {
-
             Url_data url_=null;
             HttpResponseMessage response = null;
             string json = JsonConvert.SerializeObject(item);
@@ -98,7 +97,7 @@ namespace DHwD.Service
             throw new NotImplementedException();
         }
 
-        public async IAsyncEnumerable<Games> GetGames(JWTToken jWT)            // TODO
+        public async IAsyncEnumerable<Games> GetGames(JWTToken jWT)      
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
@@ -113,14 +112,14 @@ namespace DHwD.Service
                    string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                    ListGames = JsonConvert.DeserializeObject<List<Games>>(responseContent);          // Deserialize JSON
                 }
-                else {/* return ;*/ } //???                                                     TODO
+                else { yield return null; } 
                 for (int i = 0; i < ListGames.Count; i++)
                 {
                     yield return ListGames[i];
                 }
             }
         }
-        public async IAsyncEnumerable<Team> GetTeams(JWTToken jWT, int IdGame)            // TODO
+        public async IAsyncEnumerable<Team> GetTeams(JWTToken jWT, int IdGame)        
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
@@ -141,7 +140,7 @@ namespace DHwD.Service
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     ListTeams = JsonConvert.DeserializeObject<List<Team>>(responseContent);          // Deserialize JSON
                 }
-                else { yield return null; } //???                                                     TODO
+                else { yield return null; } 
                 for (int i = 0; i < ListTeams.Count; i++)
                 {
                     yield return ListTeams[i];
@@ -225,7 +224,7 @@ namespace DHwD.Service
                 return ListTeams;
             }
         }
-        public async IAsyncEnumerable<TeamMembers> GetTeamMembers(JWTToken jWT, int IdTeam)            // TODO
+        public async IAsyncEnumerable<TeamMembers> GetTeamMembers(JWTToken jWT, int IdTeam) 
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
@@ -240,7 +239,7 @@ namespace DHwD.Service
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     ListTeams = JsonConvert.DeserializeObject<List<TeamMembers>>(responseContent);          // Deserialize JSON
                 }
-                else {/* return ;*/ } //???                                                     TODO
+                else { yield return null; } 
                 for (int i = 0; i < ListTeams.Count; i++)
                 {
                     yield return ListTeams[i];
