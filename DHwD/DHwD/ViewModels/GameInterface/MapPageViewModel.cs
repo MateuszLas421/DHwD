@@ -8,17 +8,19 @@ using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Essentials;
 using System.Threading;
+using Xamarin.Forms;
+using DHwD.Models;
 
 namespace DHwD.ViewModels
 {
-    public class MapPageViewModel : ViewModelBase
+    public class MapPageViewModel : ViewModelBase, INavigationAware
     {
         private MapView _mapView;
         private Mapsui.Map _map;
         private Plugin.Geolocator.Abstractions.Position _currentLocation;
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
-        private readonly Task _initializingTask;
+        private Task _initializingTask, _pinstask, _gpsTask;
 
         public MapPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService)
@@ -38,20 +40,41 @@ namespace DHwD.ViewModels
             {
                 TextAlignment = Mapsui.Widgets.Alignment.Center,
                 HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
-                VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom     
+                VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
             });
             Map = map;
+
+            _pinstask = GetPinsData();
+        }
+        #region  Property
+        public Team _Team { get; set; }
+        public JWTToken jWT { get; set; }
+        #endregion
+        public override void Initialize(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("Team"))
+            {
+                _Team = parameters.GetValue<Team>("Team");
+            }
+            if (parameters.ContainsKey("JWT"))
+            {
+                jWT = parameters.GetValue<JWTToken>("JWT");
+            }
+            var p = new NavigationParameters
+                {
+                    { "Team", _Team },
+                    { "JWT", jWT }
+                };
             var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromSeconds(3);
-            _initializingTask = Initialize();
             var timer = new Timer(async (e) =>
             {
-                await Initialize();
+                await Gps();
             }, null, startTimeSpan, periodTimeSpan);
-
+            _gpsTask = Gps();
         }
 
-        public async Task Initialize()
+        public async Task Gps()
         {
             var request = new Xamarin.Essentials.GeolocationRequest(GeolocationAccuracy.Best);
             var location = await Geolocation.GetLocationAsync(request);
@@ -74,6 +97,22 @@ namespace DHwD.ViewModels
         {
             get => _map;
             set => SetProperty(ref _map, value);
+        }
+        public async Task GetPinsData()
+        {
+            await Task.Run(async () =>
+            {
+                Pin activepin = new Pin (MyMap)
+                {
+                    Label = $"fsdfdsfdsf",
+                    Scale = 1
+                };
+
+                activepin.Callout.Anchor = new Point(0, activepin.Height * activepin.Scale);
+                //activepin.Callout.
+                MyMap.Pins.Add(activepin);
+                activepin.ShowCallout();
+            });
         }
     }
 }
