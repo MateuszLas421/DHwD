@@ -10,6 +10,7 @@ using Xamarin.Essentials;
 using System.Threading;
 using Xamarin.Forms;
 using DHwD.Models;
+using DHwD.Service;
 
 namespace DHwD.ViewModels
 {
@@ -27,13 +28,14 @@ namespace DHwD.ViewModels
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
+            _restService = new RestService();
             Map = new Mapsui.Map();
             var map = new Mapsui.Map
             {
                 CRS = "EPSG:3857",
                 Transformation = new MinimalTransformation()
             };
-
+            map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), map.Resolutions[14]);   // TODO modify
             var tileLayer = OpenStreetMap.CreateTileLayer();
             map.Layers.Add(tileLayer);
             map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(map)
@@ -43,12 +45,11 @@ namespace DHwD.ViewModels
                 VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
             });
             Map = map;
-
-            _pinstask = GetPinsData();
         }
         #region  Property
         public Team _Team { get; set; }
         public JWTToken jWT { get; set; }
+        private RestService _restService;
         #endregion
         public override void Initialize(INavigationParameters parameters)
         {
@@ -72,6 +73,7 @@ namespace DHwD.ViewModels
                 await Gps();
             }, null, startTimeSpan, periodTimeSpan);
             _gpsTask = Gps();
+            _pinstask = GetPinsData(_Team,jWT);
         }
 
         public async Task Gps()
@@ -80,9 +82,9 @@ namespace DHwD.ViewModels
             var location = await Geolocation.GetLocationAsync(request);
             var coords = new Mapsui.UI.Forms.Position(location.Latitude, location.Longitude);
             MyMap.MyLocationLayer.UpdateMyLocation(coords);
-            MyMap.MyLocationFollow=true;
+            MyMap.MyLocationFollow=true;                 /// Check map.Home = n => n.NavigateT
         }
-     
+
         public Plugin.Geolocator.Abstractions.Position CurrentLocation
         {
             get => _currentLocation;
@@ -98,16 +100,17 @@ namespace DHwD.ViewModels
             get => _map;
             set => SetProperty(ref _map, value);
         }
-        public async Task GetPinsData()
+        public async Task GetPinsData(Team team, JWTToken jWT)
         {
             await Task.Run(async () =>
             {
+                var location = await _restService.GetLocationAsync(jWT,team);
                 Pin activepin = new Pin (MyMap)
                 {
                     Label = $"fsdfdsfdsf",
                     Scale = 1
                 };
-
+                activepin.Position = new Position(location.Latitude,location.Longitude);
                 activepin.Callout.Anchor = new Point(0, activepin.Height * activepin.Scale);
                 //activepin.Callout.
                 MyMap.Pins.Add(activepin);
