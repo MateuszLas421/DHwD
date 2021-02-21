@@ -54,8 +54,12 @@ namespace DHwD.ViewModels
                 }
                 if (a)
                 {
+                    var p = new NavigationParameters
+                    {
+
+                    };
                     //_navigationService.NavigateAsync("NavigationPage/StartPage", useModalNavigation: true, animated: false);
-                    _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);                        
+                    _navigationService.NavigateAsync("NavigationPage/GameListView", p,  useModalNavigation: true, animated: false);                        
                 }
             }
             catch (Exception ex) 
@@ -100,7 +104,11 @@ namespace DHwD.ViewModels
             {
                 await _sqliteService.SaveUser(user);
                 await _sqliteService.SaveToken(jWT);
-                await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);
+                var p = new NavigationParameters
+                {
+                    { "JWT", jWT }
+                };
+                await _navigationService.NavigateAsync("NavigationPage/GameListView",p, useModalNavigation: true, animated: false);
             }                                                                        
             else 
             {
@@ -112,7 +120,11 @@ namespace DHwD.ViewModels
                 {
                     await _sqliteService.SaveUser(user);
                     await _sqliteService.SaveToken(jWT);
-                    await _navigationService.NavigateAsync("NavigationPage/GameListView", useModalNavigation: true, animated: false);
+                    var p = new NavigationParameters
+                    {
+                        { "JWT", jWT }
+                    };
+                    await _navigationService.NavigateAsync("NavigationPage/GameListView", p, useModalNavigation: true, animated: false);
                 }
                 else
                     await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return;   

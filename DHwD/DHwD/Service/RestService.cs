@@ -19,6 +19,15 @@ namespace DHwD.Service
         {
             client = new HttpClient();
         }
+        public HttpClient Prepare(JWTToken jWT)
+        {
+            Url_data url_ = new Url_data();
+            HttpResponseMessage response = null;
+            var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+            client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } };
+            return client;
+        }
+
         public async Task<bool> CheckUserExistsAsync(UserRegistration item)
         {
             bool isNewItem = false;
@@ -37,9 +46,9 @@ namespace DHwD.Service
             }
             return isNewItem;
         }
+
         public async Task<bool> RegisterNewUserAsync(UserRegistration item)
         {
-
             Url_data url_=null;
             HttpResponseMessage response = null;
             string json = JsonConvert.SerializeObject(item);
@@ -57,6 +66,7 @@ namespace DHwD.Service
             }
             return false;
         }
+
         public async Task<UserRegistration> GetUserAsync(UserRegistration item)
         {
             Url_data url_ = null;
@@ -98,7 +108,7 @@ namespace DHwD.Service
             throw new NotImplementedException();
         }
 
-        public async IAsyncEnumerable<Games> GetGames(JWTToken jWT)            // TODO
+        public async IAsyncEnumerable<Games> GetGames(JWTToken jWT)      
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
@@ -113,14 +123,15 @@ namespace DHwD.Service
                    string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                    ListGames = JsonConvert.DeserializeObject<List<Games>>(responseContent);          // Deserialize JSON
                 }
-                else {/* return ;*/ } //???                                                     TODO
+                else { yield return null; } 
                 for (int i = 0; i < ListGames.Count; i++)
                 {
                     yield return ListGames[i];
                 }
             }
         }
-        public async IAsyncEnumerable<Team> GetTeams(JWTToken jWT, int IdGame)            // TODO
+
+        public async IAsyncEnumerable<Team> GetTeams(JWTToken jWT, int IdGame)        
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
@@ -128,20 +139,27 @@ namespace DHwD.Service
             var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
-                try { response = await client.GetAsync(url_.TeamList.ToString() + "all/" + IdGame); }                // REST GET 
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                try 
+                { 
+                    response = await client.GetAsync(url_.TeamList.ToString() + "all/" + IdGame);    // REST GET 
+                }             
+                catch (Exception ex)
+                { 
+                    Debug.WriteLine(ex.Message.ToString());
+                }
                 if (response.IsSuccessStatusCode)  /// when user exists
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     ListTeams = JsonConvert.DeserializeObject<List<Team>>(responseContent);          // Deserialize JSON
                 }
-                else {/* return ;*/ } //???                                                     TODO
+                else { yield return null; } 
                 for (int i = 0; i < ListTeams.Count; i++)
                 {
                     yield return ListTeams[i];
                 }
             }
         }
+
         public async Task<bool> CreateNewTeam(JWTToken jWT, Team item)
         {
             HttpResponseMessage response;
@@ -215,11 +233,12 @@ namespace DHwD.Service
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     ListTeams = JsonConvert.DeserializeObject<TeamMembers>(responseContent);          // Deserialize JSON
                 }
-                else {/* return ;*/ } //???                                                     TODO 
+                else {  return null; } 
                 return ListTeams;
             }
         }
-        public async IAsyncEnumerable<TeamMembers> GetTeamMembers(JWTToken jWT, int IdTeam)            // TODO
+
+        public async IAsyncEnumerable<TeamMembers> GetTeamMembers(JWTToken jWT, int IdTeam) 
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
@@ -234,7 +253,7 @@ namespace DHwD.Service
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     ListTeams = JsonConvert.DeserializeObject<List<TeamMembers>>(responseContent);          // Deserialize JSON
                 }
-                else {/* return ;*/ } //???                                                     TODO
+                else { yield return null; } 
                 for (int i = 0; i < ListTeams.Count; i++)
                 {
                     yield return ListTeams[i];
@@ -256,6 +275,26 @@ namespace DHwD.Service
                     return true; // Password is correct
                 }
                 return false; // Password is incorrect
+            }
+        }
+
+        public async Task<Location> GetLocationAsync(JWTToken jWT,Team team)
+        {
+            Url_data url_ = new Url_data();
+            HttpResponseMessage response = null;
+            Location location = null;
+            var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+            using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
+            {
+                try { response = await client.GetAsync(url_.Location.ToString() + team.Id); }                // REST GET 
+                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                if (response.IsSuccessStatusCode)  /// Status Code
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                    location = JsonConvert.DeserializeObject<Location>(responseContent);          // Deserialize JSON
+                }
+                else { return null;   } 
+                return location;
             }
         }
     }

@@ -12,6 +12,7 @@ namespace DHwD.Views
         public MapPage()
         {
             InitializeComponent();
+
         }
         protected override void OnAppearing()
         {
@@ -19,6 +20,7 @@ namespace DHwD.Views
             vm.MyMap = MyMap;
             this.CurrentLocation = vm.CurrentLocation;
             MyMap.Map = vm.Map;
+            MyMap.PinClicked += vm.OnClick;
         }
     }
 }
