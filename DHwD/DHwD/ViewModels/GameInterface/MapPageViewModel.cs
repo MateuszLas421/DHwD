@@ -6,11 +6,11 @@ using System;
 using System.Threading.Tasks;
 using Prism.Navigation;
 using Prism.Services;
-using Xamarin.Essentials;
 using System.Threading;
 using Xamarin.Forms;
 using DHwD.Models;
 using DHwD.Service;
+using Mapsui.Rendering.Skia;
 
 namespace DHwD.ViewModels
 {
@@ -22,6 +22,9 @@ namespace DHwD.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private Task _initializingTask, _pinstask, _gpsTask;
+        private Pin activepin;
+        private RestService _restService;
+
 
         public MapPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService)
@@ -35,7 +38,6 @@ namespace DHwD.ViewModels
                 CRS = "EPSG:3857",
                 Transformation = new MinimalTransformation()
             };
-            map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), map.Resolutions[14]);   // TODO modify
             var tileLayer = OpenStreetMap.CreateTileLayer();
             map.Layers.Add(tileLayer);
             map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(map)
@@ -45,11 +47,17 @@ namespace DHwD.ViewModels
                 VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
             });
             Map = map;
+            activepin = new Pin(MyMap)
+            {              
+                Label = $"faas",
+                Scale = 1
+            };
+            map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), map.Resolutions[14]);
+            //MyMap.PinClicked(e,a) += OnClick(e,a);
         }
         #region  Property
         public Team _Team { get; set; }
         public JWTToken jWT { get; set; }
-        private RestService _restService;
         #endregion
         public override void Initialize(INavigationParameters parameters)
         {
@@ -73,16 +81,16 @@ namespace DHwD.ViewModels
                 await Gps();
             }, null, startTimeSpan, periodTimeSpan);
             _gpsTask = Gps();
-            _pinstask = GetPinsData(_Team,jWT);
+            _pinstask = GetPinsData(_Team, jWT);
         }
 
         public async Task Gps()
         {
-            var request = new Xamarin.Essentials.GeolocationRequest(GeolocationAccuracy.Best);
-            var location = await Geolocation.GetLocationAsync(request);
+            var request = new Xamarin.Essentials.GeolocationRequest(Xamarin.Essentials.GeolocationAccuracy.Best);
+            var location = await Xamarin.Essentials.Geolocation.GetLocationAsync(request);
             var coords = new Mapsui.UI.Forms.Position(location.Latitude, location.Longitude);
             MyMap.MyLocationLayer.UpdateMyLocation(coords);
-            MyMap.MyLocationFollow=true;                 /// Check map.Home = n => n.NavigateT
+            //MyMap.MyLocationFollow = true;                 /// Check map.Home = n => n.NavigateT
         }
 
         public Plugin.Geolocator.Abstractions.Position CurrentLocation
@@ -104,18 +112,32 @@ namespace DHwD.ViewModels
         {
             await Task.Run(async () =>
             {
-                var location = await _restService.GetLocationAsync(jWT,team);
-                Pin activepin = new Pin (MyMap)
-                {
-                    Label = $"fsdfdsfdsf",
-                    Scale = 1
-                };
-                activepin.Position = new Position(location.Latitude,location.Longitude);
+                var location = await _restService.GetLocationAsync(jWT, team);
+
+                activepin.Position = new Position(location.Latitude, location.Longitude);
                 activepin.Callout.Anchor = new Point(0, activepin.Height * activepin.Scale);
-                //activepin.Callout.
+                activepin.Label = "Cel";
+
                 MyMap.Pins.Add(activepin);
                 activepin.ShowCallout();
             });
         }
+
+        public void OnClick(object sender, PinClickedEventArgs args)
+        {
+            var mapView = (MapView)sender;
+            args.Pin.Label = "click";
+            args.Pin.IsVisible = true;
+            args.Pin.Callout.CalloutClicked += (s, e) =>
+            {
+                args.Pin.Label = "You clicked me!";
+                e.Handled = true;            
+                args.Pin.ShowCallout();
+                return;
+            };
+            args.Pin.ShowCallout();
+            return;
+        }
+
     }
 }
