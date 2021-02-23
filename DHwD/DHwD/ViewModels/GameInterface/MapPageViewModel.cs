@@ -11,6 +11,10 @@ using Xamarin.Forms;
 using DHwD.Models;
 using DHwD.Service;
 using Mapsui.Rendering.Skia;
+using Prism.Services.Dialogs;
+using DHwD.Views.Dialog;
+using System.Reactive.Linq;
+using System.Reactive.Disposables;
 
 namespace DHwD.ViewModels
 {
@@ -19,6 +23,7 @@ namespace DHwD.ViewModels
         private MapView _mapView;
         private Mapsui.Map _map;
         private Plugin.Geolocator.Abstractions.Position _currentLocation;
+        private readonly IDialogService _dialog;
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private Task _initializingTask, _pinstask, _gpsTask;
@@ -26,9 +31,10 @@ namespace DHwD.ViewModels
         private RestService _restService;
 
 
-        public MapPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public MapPageViewModel(INavigationService navigationService, IPageDialogService dialogService, IDialogService dialog)
             : base(navigationService)
         {
+            _dialog = dialog;
             _navigationService = navigationService;
             _dialogService = dialogService;
             _restService = new RestService();
@@ -53,7 +59,6 @@ namespace DHwD.ViewModels
                 Scale = 1
             };
             map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), map.Resolutions[14]);
-            //MyMap.PinClicked(e,a) += OnClick(e,a);
         }
         #region  Property
         public Team _Team { get; set; }
@@ -122,12 +127,27 @@ namespace DHwD.ViewModels
                 activepin.ShowCallout();
             });
         }
+        //public static IObservable<T> CheckLocation<T>(T value)
+        //{
+        //    return Observable.Create<T>(o =>
+        //    {
+        //        o.OnNext(value);
+        //        o.OnCompleted();
+        //        return Disposable.Empty;
+        //    });
+        //}
 
         public void OnClick(object sender, PinClickedEventArgs args)
         {
             var mapView = (MapView)sender;
             args.Pin.Label = "click";
             args.Pin.IsVisible = true;
+            var parameters = new DialogParameters
+            {
+                { "title", "test!" },
+                { "message", "test message" }
+            };
+            _dialog.ShowDialog("LocationDetailsDialog", parameters);
             args.Pin.Callout.CalloutClicked += (s, e) =>
             {
                 args.Pin.Label = "You clicked me!";

@@ -12,15 +12,16 @@ namespace DHwD.Views
         public MapPage()
         {
             InitializeComponent();
+            var vm = BindingContext as MapPageViewModel;
+            vm.MyMap = MyMap;
+            this.CurrentLocation = vm.CurrentLocation;
+            MyMap.PinClicked += vm.OnClick;
+            MyMap.Map = vm.Map;
 
         }
         protected override void OnAppearing()
         {
-            var vm = BindingContext as MapPageViewModel;
-            vm.MyMap = MyMap;
-            this.CurrentLocation = vm.CurrentLocation;
-            MyMap.Map = vm.Map;
-            MyMap.PinClicked += vm.OnClick;
+
         }
     }
 }
