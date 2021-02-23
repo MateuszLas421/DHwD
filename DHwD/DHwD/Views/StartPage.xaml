@@ -6,7 +6,7 @@
              x:Class="DHwD.Views.StartPage"
              NavigationPage.HasNavigationBar="False"
              xmlns:local="clr-namespace:DHwD;assembly=DHwD"
-             BackgroundImageSource="{local:ImageResource DHwD.Resources.wallpaper_3.png}"
+             BackgroundImageSource="{local:ImageResource DHwD.Resources.Wallpaper_1.png}"
              >
     <Grid>
         <Grid.RowDefinitions>
@@ -59,7 +59,7 @@
             Grid.Row="1"
             Grid.Column="3"
             Command="{Binding SettingsCommand}" 
-            ImageSource="{local:ImageResource DHwD.Resources.sampleLogo.png}"
+            ImageSource="{local:ImageResource DHwD.Resources.GPS.png}"
             BorderColor="Transparent" 
             BackgroundColor="Transparent"
             />

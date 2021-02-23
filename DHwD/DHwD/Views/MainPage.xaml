@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DHwD.Views.MainPage"
              Title="{Binding Title}"
-             BackgroundColor="#c3c3c3"
+             BackgroundColor="#daf2e5"
              xmlns:local="clr-namespace:DHwD;assembly=DHwD"
              NavigationPage.HasNavigationBar="False">
     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
         <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Horror.png}" VerticalOptions="Center" HorizontalOptions="Center" Margin="20"/>
-        <Frame CornerRadius="40" Margin="5" BorderColor="Black" >
-            <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <Frame CornerRadius="40" Margin="5" BorderColor="#0d120f" HasShadow="True" Background="#d0efdd" >
+            <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="Auto"/>
@@ -21,13 +21,13 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" FontSize="Large" Text="Hello, please enter your nickname." HorizontalTextAlignment="Center" 
-                       VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="#e7121d"/>
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" FontSize="Large" Text="Log in to start your story." HorizontalTextAlignment="Center" 
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="#d0efdd"/>
                 <Label Grid.Row="1" Grid.Column="0" Text="NickName" VerticalOptions="Center" MinimumWidthRequest="100" HorizontalOptions="Center" Margin="8,0,0,0"/>
                 <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" WidthRequest="300" Text="{Binding user.NickName}" BackgroundColor="{Binding NickNameColor}"/>
-                <Frame Grid.Row="2" Grid.ColumnSpan="5">
-                    <Button  Command="{Binding LoginCommand}" Text="Login" VerticalOptions="Center" Margin="0,15,0,15" 
-                        HorizontalOptions="Center" WidthRequest="200" CornerRadius="40" BackgroundColor="#7f7f7f"/>
+                <Frame Grid.Row="2" Grid.ColumnSpan="5" Background="#d0efdd" >
+                    <Button  Command="{Binding LoginCommand}" Text="Log In" VerticalOptions="Center" Margin="0,15,0,15" 
+                        HorizontalOptions="Center" WidthRequest="200" CornerRadius="40" BackgroundColor="#dbdbdb"/>
                 </Frame>
             </Grid>
         </Frame>
