@@ -123,7 +123,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\NewFolder\" />
+    <Folder Include="Views\Custom\" />
   </ItemGroup>
 
 </Project>

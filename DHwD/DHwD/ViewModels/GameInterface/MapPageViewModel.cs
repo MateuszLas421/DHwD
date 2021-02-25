@@ -127,7 +127,7 @@ namespace DHwD.ViewModels
                 activepin.ShowCallout();
             });
         }
-        //public static IObservable<T> CheckLocation<T>(T value)
+        //public static IObservable<T> CheckLocation<T>(T value)  // delete
         //{
         //    return Observable.Create<T>(o =>
         //    {

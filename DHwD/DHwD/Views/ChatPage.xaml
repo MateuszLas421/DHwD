@@ -4,5 +4,29 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="DHwD.Views.ChatPage">
-  
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollView Grid.Row="0">
+            <ListView>
+                
+            </ListView>
+        </ScrollView>
+        <StackLayout
+            Grid.Row="1"
+            Orientation="Horizontal"
+            >
+            <Entry 
+                Placeholder="Text"
+                HorizontalOptions="StartAndExpand"
+                />
+            <Button
+                HorizontalOptions="End"
+                Text="Enter"
+                />
+        </StackLayout>
+    </Grid>
+
 </ContentPage>
