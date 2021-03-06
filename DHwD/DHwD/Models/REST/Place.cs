@@ -1,4 +1,4 @@
-﻿namespace DHwD.Models
+﻿namespace DHwD.Models.REST
 {
     public class Place
     {

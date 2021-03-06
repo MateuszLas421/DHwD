@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DHwD.ViewModels
+namespace DHwD.ViewModels.Dialogs
 {
     public class LocationDetailsDialogViewModel : BindableBase, IDialogAware
     {

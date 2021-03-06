@@ -15,8 +15,10 @@ using Prism.Services.Dialogs;
 using DHwD.Views.Dialog;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
+using DHwD.Tools;
+using DHwD.Models.REST;
 
-namespace DHwD.ViewModels
+namespace DHwD.ViewModels.GameInterface
 {
     public class MapPageViewModel : ViewModelBase, INavigationAware
     {
@@ -29,6 +31,7 @@ namespace DHwD.ViewModels
         private Task _initializingTask, _pinstask, _gpsTask;
         private Pin activepin;
         private RestService _restService;
+        //private double Xamarin.Essential.Location _currentLocation;
 
 
         public MapPageViewModel(INavigationService navigationService, IPageDialogService dialogService, IDialogService dialog)
@@ -95,6 +98,7 @@ namespace DHwD.ViewModels
             var location = await Xamarin.Essentials.Geolocation.GetLocationAsync(request);
             var coords = new Mapsui.UI.Forms.Position(location.Latitude, location.Longitude);
             MyMap.MyLocationLayer.UpdateMyLocation(coords);
+            //var s = CalculateCoordinates.DistanceInKmBetweenEarthCoordinates(location.Latitude, location.Longitude,);
             //MyMap.MyLocationFollow = true;                 /// Check map.Home = n => n.NavigateT
         }
 

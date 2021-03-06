@@ -1,4 +1,5 @@
 ﻿using DHwD.Models;
+using DHwD.Models.REST;
 using DHwD.Service;
 using Prism.Commands;
 using Prism.Navigation;

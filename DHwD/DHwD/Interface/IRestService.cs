@@ -1,4 +1,5 @@
 ﻿using DHwD.Models;
+using DHwD.Models.REST;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
