@@ -31,8 +31,27 @@ namespace DHwD.ViewModels.GameInterface
         private Task _initializingTask, _pinstask, _gpsTask;
         private Pin activepin;
         private RestService _restService;
-        //private double Xamarin.Essential.Location _currentLocation;
+        //private CurrentLocation _currentLocation;
 
+        #region  Property
+        public Team _Team { get; set; }
+        public JWTToken jWT { get; set; }
+        public MapView MyMap
+        {
+            get => _mapView;
+            set => SetProperty(ref _mapView, value);
+        }
+        public Mapsui.Map Map
+        {
+            get => _map;
+            set => SetProperty(ref _map, value);
+        }
+        public Plugin.Geolocator.Abstractions.Position CurrentLocation
+        {
+            get => _currentLocation;
+            set => SetProperty(ref _currentLocation, value);
+        }
+        #endregion
 
         public MapPageViewModel(INavigationService navigationService, IPageDialogService dialogService, IDialogService dialog)
             : base(navigationService)
@@ -55,18 +74,16 @@ namespace DHwD.ViewModels.GameInterface
                 HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
                 VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
             });
+            CurrentLocation = new Plugin.Geolocator.Abstractions.Position();
             Map = map;
             activepin = new Pin(MyMap)
-            {              
+            {
                 Label = $"faas",
                 Scale = 1
             };
             map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), map.Resolutions[14]);
         }
-        #region  Property
-        public Team _Team { get; set; }
-        public JWTToken jWT { get; set; }
-        #endregion
+
         public override void Initialize(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("Team"))
@@ -87,6 +104,10 @@ namespace DHwD.ViewModels.GameInterface
             var timer = new Timer(async (e) =>
             {
                 await Gps();
+                if (await Distance() < 100)
+                {
+                    await _navigationService.GoBackAsync();
+                }
             }, null, startTimeSpan, periodTimeSpan);
             _gpsTask = Gps();
             _pinstask = GetPinsData(_Team, jWT);
@@ -96,27 +117,21 @@ namespace DHwD.ViewModels.GameInterface
         {
             var request = new Xamarin.Essentials.GeolocationRequest(Xamarin.Essentials.GeolocationAccuracy.Best);
             var location = await Xamarin.Essentials.Geolocation.GetLocationAsync(request);
-            var coords = new Mapsui.UI.Forms.Position(location.Latitude, location.Longitude);
+            CurrentLocation.Latitude = location.Latitude;
+            CurrentLocation.Longitude = location.Longitude;
+            var coords = new Mapsui.UI.Forms.Position(CurrentLocation.Latitude, CurrentLocation.Longitude);
             MyMap.MyLocationLayer.UpdateMyLocation(coords);
-            //var s = CalculateCoordinates.DistanceInKmBetweenEarthCoordinates(location.Latitude, location.Longitude,);
             //MyMap.MyLocationFollow = true;                 /// Check map.Home = n => n.NavigateT
         }
 
-        public Plugin.Geolocator.Abstractions.Position CurrentLocation
+        public async Task<double> Distance()
         {
-            get => _currentLocation;
-            set => SetProperty(ref _currentLocation, value);
+            var distance =  CalculateCoordinates.DistanceInKmBetweenEarthCoordinates(CurrentLocation.Latitude, CurrentLocation.Longitude,activepin.Position.Latitude,activepin.Position.Longitude);
+            return await Task.FromResult<double>(distance);
         }
-        public MapView MyMap
-        {
-            get => _mapView;
-            set => SetProperty(ref _mapView, value);
-        }
-        public Mapsui.Map Map
-        {
-            get => _map;
-            set => SetProperty(ref _map, value);
-        }
+
+
+
         public async Task GetPinsData(Team team, JWTToken jWT)
         {
             await Task.Run(async () =>
