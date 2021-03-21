@@ -1,4 +1,5 @@
 ﻿using DHwD.Models;
+using DHwD.Models.REST;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -7,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DHwD.ViewModels
+namespace DHwD.ViewModels.GameInterface
 {
     public class MyTeamPageViewModel : ViewModelBase
     {

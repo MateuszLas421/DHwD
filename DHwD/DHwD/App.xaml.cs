@@ -6,6 +6,9 @@ using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using DHwD.Views.Dialog;
+using DHwD.ViewModels.GameInterface;
+using DHwD.ViewModels.Dialogs;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace DHwD
@@ -41,6 +44,7 @@ namespace DHwD
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
             containerRegistry.RegisterForNavigation<ChatPage, ChatPageViewModel>();
             containerRegistry.RegisterForNavigation<MyTeamPage, MyTeamPageViewModel>();
+            containerRegistry.RegisterDialog<LocationDetailsDialog, LocationDetailsDialogViewModel>();   //.RegisterForNavigation<LocationDetailsDialog, LocationDetailsDialogViewModel>();
         }
     }
 }

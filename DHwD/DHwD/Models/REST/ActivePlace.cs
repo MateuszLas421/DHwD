@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DHwD.Models
+namespace DHwD.Models.REST
 {
     public class ActivePlace
     {

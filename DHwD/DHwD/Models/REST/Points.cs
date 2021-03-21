@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DHwD.Models
+namespace DHwD.Models.REST
 {
     public class Points
     {
