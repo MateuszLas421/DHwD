@@ -140,7 +140,7 @@ namespace DHwD.ViewModels.GameInterface
 
                 activepin.Position = new Position(location.Latitude, location.Longitude);
                 activepin.Callout.Anchor = new Point(0, activepin.Height * activepin.Scale);
-                activepin.Label = "Cel";
+                activepin.Label = location.Place.Name;
 
                 MyMap.Pins.Add(activepin);
                 activepin.ShowCallout();
