@@ -10,7 +10,9 @@ namespace DHwD.Models
 
         public string TextSolution { get; private set; }
 
-        public DateTime dataTimeRequest { get; set; }
+        public int gameid { get; private set; }
+
+        public DateTime DataTimeRequest { get; set; }
 
     }
 }
