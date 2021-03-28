@@ -63,7 +63,7 @@ namespace DHwD.ViewModels
             IsBusy = true;
             var p = new NavigationParameters
             {
-                { "Games", games }
+                { "Game", games }
             };
             await _navigationService.NavigateAsync("TeamPageView", p);
             IsBusy = false;

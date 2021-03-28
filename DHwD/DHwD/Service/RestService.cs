@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DHwD.Service
 {
-    class RestService: IRestService
+    class RestService: IRestService   // TODO Generic !!!
     {
         HttpClient client;
         public RestService()
@@ -296,6 +296,34 @@ namespace DHwD.Service
                 }
                 else { return null;   } 
                 return location;
+            }
+        }
+        public async IAsyncEnumerable<Chats> GetChat(JWTToken jWT, int IdGame)
+        {
+            Url_data url_ = new Url_data();
+            HttpResponseMessage response = null;
+            List<Chats> List = null;
+            var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+            using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
+            {
+                try
+                {
+                    response = await client.GetAsync(url_.Chat.ToString() + "Team=" + IdGame);    // REST GET 
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message.ToString());
+                }
+                if (response.IsSuccessStatusCode)  /// when user exists
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                    List = JsonConvert.DeserializeObject<List<Chats>>(responseContent);          // Deserialize JSON
+                }
+                else { yield return null; }
+                for (int i = 0; i < List.Count; i++)
+                {
+                    yield return List[i];
+                }
             }
         }
     }

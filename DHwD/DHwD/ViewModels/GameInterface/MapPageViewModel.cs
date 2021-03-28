@@ -104,7 +104,7 @@ namespace DHwD.ViewModels.GameInterface
             var timer = new Timer(async (e) =>
             {
                 await Gps();
-                if (await Distance() < 100)
+                if (await Distance() < 100) //To high ! //TODO
                 {
                     await _navigationService.GoBackAsync();
                 }
