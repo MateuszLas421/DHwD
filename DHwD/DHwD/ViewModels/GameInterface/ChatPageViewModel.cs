@@ -8,12 +8,15 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace DHwD.ViewModels.GameInterface
 {
-    public class ChatPageViewModel : ViewModelBase
+    public class ChatPageViewModel : ViewModelBase, INotifyPropertyChanged
     {
         public ChatPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService)
@@ -21,7 +24,18 @@ namespace DHwD.ViewModels.GameInterface
             _navigationService = navigationService;
             chat = new ObservableCollection<Chats>();
             _restService = new RestService();
+            message = new SolutionRequest();
+            OnSendCommand = new Command(() =>
+            {
+                if (!string.IsNullOrEmpty(TextToSend))
+                {
+                    chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false });
+                    
+                }
+
+            });
         }
+
 
         public override void Initialize(INavigationParameters parameters)
         {
@@ -42,13 +56,36 @@ namespace DHwD.ViewModels.GameInterface
         #region variables
         //private DelegateCommand _command;
         private INavigationService _navigationService;
-        private ObservableCollection<Chats> chat;
+        public ObservableCollection<Chats> chat;
         private JWTToken jWT;
         private SqliteService _sqliteService;
         private RestService _restService;
+        private SolutionRequest message;
         #endregion
 
         #region  Property
+        public ObservableCollection<Chats> Chat
+        {
+            get => chat;
+            set => SetProperty(ref chat, value);
+        }
+
+        public string TextToSend { get; set; }
+        public ICommand OnSendCommand { get; set; }
+        public ICommand MessageAppearingCommand { get; set; }
+        public ICommand MessageDisappearingCommand { get; set; }
+        public bool ShowScrollTap { get; set; } = false;
+        public bool LastMessageVisible { get; set; } = true;
+        public int PendingMessageCount { get; set; } = 0;
+        public bool PendingMessageCountVisible { get { return PendingMessageCount > 0; } }
+
+        public Queue<Chats> DelayedMessages { get; set; } = new Queue<Chats>();
+
+        public SolutionRequest Message
+        {
+            get => message;
+            set => SetProperty(ref message, value);
+        }
         internal Team _Team { get; private set; }
         internal Games _game { get; private set; }
         #endregion
@@ -60,5 +97,41 @@ namespace DHwD.ViewModels.GameInterface
                 chat.Add(item);
             }
         }
+
+        void OnMessageAppearing(Chats message)
+        {
+            var idx = chat.IndexOf(message);
+            if (idx <= 6)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    while (DelayedMessages.Count > 0)
+                    {
+                        chat.Insert(0, DelayedMessages.Dequeue());
+                    }
+                    ShowScrollTap = false;
+                    LastMessageVisible = true;
+                    PendingMessageCount = 0;
+                });
+            }
+        }
+
+        void OnMessageDisappearing(Chats message)
+        {
+            var idx = chat.IndexOf(message);
+            if (idx >= 6)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    ShowScrollTap = true;
+                    LastMessageVisible = false;
+                });
+
+            }
+        }
+
+
+       // public event PropertyChangedEventHandler PropertyChanged;
+
     }
 }
