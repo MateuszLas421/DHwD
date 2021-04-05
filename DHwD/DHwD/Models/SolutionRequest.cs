@@ -6,11 +6,11 @@ namespace DHwD.Models
 {
     public class SolutionRequest
     {
-        public int idMystery { get; private set; }
+        public int idMystery { get; set; }
 
-        public string TextSolution { get; private set; }
+        public string TextSolution { get; set; }
 
-        public int gameid { get; private set; }
+        public int gameid { get; set; }
 
         public DateTime DataTimeRequest { get; set; }
 

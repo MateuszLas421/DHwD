@@ -1,5 +1,6 @@
 ﻿using DHwD.Models;
 using DHwD.Models.REST;
+using DHwD.ViewModels.Base;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -10,7 +11,7 @@ using System.Linq;
 
 namespace DHwD.ViewModels.GameInterface
 {
-    public class StartPageViewModel : ViewModelBase
+    public class StartPageViewModel : GameBaseViewModel
     {
         public StartPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService)

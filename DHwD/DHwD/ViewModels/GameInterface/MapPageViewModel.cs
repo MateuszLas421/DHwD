@@ -17,10 +17,11 @@ using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using DHwD.Tools;
 using DHwD.Models.REST;
+using DHwD.ViewModels.Base;
 
 namespace DHwD.ViewModels.GameInterface
 {
-    public class MapPageViewModel : ViewModelBase, INavigationAware
+    public class MapPageViewModel : GameBaseViewModel, INavigationAware
     {
         private MapView _mapView;
         private Mapsui.Map _map;

@@ -1,6 +1,7 @@
 ﻿using DHwD.Models;
 using DHwD.Models.REST;
 using DHwD.Service;
+using DHwD.ViewModels.Base;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -16,7 +17,7 @@ using Xamarin.Forms;
 
 namespace DHwD.ViewModels.GameInterface
 {
-    public class ChatPageViewModel : ViewModelBase, INotifyPropertyChanged
+    public class ChatPageViewModel : GameBaseViewModel, INotifyPropertyChanged
     {
         public ChatPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService)
@@ -24,13 +25,20 @@ namespace DHwD.ViewModels.GameInterface
             _navigationService = navigationService;
             chat = new ObservableCollection<Chats>();
             _restService = new RestService();
-            message = new SolutionRequest();
+
             OnSendCommand = new Command(() =>
             {
                 if (!string.IsNullOrEmpty(TextToSend))
                 {
                     chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false });
-                    
+                    SolutionRequest message = new SolutionRequest
+                    {
+                        TextSolution = TextToSend,
+                        gameid = _game.Id,
+                        //idMystery = _
+                    };
+
+                    TextToSend = string.Empty;
                 }
 
             });
@@ -82,11 +90,6 @@ namespace DHwD.ViewModels.GameInterface
 
         public Queue<Chats> DelayedMessages { get; set; } = new Queue<Chats>();
 
-        public SolutionRequest Message
-        {
-            get => message;
-            set => SetProperty(ref message, value);
-        }
         internal Team _Team { get; private set; }
         internal Games _game { get; private set; }
         #endregion
