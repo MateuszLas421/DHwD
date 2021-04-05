@@ -308,7 +308,7 @@ namespace DHwD.Service
             {
                 try
                 {
-                    response = await client.GetAsync(url_.Chat.ToString() + "Team=" + IdGame);    // REST GET 
+                    response = await client.GetAsync(url_.Chat.ToString() + "Game=" + IdGame);    // REST GET 
                 }
                 catch (Exception ex)
                 {

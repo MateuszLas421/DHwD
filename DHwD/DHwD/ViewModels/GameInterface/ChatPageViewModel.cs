@@ -37,7 +37,7 @@ namespace DHwD.ViewModels.GameInterface
         }
 
 
-        public override void Initialize(INavigationParameters parameters)
+        public override async void Initialize(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("Team"))
             {
@@ -51,6 +51,7 @@ namespace DHwD.ViewModels.GameInterface
             {
                 _game = parameters.GetValue<Games>("Game");
             }
+            await Startchat();
         }
 
         #region variables
