@@ -327,7 +327,7 @@ namespace DHwD.Service
             }
         }
 
-        [Obsolete]
+        //[Obsolete]
         //public async Task<bool> ChatPostMessage(JWTToken jWT, Team item) TODO or delete
         //{
         //    HttpResponseMessage response;

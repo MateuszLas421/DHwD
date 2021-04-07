@@ -13,7 +13,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <controls:ExtendedEditor x:Name="chatTextInput" 
-                 Text="{Binding TextToSend}" 
+                 Text="{Binding TextToSend, Mode=TwoWay}" 
                  Margin="1"  
                  TextColor="Black" 
                  Keyboard="Chat"  

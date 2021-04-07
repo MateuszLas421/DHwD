@@ -38,7 +38,6 @@ namespace DHwD.ViewModels.GameInterface
                         //idMystery = _
                     };
 
-                    TextToSend = string.Empty;
                 }
 
             });

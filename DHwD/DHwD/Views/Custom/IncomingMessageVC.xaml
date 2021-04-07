@@ -6,6 +6,7 @@
               Padding="10"
               HasShadow="false"
               Rotation="180"
+              CornerRadius="15"
               Margin="10,10,80,10">
         <Label Text="{Binding Text}"/>
     </Frame>

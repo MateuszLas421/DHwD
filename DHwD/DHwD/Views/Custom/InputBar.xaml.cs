@@ -18,6 +18,7 @@ namespace DHwD.Views.Custom
         public void Handle_Completed(object sender, EventArgs e)
         {
             chatTextInput.Focus();
+            chatTextInput.Text = "";
         }
 
         public void UnFocusEntry()
