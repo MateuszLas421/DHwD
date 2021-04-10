@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DHwD.Service
 {
@@ -11,21 +12,21 @@ namespace DHwD.Service
     {
         static HttpClient client;
 
-        //public BaseRespone PostExecuteAsync()
-        //{
-        //    using (client = new HttpClient())
-        //    {
-        //        BaseRespone response;
-        //        try { response = await client.PostAsync(uri, content); }                                      //  POST  // 
-        //        catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return BaseRespone; }
+        public static async Task<BaseRespone> PostExecuteAsync<T>( string str, T content)  where T : HttpContent
+        { 
+            using (client = new HttpClient())
+            {
+                BaseRespone response = new BaseRespone();
+                try { response = await client.PostAsync(str, content); }                                      //  POST  // 
+                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return await Task.FromResult<BaseRespone>(response); }
 
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            Debug.WriteLine(@"successfully saved.");
-        //            return BaseRespone;
-        //        }
-        //        return BaseRespone;
-        //    }
-        //}
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine(@"successfully saved.");
+                    return response;
+                }
+                return await Task.FromResult<BaseRespone>(response);
+            }
+        }
     }
 }
