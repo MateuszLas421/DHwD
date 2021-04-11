@@ -5,7 +5,8 @@ using System.Text;
 
 namespace DHwD.Service.Respone
 {
-    public static class BaseRespone : HttpResponseMessage
+    public class BaseRespone : HttpResponseMessage
     {
+        
     }
 }

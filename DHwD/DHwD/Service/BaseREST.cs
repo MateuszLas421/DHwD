@@ -17,7 +17,7 @@ namespace DHwD.Service
             using (client = new HttpClient())
             {
                 BaseRespone response = new BaseRespone();
-                try { response = await client.PostAsync(str, content); }                                      //  POST  // 
+                try { response = (BaseRespone)await client.PostAsync(str, content); }                                      //  POST  // 
                 catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return await Task.FromResult<BaseRespone>(response); }
 
                 if (response.IsSuccessStatusCode)
