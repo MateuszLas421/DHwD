@@ -61,28 +61,26 @@ namespace DHwD.ViewModels.GameInterface
             _navigationService = navigationService;
             _dialogService = dialogService;
             _restService = new RestService();
-            Map = new Mapsui.Map();
-            var map = new Mapsui.Map
+            Map = new Mapsui.Map
             {
                 CRS = "EPSG:3857",
                 Transformation = new MinimalTransformation()
             };
             var tileLayer = OpenStreetMap.CreateTileLayer();
-            map.Layers.Add(tileLayer);
-            map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(map)
+            Map.Layers.Add(tileLayer);
+            Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(Map)
             {
                 TextAlignment = Mapsui.Widgets.Alignment.Center,
                 HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
                 VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
             });
             CurrentLocation = new Plugin.Geolocator.Abstractions.Position();
-            Map = map;
             activepin = new Pin(MyMap)
             {
                 Label = $"faas",
                 Scale = 1
             };
-            map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), map.Resolutions[14]);
+            Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), Map.Resolutions[14]);
         }
 
         public override void Initialize(INavigationParameters parameters)
@@ -157,9 +155,9 @@ namespace DHwD.ViewModels.GameInterface
         //    });
         //}
 
-        public void OnClick(object sender, PinClickedEventArgs args)
+        public void PinClicked(object sender, PinClickedEventArgs args)
         {
-            var mapView = (MapView)sender;
+            //var mapView = (MapView)sender;
             args.Pin.Label = "click";
             args.Pin.IsVisible = true;
             var parameters = new DialogParameters
