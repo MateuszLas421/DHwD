@@ -32,6 +32,7 @@ namespace DHwD
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Base Containers
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
@@ -39,11 +40,15 @@ namespace DHwD
             containerRegistry.RegisterForNavigation<GameListView, GameListViewModel>();
             containerRegistry.RegisterForNavigation<CreateNewTeam, CreateNewTeamViewModel>();
             containerRegistry.RegisterForNavigation<JoinToTeamPassword, JoinToTeamPasswordViewModel>();
+
+            //Game Containers
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
             containerRegistry.RegisterForNavigation<ChatPage, ChatPageViewModel>();
             containerRegistry.RegisterForNavigation<MyTeamPage, MyTeamPageViewModel>();
+
+            //Dialogs Containers
             containerRegistry.RegisterDialog<LocationDetailsDialog, LocationDetailsDialogViewModel>();   //.RegisterForNavigation<LocationDetailsDialog, LocationDetailsDialogViewModel>();
         }
     }

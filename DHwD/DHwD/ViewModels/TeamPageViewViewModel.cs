@@ -21,7 +21,7 @@ namespace DHwD.ViewModels
             _sqliteService = new SqliteService();
             _restService = new RestService();
             ObTeam = new ObservableCollection<Team>();
-            Game = new Games();
+            _game = new Games();
             SelectedCommand = new DelegateCommand<Team>(Selected, _ => !IsBusy).ObservesProperty(() => IsBusy);
             ListScrolled = new DelegateCommand(ListScrolledCommand);
             ListviewIsRefreshing = false;
@@ -32,9 +32,9 @@ namespace DHwD.ViewModels
                                      {
                                          jwt = new JWTToken();
                                          jwt = await _sqliteService.GetToken();
-                                         var Member = await _restService.GetMyTeams(jwt, Game.Id);
+                                         var Member = await _restService.GetMyTeams(jwt, _game.Id);
                                             try { 
-                                                await foreach (var item in _restService.GetTeams(jwt, Game.Id))
+                                                await foreach (var item in _restService.GetTeams(jwt, _game.Id))
                                                 {
                                                     try
                                                     {
@@ -109,10 +109,10 @@ namespace DHwD.ViewModels
         }
         public override void Initialize(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("Games"))
+            if (parameters.ContainsKey("Game"))
             {
-                Game = parameters.GetValue<Games>("Games");
-                Title = Game.Name;
+                _game = parameters.GetValue<Games>("Game");
+                Title = _game.Name;
             }
             _initializingTask = Init();
             _initializingTask.Wait(1000);
@@ -133,7 +133,7 @@ namespace DHwD.ViewModels
         #endregion
 
         #region  Property
-        public Games Game { get; set; }
+        public Games _game { get; set; }
         public DelegateCommand<Team> SelectedCommand { get; }
         public ObservableCollection<Team> ObTeam { get => _obTeam; set => SetProperty(ref _obTeam, value); }
         public DelegateCommand BtnCreateTeam =>
@@ -156,7 +156,7 @@ namespace DHwD.ViewModels
         {
             var p = new NavigationParameters
             {
-                { "Game", Game }
+                { "Game", _game }
             };
             await _navigationService.NavigateAsync("CreateNewTeam", p);
         }
@@ -167,7 +167,8 @@ namespace DHwD.ViewModels
             var p = new NavigationParameters
             {
                 { "Team", teams },
-                { "JWT", jwt }
+                { "JWT", jwt },
+                { "Game", _game }
             };
             if (!teams.MyTeam)  
             {

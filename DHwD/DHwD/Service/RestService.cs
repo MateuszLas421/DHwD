@@ -13,13 +13,15 @@ using System.Threading.Tasks;
 
 namespace DHwD.Service
 {
-    class RestService: IRestService
+    class RestService : IRestService   // TODO Generic !!!
     {
         HttpClient client;
         public RestService()
         {
             client = new HttpClient();
         }
+
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public HttpClient Prepare(JWTToken jWT)
         {
             Url_data url_ = new Url_data();
@@ -29,6 +31,7 @@ namespace DHwD.Service
             return client;
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public async Task<bool> CheckUserExistsAsync(UserRegistration item)
         {
             bool isNewItem = false;
@@ -42,19 +45,20 @@ namespace DHwD.Service
             if (response.IsSuccessStatusCode)  /// The user exists
             {
                 Debug.WriteLine(@" The user exists. ");
-                isNewItem=true;
+                isNewItem = true;
                 return isNewItem;
             }
             return isNewItem;
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public async Task<bool> RegisterNewUserAsync(UserRegistration item)
         {
-            Url_data url_=null;
+            Url_data url_ = null;
             HttpResponseMessage response = null;
             string json = JsonConvert.SerializeObject(item);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-             url_ = new Url_data(); 
+            url_ = new Url_data();
             Uri uri;
             uri = new Uri(string.Format(url_.RegisterUri.ToString(), string.Empty));
             try { response = await client.PostAsync(uri, content); }                                      //  POST  // 
@@ -68,11 +72,12 @@ namespace DHwD.Service
             return false;
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public async Task<UserRegistration> GetUserAsync(UserRegistration item)
         {
             Url_data url_ = null;
             HttpResponseMessage response = null;
-            url_ = new Url_data(); 
+            url_ = new Url_data();
             Uri uri;
             uri = new Uri(string.Format(url_.CheckLogin + item.NickName + "/" + item.Token));
             try { response = await client.GetAsync(uri.ToString()); }               // REST GET
@@ -86,6 +91,7 @@ namespace DHwD.Service
             return null;
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public async Task<JWTToken> LoginAsync(UserRegistration item)
         {
             Url_data url_ = null;
@@ -104,35 +110,37 @@ namespace DHwD.Service
             return null;
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", true)]
         public Task<Team> GetTeamAsync()  // NotImplemented
         {
             throw new NotImplementedException();
         }
 
-        public async IAsyncEnumerable<Games> GetGames(JWTToken jWT)      
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
+        public async IAsyncEnumerable<Games> GetGames(JWTToken jWT)
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
             List<Games> ListGames = null;
             var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
-            { 
+            {
                 try { response = await client.GetAsync(url_.GameList.ToString()); }                // REST GET 
                 catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
                 if (response.IsSuccessStatusCode)  /// when user exists
                 {
-                   string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
-                   ListGames = JsonConvert.DeserializeObject<List<Games>>(responseContent);          // Deserialize JSON
+                    string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                    ListGames = JsonConvert.DeserializeObject<List<Games>>(responseContent);          // Deserialize JSON
                 }
-                else { yield return null; } 
+                else { yield return null; }
                 for (int i = 0; i < ListGames.Count; i++)
                 {
                     yield return ListGames[i];
                 }
             }
         }
-
-        public async IAsyncEnumerable<Team> GetTeams(JWTToken jWT, int IdGame)        
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
+        public async IAsyncEnumerable<Team> GetTeams(JWTToken jWT, int IdGame)
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
@@ -140,12 +148,12 @@ namespace DHwD.Service
             var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
-                try 
-                { 
+                try
+                {
                     response = await client.GetAsync(url_.TeamList.ToString() + "all/" + IdGame);    // REST GET 
-                }             
+                }
                 catch (Exception ex)
-                { 
+                {
                     Debug.WriteLine(ex.Message.ToString());
                 }
                 if (response.IsSuccessStatusCode)  /// when user exists
@@ -153,7 +161,7 @@ namespace DHwD.Service
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     ListTeams = JsonConvert.DeserializeObject<List<Team>>(responseContent);          // Deserialize JSON
                 }
-                else { yield return null; } 
+                else { yield return null; }
                 for (int i = 0; i < ListTeams.Count; i++)
                 {
                     yield return ListTeams[i];
@@ -161,6 +169,7 @@ namespace DHwD.Service
             }
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public async Task<bool> CreateNewTeam(JWTToken jWT, Team item)
         {
             HttpResponseMessage response;
@@ -193,6 +202,7 @@ namespace DHwD.Service
             }
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public async Task<bool> JoinToTeam(JWTToken jWT, Team item)
         {
             HttpResponseMessage response;
@@ -219,6 +229,7 @@ namespace DHwD.Service
             }
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public async Task<TeamMembers> GetMyTeams(JWTToken jWT, int idGame)
         {
             Url_data url_ = new Url_data();
@@ -239,6 +250,7 @@ namespace DHwD.Service
             }
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public async IAsyncEnumerable<TeamMembers> GetTeamMembers(JWTToken jWT, int IdTeam) 
         {
             Url_data url_ = new Url_data();
@@ -262,6 +274,7 @@ namespace DHwD.Service
             }
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public async Task<bool> CheckTeamPass(JWTToken jWT,int idteam, string hashpass)
         {
             Url_data url_ = new Url_data();
@@ -279,6 +292,7 @@ namespace DHwD.Service
             }
         }
 
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
         public async Task<Location> GetLocationAsync(JWTToken jWT,Team team)
         {
             Url_data url_ = new Url_data();
@@ -298,5 +312,61 @@ namespace DHwD.Service
                 return location;
             }
         }
+        [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
+        public async IAsyncEnumerable<Chats> GetChat(JWTToken jWT, int IdGame)
+        {
+            Url_data url_ = new Url_data();
+            HttpResponseMessage response = null;
+            List<Chats> List = null;
+            var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+            using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
+            {
+                try
+                {
+                    response = await client.GetAsync(url_.Chat.ToString() + "Game=" + IdGame);    // REST GET 
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message.ToString());
+                }
+                if (response.IsSuccessStatusCode)  /// when user exists
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                    List = JsonConvert.DeserializeObject<List<Chats>>(responseContent);          // Deserialize JSON
+                }
+                else { yield return null; }
+                for (int i = 0; i < List.Count; i++)
+                {
+                    yield return List[i];
+                }
+            }
+        }
+
+        //[ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
+        //public async Task<bool> ChatPostMessage(JWTToken jWT, Team item) TODO or delete
+        //{
+        //    HttpResponseMessage response;
+        //    string json = JsonConvert.SerializeObject(item);
+        //    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+        //    Url_data url_ = new Url_data();
+        //    var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
+        //    using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
+        //    {
+        //        try
+        //        {
+        //            response = await client.PostAsync(url_.TeamMembers.ToString(), content);
+        //        }                                      //  POST  // 
+        //        catch (Exception ex)
+        //        {
+        //            Debug.WriteLine(ex.Message.ToString());
+        //            return false;
+        //        }
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            return true;
+        //        }
+        //        return false;
+        //    }
+        //}
     }
 }

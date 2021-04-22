@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DHwD_web.Models.Mobile
 {
-    public class Message
+    public class Message   // TO delete ?
     {
         public string Text { get; private set; }
 

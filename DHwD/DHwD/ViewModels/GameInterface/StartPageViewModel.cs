@@ -1,5 +1,6 @@
 ﻿using DHwD.Models;
 using DHwD.Models.REST;
+using DHwD.ViewModels.Base;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -10,7 +11,7 @@ using System.Linq;
 
 namespace DHwD.ViewModels.GameInterface
 {
-    public class StartPageViewModel : ViewModelBase
+    public class StartPageViewModel : GameBaseViewModel
     {
         public StartPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService)
@@ -27,10 +28,18 @@ namespace DHwD.ViewModels.GameInterface
             {
                 jWT = parameters.GetValue<JWTToken>("JWT");
             }
+            if (parameters.ContainsKey("Game"))
+            {
+                _game = parameters.GetValue<Games>("Game");
+            }
         }
 
         #region  Property
+
+        internal Games _game { get; private set; }
+
         public Team _Team { get; set; }
+
         public JWTToken jWT { get; set; }
 
         private INavigationService _navigationService;
@@ -64,7 +73,8 @@ namespace DHwD.ViewModels.GameInterface
             var p = new NavigationParameters
                 {
                     { "Team", _Team },
-                    { "JWT", jWT }
+                    { "JWT", jWT },
+                    { "Game", _game}
                 };
             await _navigationService.NavigateAsync("ChatPage", p, useModalNavigation: true, animated: false);
         }

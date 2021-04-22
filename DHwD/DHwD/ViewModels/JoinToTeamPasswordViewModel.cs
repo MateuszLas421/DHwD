@@ -30,10 +30,15 @@ namespace DHwD.ViewModels
             {
                 jWT = parameters.GetValue<JWTToken>("JWT");
             }
+            if (parameters.ContainsKey("Game"))
+            {
+                _game = parameters.GetValue<Games>("Game");
+            }
             var p = new NavigationParameters
                 {
                     { "Team", _Team },
-                    { "JWT", jWT }
+                    { "JWT", jWT },
+                    { "Game", _game }
                 };
             if (_Team.MyTeam == true)
                 _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
@@ -69,6 +74,7 @@ namespace DHwD.ViewModels
         #endregion
 
         #region  Property
+        internal Games _game { get; private set; }
         public Team _Team { get; set; }
         public string TeamPassword
         {
@@ -89,7 +95,8 @@ namespace DHwD.ViewModels
             var p = new NavigationParameters
                 {
                     { "Team", _Team },
-                    { "JWT", jWT }
+                    { "JWT", jWT },
+                    { "Game", _game }
                 };
             Hash hash = new Hash();
             Func<string, string> pass = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());

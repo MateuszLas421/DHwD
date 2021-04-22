@@ -15,7 +15,7 @@ namespace DHwD.Views
             var vm = BindingContext as MapPageViewModel;
             vm.MyMap = MyMap;
             this.CurrentLocation = vm.CurrentLocation;
-            MyMap.PinClicked += vm.OnClick;
+            MyMap.PinClicked += vm.PinClicked;
             MyMap.Map = vm.Map;
 
         }
