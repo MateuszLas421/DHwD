@@ -31,6 +31,6 @@ namespace DHwD.Interface
 
         Task<bool> CheckTeamPass(JWTToken jWT, int idTeam, string hashpass);
 
-        Task<Location> GetLocationAsync(JWTToken jWT, Team team);
+        Task<List<Location>> GetLocationAsync(JWTToken jWT, Team team);
     }
 }

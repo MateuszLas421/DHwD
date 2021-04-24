@@ -18,6 +18,7 @@ using System.Reactive.Disposables;
 using DHwD.Tools;
 using DHwD.Models.REST;
 using DHwD.ViewModels.Base;
+using System.Collections.Generic;
 
 namespace DHwD.ViewModels.GameInterface
 {
@@ -30,9 +31,7 @@ namespace DHwD.ViewModels.GameInterface
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private Task _initializingTask, _pinstask, _gpsTask;
-        private Pin activepin;
         private RestService _restService;
-        //private CurrentLocation _currentLocation;
 
         #region  Property
         public Team _Team { get; set; }
@@ -75,11 +74,7 @@ namespace DHwD.ViewModels.GameInterface
                 VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
             });
             CurrentLocation = new Plugin.Geolocator.Abstractions.Position();
-            activepin = new Pin(MyMap)
-            {
-                Label = $"faas",
-                Scale = 1
-            };
+
             Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), Map.Resolutions[14]);
         }
 
@@ -98,16 +93,22 @@ namespace DHwD.ViewModels.GameInterface
                     { "Team", _Team },
                     { "JWT", jWT }
                 };
+
             var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromSeconds(3);
+            int i;
             var timer = new Timer(async (e) =>
             {
                 await Gps();
-                if (await Distance() < 100) //To high ! //TODO
+                for (i = 0; i < MyMap.Pins.Count; i++)
                 {
-                    await _navigationService.GoBackAsync();
+                    if (await Distance(MyMap.Pins[i]) < 100)
+                    {
+                        await _navigationService.GoBackAsync();
+                    }
                 }
             }, null, startTimeSpan, periodTimeSpan);
+
             _gpsTask = Gps();
             _pinstask = GetPinsData(_Team, jWT);
         }
@@ -123,7 +124,7 @@ namespace DHwD.ViewModels.GameInterface
             //MyMap.MyLocationFollow = true;                 /// Check map.Home = n => n.NavigateT
         }
 
-        public async Task<double> Distance()
+        public async Task<double> Distance(Pin activepin)
         {
             var distance =  CalculateCoordinates.DistanceInKmBetweenEarthCoordinates(CurrentLocation.Latitude, CurrentLocation.Longitude,activepin.Position.Latitude,activepin.Position.Longitude);
             return await Task.FromResult<double>(distance);
@@ -135,14 +136,25 @@ namespace DHwD.ViewModels.GameInterface
         {
             await Task.Run(async () =>
             {
-                var location = await _restService.GetLocationAsync(jWT, team);
+                List<Location> location = new List<Location>();
+                location = await _restService.GetLocationAsync(jWT, team);
 
-                activepin.Position = new Position(location.Latitude, location.Longitude);
-                activepin.Callout.Anchor = new Point(0, activepin.Height * activepin.Scale);
-                activepin.Label = location.Place.Name;
+                for (int i = 0; i < location.Count; i++)
+                {
+                    Pin activepin = new Pin(MyMap)
+                    {
+                        Label = $"faas",
+                        Scale = 1
+                    };
+                    activepin.Position = new Position(location[i].Latitude, location[i].Longitude);
+                    activepin.Callout.Anchor = new Point(0, activepin.Height * activepin.Scale);
+                    activepin.Label = location[i].Place.Name;
 
-                MyMap.Pins.Add(activepin);
-                activepin.ShowCallout();
+                    MyMap.Pins.Add(activepin);
+                    activepin.ShowCallout();
+                }
+
+
             });
         }
         //public static IObservable<T> CheckLocation<T>(T value)  // delete

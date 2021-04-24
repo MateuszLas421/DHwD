@@ -293,11 +293,11 @@ namespace DHwD.Service
         }
 
         [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
-        public async Task<Location> GetLocationAsync(JWTToken jWT,Team team)
+        public async Task<List<Location>> GetLocationAsync(JWTToken jWT,Team team)
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
-            Location location = null;
+            List<Location> location = new List<Location>();
             var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
@@ -306,7 +306,7 @@ namespace DHwD.Service
                 if (response.IsSuccessStatusCode)  /// Status Code
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
-                    location = JsonConvert.DeserializeObject<Location>(responseContent);          // Deserialize JSON
+                    location = JsonConvert.DeserializeObject<List<Location>>(responseContent);          // Deserialize JSON
                 }
                 else { return null;   } 
                 return location;

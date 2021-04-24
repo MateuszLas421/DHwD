@@ -6,6 +6,5 @@
         public Team Team { get; set; }
         //[Required]
         //bool Status;   // TODO!!!
-        public ActivePlace ActivePlace { get; set; }
     }
 }
