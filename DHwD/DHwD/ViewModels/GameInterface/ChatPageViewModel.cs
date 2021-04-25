@@ -1,16 +1,12 @@
 ﻿using DHwD.Models;
-using DHwD.Models.REST;
 using DHwD.Service;
 using DHwD.ViewModels.Base;
-using Prism.Commands;
-using Prism.Mvvm;
+using Models.ModelsDB;
 using Prism.Navigation;
 using Prism.Services;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;

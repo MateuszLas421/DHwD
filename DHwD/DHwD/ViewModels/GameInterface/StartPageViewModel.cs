@@ -1,13 +1,10 @@
 ﻿using DHwD.Models;
-using DHwD.Models.REST;
 using DHwD.ViewModels.Base;
+using Models.ModelsDB;
+using Models.ModelsMobile;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DHwD.ViewModels.GameInterface
 {
@@ -22,7 +19,7 @@ namespace DHwD.ViewModels.GameInterface
         {
             if (parameters.ContainsKey("Team"))
             {
-                _Team = parameters.GetValue<Team>("Team");
+                _Team = parameters.GetValue<MobileTeam>("Team");
             }
             if (parameters.ContainsKey("JWT"))
             {
@@ -38,7 +35,7 @@ namespace DHwD.ViewModels.GameInterface
 
         internal Games _game { get; private set; }
 
-        public Team _Team { get; set; }
+        public MobileTeam _Team { get; set; }
 
         public JWTToken jWT { get; set; }
 

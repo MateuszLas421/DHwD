@@ -10,15 +10,12 @@ using System.Threading;
 using Xamarin.Forms;
 using DHwD.Models;
 using DHwD.Service;
-using Mapsui.Rendering.Skia;
 using Prism.Services.Dialogs;
-using DHwD.Views.Dialog;
-using System.Reactive.Linq;
-using System.Reactive.Disposables;
 using DHwD.Tools;
-using DHwD.Models.REST;
 using DHwD.ViewModels.Base;
 using System.Collections.Generic;
+using Models.ModelsDB;
+using Models.ModelsMobile;
 
 namespace DHwD.ViewModels.GameInterface
 {
@@ -34,7 +31,7 @@ namespace DHwD.ViewModels.GameInterface
         private RestService _restService;
 
         #region  Property
-        public Team _Team { get; set; }
+        public MobileTeam _Team { get; set; }
         public JWTToken jWT { get; set; }
         public MapView MyMap
         {
@@ -73,6 +70,7 @@ namespace DHwD.ViewModels.GameInterface
                 HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
                 VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
             });
+
             CurrentLocation = new Plugin.Geolocator.Abstractions.Position();
 
             Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), Map.Resolutions[14]);
@@ -82,7 +80,7 @@ namespace DHwD.ViewModels.GameInterface
         {
             if (parameters.ContainsKey("Team"))
             {
-                _Team = parameters.GetValue<Team>("Team");
+                _Team = parameters.GetValue<MobileTeam>("Team");
             }
             if (parameters.ContainsKey("JWT"))
             {
@@ -96,7 +94,7 @@ namespace DHwD.ViewModels.GameInterface
 
             var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromSeconds(3);
-            int i;
+            int i,tick=0;
             var timer = new Timer(async (e) =>
             {
                 await Gps();
@@ -106,6 +104,11 @@ namespace DHwD.ViewModels.GameInterface
                     {
                         await _navigationService.GoBackAsync();
                     }
+                }
+                if (tick < 5)
+                {
+                    MyMap.MyLocationFollow = true;
+                    tick++;
                 }
             }, null, startTimeSpan, periodTimeSpan);
 
@@ -121,7 +124,7 @@ namespace DHwD.ViewModels.GameInterface
             CurrentLocation.Longitude = location.Longitude;
             var coords = new Mapsui.UI.Forms.Position(CurrentLocation.Latitude, CurrentLocation.Longitude);
             MyMap.MyLocationLayer.UpdateMyLocation(coords);
-            //MyMap.MyLocationFollow = true;                 /// Check map.Home = n => n.NavigateT
+            /// Check map.Home = n => n.NavigateT
         }
 
         public async Task<double> Distance(Pin activepin)

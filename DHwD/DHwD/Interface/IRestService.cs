@@ -1,5 +1,6 @@
 ﻿using DHwD.Models;
-using DHwD.Models.REST;
+using Models.ModelsDB;
+using Models.ModelsMobile;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace DHwD.Interface
 
         IAsyncEnumerable<Games> GetGames(JWTToken jWT);
 
-        IAsyncEnumerable<Team> GetTeams(JWTToken jWT, int IdGame);
+        IAsyncEnumerable<MobileTeam> GetTeams(JWTToken jWT, int IdGame);
 
         Task<bool> CreateNewTeam(JWTToken jWT, Team item);
 

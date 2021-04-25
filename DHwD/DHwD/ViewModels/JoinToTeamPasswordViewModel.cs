@@ -1,6 +1,7 @@
 ﻿using DHwD.Models;
-using DHwD.Models.REST;
 using DHwD.Service;
+using Models.ModelsDB;
+using Models.ModelsMobile;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -24,7 +25,7 @@ namespace DHwD.ViewModels
         {
             if (parameters.ContainsKey("Team"))
             {
-                _Team = parameters.GetValue<Team>("Team");
+                _Team = parameters.GetValue<MobileTeam>("Team");
             }
             if (parameters.ContainsKey("JWT"))
             {
@@ -75,7 +76,7 @@ namespace DHwD.ViewModels
 
         #region  Property
         internal Games _game { get; private set; }
-        public Team _Team { get; set; }
+        public MobileTeam _Team { get; set; }
         public string TeamPassword
         {
             get => _TeamPassword;

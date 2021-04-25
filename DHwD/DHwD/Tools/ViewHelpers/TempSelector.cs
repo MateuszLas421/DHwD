@@ -1,8 +1,5 @@
-﻿using DHwD.Models.REST;
-using DHwD.Views.Custom;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DHwD.Views.Custom;
+using Models.ModelsDB;
 using Xamarin.Forms;
 
 namespace DHwD.Tools.ViewHelpers

@@ -1,11 +1,11 @@
 ﻿using DHwD.Interface;
 using DHwD.Models;
-using DHwD.Models.REST;
+using Models.ModelsDB;
+using Models.ModelsMobile;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -85,7 +85,7 @@ namespace DHwD.Service
             if (response.IsSuccessStatusCode)  /// when user exists
             {
                 string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
-                var captureduser = JsonConvert.DeserializeObject<User>(responseContent);          // Deserialize JSON
+                var captureduser = JsonConvert.DeserializeObject<UserRegistration>(responseContent);          // Deserialize JSON
                 return captureduser;
             }
             return null;
@@ -140,11 +140,11 @@ namespace DHwD.Service
             }
         }
         [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
-        public async IAsyncEnumerable<Team> GetTeams(JWTToken jWT, int IdGame)
+        public async IAsyncEnumerable<MobileTeam> GetTeams(JWTToken jWT, int IdGame)
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
-            List<Team> ListTeams = null;
+            List<MobileTeam> ListTeams = null;
             var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
@@ -159,7 +159,7 @@ namespace DHwD.Service
                 if (response.IsSuccessStatusCode)  /// when user exists
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
-                    ListTeams = JsonConvert.DeserializeObject<List<Team>>(responseContent);          // Deserialize JSON
+                    ListTeams = JsonConvert.DeserializeObject<List<MobileTeam>>(responseContent);          // Deserialize JSON
                 }
                 else { yield return null; }
                 for (int i = 0; i < ListTeams.Count; i++)

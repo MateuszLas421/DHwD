@@ -1,6 +1,7 @@
 ﻿using DHwD.Models;
-using DHwD.Models.REST;
 using DHwD.Service;
+using Models.ModelsDB;
+using Models.ModelsMobile;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -20,9 +21,9 @@ namespace DHwD.ViewModels
             _dialogService = dialogService;
             _sqliteService = new SqliteService();
             _restService = new RestService();
-            ObTeam = new ObservableCollection<Team>();
+            ObTeam = new ObservableCollection<MobileTeam>();
             _game = new Games();
-            SelectedCommand = new DelegateCommand<Team>(Selected, _ => !IsBusy).ObservesProperty(() => IsBusy);
+            SelectedCommand = new DelegateCommand<MobileTeam>(Selected, _ => !IsBusy).ObservesProperty(() => IsBusy);
             ListScrolled = new DelegateCommand(ListScrolledCommand);
             ListviewIsRefreshing = false;
         }
@@ -34,16 +35,17 @@ namespace DHwD.ViewModels
                                          jwt = await _sqliteService.GetToken();
                                          var Member = await _restService.GetMyTeams(jwt, _game.Id);
                                             try { 
-                                                await foreach (var item in _restService.GetTeams(jwt, _game.Id))
+                                                await foreach (MobileTeam item in _restService.GetTeams(jwt, _game.Id))
                                                 {
+
                                                     try
                                                     {
                                                        if (Member != null)
                                                        {
                                                             if (item.Id == Member.Team.Id)
                                                             {
-                                                                 item.MyTeam = true;
-                                                                item.MyteamTEXT = "Attached";
+                                                                item.MyTeam = true;
+                                                                item.ItIsMyteamTEXT = "Attached";
                                                                 MyTeamExist = true;
                                                                 ObTeam.Add(item);
                                                                 continue;
@@ -120,7 +122,7 @@ namespace DHwD.ViewModels
 
         #region variables
         private bool _myTeamExist = false;
-        private ObservableCollection<Team> _obTeam;
+        private ObservableCollection<MobileTeam> _obTeam;
         private Task _initializingTask;
         private JWTToken jwt;
         private INavigationService _navigationService;
@@ -134,8 +136,8 @@ namespace DHwD.ViewModels
 
         #region  Property
         public Games _game { get; set; }
-        public DelegateCommand<Team> SelectedCommand { get; }
-        public ObservableCollection<Team> ObTeam { get => _obTeam; set => SetProperty(ref _obTeam, value); }
+        public DelegateCommand<MobileTeam> SelectedCommand { get; }
+        public ObservableCollection<MobileTeam> ObTeam { get => _obTeam; set => SetProperty(ref _obTeam, value); }
         public DelegateCommand BtnCreateTeam =>
         _btnCreateTeam ?? (_btnCreateTeam = new DelegateCommand(CreateTeamCommand));
         public DelegateCommand ListScrolled { get; }
@@ -160,7 +162,7 @@ namespace DHwD.ViewModels
             };
             await _navigationService.NavigateAsync("CreateNewTeam", p);
         }
-        private async void Selected(Team teams)
+        private async void Selected(MobileTeam teams)
         {
             IsBusy = true;
             List<TeamMembers> list=new List<TeamMembers>();

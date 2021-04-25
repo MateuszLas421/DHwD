@@ -1,6 +1,6 @@
 ﻿using DHwD.Models;
-using DHwD.Models.REST;
 using DHwD.Service;
+using Models.ModelsDB;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
