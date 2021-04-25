@@ -66,6 +66,7 @@ namespace DHwD.ViewModels
             jwt = new JWTToken();
             jwt = await _sqliteService.GetToken();
             Team.StatusPassword = ChboX;
+            Team.Games = new Games();
             Team.Games.Id = Game.Id;
             if (Team.StatusPassword == false) 
             { 
