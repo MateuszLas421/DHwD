@@ -9,6 +9,10 @@ using Xamarin.Forms.Xaml;
 using DHwD.Views.Dialog;
 using DHwD.ViewModels.GameInterface;
 using DHwD.ViewModels.Dialogs;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using DHwD.Service;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace DHwD
@@ -28,6 +32,14 @@ namespace DHwD
         {
             InitializeComponent();
             await NavigationService.NavigateAsync("NavigationPage/MainPage");
+        }
+
+        protected override void OnStart()
+        {
+            Url_data data = new Url_data();
+            AppCenter.Start("android=" + data.AppCenterAndroid +";"  +
+                  "ios="+ data.AppCenteriOS,
+                  typeof(Analytics), typeof(Crashes));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

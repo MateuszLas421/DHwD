@@ -1,4 +1,5 @@
 ﻿using DHwD.Service.Respone;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,7 +19,11 @@ namespace DHwD.Service
             {
                 BaseRespone response = new BaseRespone();
                 try { response = (BaseRespone)await client.PostAsync(str, content); }                                      //  POST  // 
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return await Task.FromResult<BaseRespone>(response); }
+                catch (Exception ex) { 
+                    Debug.WriteLine(ex.Message.ToString());
+                    Crashes.TrackError(ex);
+                    return await Task.FromResult<BaseRespone>(response); 
+                }
 
                 if (response.IsSuccessStatusCode)
                 {
