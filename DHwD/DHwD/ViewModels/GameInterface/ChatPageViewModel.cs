@@ -96,7 +96,7 @@ namespace DHwD.ViewModels.GameInterface
                 chat.Add(item);
             }
         }
-
+         
         void OnMessageAppearing(Chats message)
         {
             var idx = chat.IndexOf(message);

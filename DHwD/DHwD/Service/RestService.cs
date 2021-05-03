@@ -334,7 +334,14 @@ namespace DHwD.Service
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     List = JsonConvert.DeserializeObject<List<Chats>>(responseContent);          // Deserialize JSON
                 }
-                else { yield return null; }
+                if (response.StatusCode==System.Net.HttpStatusCode.NotFound)
+                {
+                    List = new List<Chats>();
+                }
+                else
+                {
+                    yield return new Chats();
+                }
                 for (int i = 0; i < List.Count; i++)
                 {
                     yield return List[i];

@@ -15,6 +15,8 @@ namespace DHwD.ViewModels.GameInterface
         {
             _navigationService = navigationService;
         }
+
+        #region Navigation
         public override void Initialize(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("Team"))
@@ -30,6 +32,15 @@ namespace DHwD.ViewModels.GameInterface
                 _game = parameters.GetValue<Games>("Game");
             }
         }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.GetNavigationMode()==NavigationMode.Back)
+            { 
+            }
+        }
+
+#endregion
 
         #region  Property
 
@@ -56,6 +67,7 @@ namespace DHwD.ViewModels.GameInterface
             _map ?? (_map = new DelegateCommand(ExecuteMapCommand));
 
         #endregion
+        #region Command
         async void ExecuteMapCommand()
         {
             var p = new NavigationParameters
@@ -93,5 +105,6 @@ namespace DHwD.ViewModels.GameInterface
                 };
             await _navigationService.NavigateAsync("MyTeamPage", p, useModalNavigation: true, animated: false);
         }
+        #endregion
     }
 }
