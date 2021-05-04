@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DHwD.Views.MainPage"
              Title="{Binding Title}"
-             BackgroundColor="#daf2e5"
              xmlns:local="clr-namespace:DHwD;assembly=DHwD"
+             ControlTemplate="{StaticResource PageWithGradient}"
              NavigationPage.HasNavigationBar="False">
     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
+
+
         <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Horror.png}" VerticalOptions="Center" HorizontalOptions="Center" Margin="20"/>
         <Frame CornerRadius="40" Margin="5" BorderColor="#0d120f" HasShadow="True" Background="#d0efdd" >
             <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >

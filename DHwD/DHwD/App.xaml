@@ -2,10 +2,30 @@
 <prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:magicGradients="clr-namespace:MagicGradients;assembly=MagicGradients"
              x:Class="DHwD.App">
   <Application.Resources>
 
-    <!-- Application resource dictionary -->
+        <!--Gradient -->
+
+        <ControlTemplate x:Key="PageWithGradient">
+            <Grid>
+                <magicGradients:GradientView VerticalOptions="FillAndExpand" >
+                    <magicGradients:GradientView.GradientSource>
+                        <magicGradients:CssGradientSource>
+                            <x:String>
+                                <![CDATA[
+                                   linear-gradient(180deg, #1822ea, rgba(116, 252, 233, 1), rgba(92, 250, 140, 1))
+                                ]]>
+                            </x:String>
+                        </magicGradients:CssGradientSource>
+                    </magicGradients:GradientView.GradientSource>
+                </magicGradients:GradientView>
+                <ContentPresenter />
+            </Grid>
+        </ControlTemplate>
+
+        <!-- Application resource dictionary -->
 
   </Application.Resources>
 </prism:PrismApplication>
