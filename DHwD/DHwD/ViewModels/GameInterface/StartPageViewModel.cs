@@ -14,6 +14,7 @@ namespace DHwD.ViewModels.GameInterface
             : base(navigationService)
         {
             _navigationService = navigationService;
+            Location Activelocation = new Location();
         }
 
         #region Navigation
@@ -36,11 +37,23 @@ namespace DHwD.ViewModels.GameInterface
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.GetNavigationMode()==NavigationMode.Back)
-            { 
+            {
+                if (parameters.ContainsKey("Team"))
+                {
+                    _Team = parameters.GetValue<MobileTeam>("Team");
+                }
+                if (parameters.ContainsKey("JWT"))
+                {
+                    jWT = parameters.GetValue<JWTToken>("JWT");
+                }
+                if (parameters.ContainsKey("Location"))
+                {
+                    Activelocation = parameters.GetValue<Location>("Location");
+                }
             }
         }
 
-#endregion
+        #endregion
 
         #region  Property
 
@@ -65,6 +78,8 @@ namespace DHwD.ViewModels.GameInterface
 
         public DelegateCommand MapCommand =>
             _map ?? (_map = new DelegateCommand(ExecuteMapCommand));
+
+        public Location Activelocation { get; set; }
 
         #endregion
         #region Command

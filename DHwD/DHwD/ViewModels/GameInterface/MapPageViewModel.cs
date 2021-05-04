@@ -29,6 +29,7 @@ namespace DHwD.ViewModels.GameInterface
         private readonly IPageDialogService _dialogService;
         private Task _initializingTask, _pinstask, _gpsTask;
         private RestService _restService;
+        List<Location> location;
 
         #region  Property
         public MobileTeam _Team { get; set; }
@@ -57,6 +58,7 @@ namespace DHwD.ViewModels.GameInterface
             _navigationService = navigationService;
             _dialogService = dialogService;
             _restService = new RestService();
+            location = new List<Location>();
             Map = new Mapsui.Map
             {
                 CRS = "EPSG:3857",
@@ -102,7 +104,13 @@ namespace DHwD.ViewModels.GameInterface
                 {
                     if (await Distance(MyMap.Pins[i]) < 100)
                     {
-                        await _navigationService.GoBackAsync();
+                        var parametr = new NavigationParameters
+                        {
+                            { "Team", _Team },
+                            { "JWT", jWT },
+                            { "Location", location[i] }
+                        };
+                        await _navigationService.GoBackAsync(parametr);
                     }
                 }
                 if (tick < 5)
@@ -139,7 +147,6 @@ namespace DHwD.ViewModels.GameInterface
         {
             await Task.Run(async () =>
             {
-                List<Location> location = new List<Location>();
                 location = await _restService.GetLocationAsync(jWT, team);
 
                 for (int i = 0; i < location.Count; i++)
