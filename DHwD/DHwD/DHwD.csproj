@@ -82,7 +82,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\DHwD_web\ModelsDB\Models.csproj" />
+    <ProjectReference Include="..\..\..\DHwD_web\Models\Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
