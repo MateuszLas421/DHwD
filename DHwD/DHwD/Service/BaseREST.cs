@@ -1,9 +1,11 @@
 ﻿using Microsoft.AppCenter.Crashes;
+using Models.Request;
 using Models.Respone;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,26 +38,53 @@ namespace DHwD.Service
                 return await Task.FromResult<BaseRespone>(response);
             }
         }
+        /// <summary>
+        /// Rest Get Method
+        /// </summary>
+        /// <param name="getRequest"></param>
+        /// <returns>BaseRespone</returns>
+        public static async Task<BaseRespone> GetExecuteAsync(GetRequest getRequest) 
+        {
+            using (client = new HttpClient())
+            {
+                BaseRespone response = new BaseRespone();
+                try { response = (BaseRespone)await client.GetAsync(getRequest.strURL); }                 //  Get  
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message.ToString());
+                    Crashes.TrackError(ex);
+                    return await Task.FromResult<BaseRespone>(response);
+                }
 
-        //public static async Task<BaseRespone> GetExecuteAsync<T>(string str, T content) where T : HttpContent  // TODO 
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine(@"successfully saved.");
+                    return response;
+                }
+                return await Task.FromResult<BaseRespone>(response);
+            }
+        }
+        //private static async task<t> getrequest<t>(string uri)
         //{
-        //    using (client = new HttpClient())
+        //    try
         //    {
-        //        BaseRespone response = new BaseRespone();
-        //        try { response = (BaseRespone)await client.GetAsync(str); }                                      //  Get  //TODO 
-        //        catch (Exception ex)
+        //        using (var client = new httpclient())
         //        {
-        //            Debug.WriteLine(ex.Message.ToString());
-        //            Crashes.TrackError(ex);
-        //            return await Task.FromResult<BaseRespone>(response);
-        //        }
+        //            client.defaultrequestheaders.accept.add(
+        //            new mediatypewithqualityheadervalue("application/json"));
 
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            Debug.WriteLine(@"successfully saved.");
-        //            return response;
+        //            using (httpresponsemessage response = await client.getasync(uri))
+        //            {
+        //                response.ensuresuccessstatuscode();
+        //                string responsebody = await response.content.readasstringasync();
+
+        //                return jsonconvert.deserializeobject<t>(responsebody);
+        //            }
         //        }
-        //        return await Task.FromResult<BaseRespone>(response);
+        //    }
+        //    catch (exception ex)
+        //    {
+        //        console.writeline(ex.tostring());
         //    }
         //}
     }

@@ -1,11 +1,15 @@
 ﻿using DHwD.Models;
+using DHwD.Service;
 using DHwD.ViewModels.Base;
 using Models.ModelsDB;
 using Models.ModelsMobile;
+using Models.Request;
+using Models.Respone;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace DHwD.ViewModels.GameInterface
 {
@@ -16,6 +20,7 @@ namespace DHwD.ViewModels.GameInterface
         {
             _navigationService = navigationService;
             Location Activelocation = new Location();
+            url_Data  = new Url_data();
         }
 
         #region Navigation
@@ -51,13 +56,14 @@ namespace DHwD.ViewModels.GameInterface
                 {
                     Activelocation = parameters.GetValue<Location>("Location");
                 }
-                StartLocationEvent(_Team, Activelocation);
+                StartLocationEventAsync(_Team, Activelocation);
             }
         }
 
         #endregion
 
         #region  Property
+        public Url_data url_Data { get; set; }
 
         internal Games _game { get; private set; }
 
@@ -124,9 +130,19 @@ namespace DHwD.ViewModels.GameInterface
         }
         #endregion
         #region Operations
-        private void StartLocationEvent(MobileTeam team, Location activelocation)
+        private async Task StartLocationEventAsync(MobileTeam team, Location activelocation)
         {
-            
+            BlockedPlaceRequest blockedPlaceRequest = new BlockedPlaceRequest{ 
+                Id_Place = activelocation.Place.Id,
+                Id_Team =  team.Id
+            };
+            GetRequest getRequest = new GetRequest(url_Data.Check.ToString());
+            getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Id_Team", team.Id.ToString());
+
+            var result = await BaseREST.GetExecuteAsync(getRequest);
+            if (result.Succes == true)
+            { 
+            }
         }
         #endregion
     }
