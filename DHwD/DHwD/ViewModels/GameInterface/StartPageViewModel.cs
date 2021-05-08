@@ -135,7 +135,8 @@ namespace DHwD.ViewModels.GameInterface
         {
             BlockedPlaceRequest blockedPlaceRequest = new BlockedPlaceRequest{ 
                 Id_Place = activelocation.Place.Id,
-                Id_Team =  team.Id
+                Id_Team =  team.Id,
+                Id_Game = _game.Id
             };
             GetRequest getRequest = new GetRequest(url_Data.Check.ToString());
             getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Id_Team", team.Id.ToString());
