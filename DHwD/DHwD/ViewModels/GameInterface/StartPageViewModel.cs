@@ -5,6 +5,7 @@ using Models.ModelsMobile;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 
 namespace DHwD.ViewModels.GameInterface
 {
@@ -50,6 +51,7 @@ namespace DHwD.ViewModels.GameInterface
                 {
                     Activelocation = parameters.GetValue<Location>("Location");
                 }
+                StartLocationEvent(_Team, Activelocation);
             }
         }
 
@@ -119,6 +121,12 @@ namespace DHwD.ViewModels.GameInterface
                     { "JWT", jWT }
                 };
             await _navigationService.NavigateAsync("MyTeamPage", p, useModalNavigation: true, animated: false);
+        }
+        #endregion
+        #region Operations
+        private void StartLocationEvent(MobileTeam team, Location activelocation)
+        {
+            
         }
         #endregion
     }
