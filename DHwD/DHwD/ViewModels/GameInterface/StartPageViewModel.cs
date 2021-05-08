@@ -1,6 +1,7 @@
 ﻿using DHwD.Models;
 using DHwD.Service;
 using DHwD.ViewModels.Base;
+using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
 using Models.Request;
@@ -141,9 +142,27 @@ namespace DHwD.ViewModels.GameInterface
 
             var result = await BaseREST.GetExecuteAsync(getRequest);
             if (result.Succes == true)
-            { 
+            {
+                await BlockedLocation(blockedPlaceRequest);
             }
         }
+
+        private async Task BlockedLocation(BlockedPlaceRequest blockedPlaceRequest)
+        {
+            try
+            {
+                var result = await BaseREST.PostExecuteAsync<BlockedPlaceRequest, ActivePlace>(url_Data.BlockedPlace.ToString(), blockedPlaceRequest);
+                if (result != null)
+                {
+
+                }
+            }
+            catch(Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+        }
+
         #endregion
     }
 }

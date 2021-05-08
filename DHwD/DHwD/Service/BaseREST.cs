@@ -38,6 +38,39 @@ namespace DHwD.Service
                 return await Task.FromResult<BaseRespone>(response);
             }
         }
+
+        public static async Task<TOut> PostExecuteAsync<T,TOut>(string str, T item) where T : class
+        {
+            using (client = new HttpClient())      //  POST  // 
+            {
+                client.Timeout = TimeSpan.FromSeconds(30);
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var serialized = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+
+                using (HttpResponseMessage response = await client.PostAsync(str, serialized))
+                {
+                    try
+                    {
+                        response.EnsureSuccessStatusCode();
+                        string responseBody = await response.Content.ReadAsStringAsync();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            Debug.WriteLine(@"successfully saved.");
+                            return await Task.FromResult(JsonConvert.DeserializeObject<TOut>(responseBody));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message.ToString());
+                        Crashes.TrackError(ex);
+                    }
+                }
+            }
+            return await Task.FromResult(JsonConvert.DeserializeObject<TOut>(null));
+        }
+
         /// <summary>
         /// Rest Get Method
         /// </summary>
