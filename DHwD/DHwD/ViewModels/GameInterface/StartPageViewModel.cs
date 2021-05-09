@@ -166,7 +166,7 @@ namespace DHwD.ViewModels.GameInterface
             GetRequest getRequest = new GetRequest(url_Data.Check.ToString());
             getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Id_Team", team.Id.ToString());
 
-            var result = await BaseREST.GetExecuteAsync(getRequest);
+            var result = await BaseREST.GetExecuteAsync<BaseRespone>(jWT, getRequest);
             if (result.Succes == true)
             {
                 await BlockedLocation(blockedPlaceRequest);
@@ -182,7 +182,7 @@ namespace DHwD.ViewModels.GameInterface
             try
             {
                 List<Chats> list = new List<Chats>();
-                var result = await BaseREST.PostExecuteAsync<BlockedPlaceRequest, ActivePlace>(url_Data.BlockedPlace.ToString(), blockedPlaceRequest);
+                var result = await BaseREST.PostExecuteAsync<BlockedPlaceRequest, ActivePlace>(url_Data.BlockedPlace.ToString(), jWT, blockedPlaceRequest);
                 if (result != null)
                 {
                     if (currenttimeforChat != null)
@@ -191,7 +191,7 @@ namespace DHwD.ViewModels.GameInterface
                         getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Game", _game.Id.ToString());
                         getRequest = await PrepareGetRequest.PrepareMoreParametr(getRequest, "DateTimeCreate", currenttimeforChat.ToString());
 
-                        list = await BaseREST.GetExecuteAsync<List<Chats>>(getRequest);
+                        list = await BaseREST.GetExecuteAsync<List<Chats>>(jWT,getRequest);
                     }
                     else
                     {
