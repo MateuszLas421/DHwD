@@ -97,6 +97,33 @@ namespace DHwD.Service
                 return await Task.FromResult<BaseRespone>(response);
             }
         }
+
+        public static async Task<T> GetExecuteAsync<T>(GetRequest getRequest) where T : class
+        {
+            using (client = new HttpClient())
+            {
+                HttpResponseMessage response;
+                string responseContent;
+                try
+                {
+                    response =  await client.GetAsync(getRequest.strURL);                       //  Get  
+                    responseContent = await response.Content.ReadAsStringAsync();
+                }                
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message.ToString());
+                    Crashes.TrackError(ex);
+                    return await Task.FromResult(JsonConvert.DeserializeObject<T>(null));
+                }
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine(@"successfully saved.");
+                    return await Task.FromResult<T>(JsonConvert.DeserializeObject<T>(responseContent));
+                }
+                return await Task.FromResult<T>(JsonConvert.DeserializeObject<T>(responseContent));
+            }
+        }
         //private static async task<t> getrequest<t>(string uri)
         //{
         //    try

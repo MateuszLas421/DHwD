@@ -1,5 +1,6 @@
 ﻿using DHwD.Models;
 using DHwD.Service;
+using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
 using Prism.Commands;
@@ -54,16 +55,19 @@ namespace DHwD.ViewModels
                                                     }
                                                     catch (ArgumentNullException ex)
                                                     {
+                                                         Crashes.TrackError(ex);
                                                          await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
                                                          return;
                                                     }
                                                     catch (NullReferenceException ex)
                                                     {
+                                                        Crashes.TrackError(ex);
                                                         await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
                                                         return;
                                                     }
                                                     catch (Exception ex)
                                                     {
+                                                        Crashes.TrackError(ex);
                                                         await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
                                                         return;
                                                     }
@@ -76,34 +80,40 @@ namespace DHwD.ViewModels
                                                         }
                                                         catch (System.Reflection.TargetInvocationException ex)
                                                         {
+                                                            Crashes.TrackError(ex);
                                                             await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
                                                             return;
                                                         }
                                                         catch (Exception ex)
                                                         {
-                                                         await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
-                                                         return;
+                                                            Crashes.TrackError(ex);
+                                                            await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
+                                                            return;
                                                         }
                                                     }
                                                 }
                                             }
                                             catch (System.Reflection.TargetInvocationException ex)
                                             {
-                                             await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
-                                             return;
+                                                Crashes.TrackError(ex);
+                                                await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
+                                                return;
                                             }
                                             catch (ArgumentNullException ex)
                                             {
-                                                await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
+                                                Crashes.TrackError(ex);
+                                                 await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
                                                 return;
                                             }
                                             catch (NullReferenceException ex)
                                             {
-                                                //await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");   // TODO !! System.Reflection.TargetInvocationException
+                                             Crashes.TrackError(ex);
+                                             //await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");   // TODO !! System.Reflection.TargetInvocationException
                                              return;
                                             }
                                             catch (Exception ex)
                                             {
+                                                Crashes.TrackError(ex);
                                                 await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
                                                 return;
                                             }
@@ -188,6 +198,7 @@ namespace DHwD.ViewModels
                     }
                     catch(NullReferenceException ex)
                     {
+                        Crashes.TrackError(ex);
                         await _dialogService.DisplayAlertAsync("ALERT", ex.Message.ToString(), "OK");
                         IsBusy = false;
                         return;
@@ -198,8 +209,9 @@ namespace DHwD.ViewModels
                 {
                     count = list.Count;
                 }
-                catch (NullReferenceException)
+                catch (NullReferenceException ex)
                 {
+                    Crashes.TrackError(ex);
                     await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
                     IsBusy = false;
                     return;

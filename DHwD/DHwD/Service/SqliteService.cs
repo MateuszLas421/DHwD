@@ -1,6 +1,8 @@
 ﻿using DHwD.Interface;
 using DHwD.Models;
+using Microsoft.AppCenter.Crashes;
 using SQLite;
+using System;
 using System.Threading.Tasks;
 namespace DHwD.Service
 {
@@ -93,8 +95,9 @@ namespace DHwD.Service
                     return false;
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                Crashes.TrackError(ex);
                 return false;
             }
         }

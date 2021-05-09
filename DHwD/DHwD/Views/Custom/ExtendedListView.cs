@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AppCenter.Crashes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -101,6 +102,7 @@ namespace DHwD.Views.Custom
                 }
                 catch (Exception ex)
                 {
+                    Crashes.TrackError(ex);
                     System.Diagnostics.Debug.WriteLine(ex.ToString());
                 }
 
@@ -125,6 +127,7 @@ namespace DHwD.Views.Custom
                 }
                 catch (Exception ex)
                 {
+                    Crashes.TrackError(ex);
                     System.Diagnostics.Debug.WriteLine(ex.ToString());
                 }
 

@@ -54,7 +54,11 @@ namespace DHwD.ViewModels.GameInterface
             {
                 _game = parameters.GetValue<Games>("Game");
             }
-            await Startchat();
+            if (parameters.ContainsKey("Chat"))
+            {
+                Chat = parameters.GetValue<ObservableCollection<Chats>>("Chat");
+            }
+           // await Startchat();
         }
 
         #region variables
@@ -73,7 +77,6 @@ namespace DHwD.ViewModels.GameInterface
             get => chat;
             set => SetProperty(ref chat, value);
         }
-
         public string TextToSend { get; set; }
         public ICommand OnSendCommand { get; set; }
         public ICommand MessageAppearingCommand { get; set; }
@@ -88,14 +91,6 @@ namespace DHwD.ViewModels.GameInterface
         internal Team _Team { get; private set; }
         internal Games _game { get; private set; }
         #endregion
-
-        internal async Task Startchat()
-        {
-            await foreach (var item in _restService.GetChat(jWT, _game.Id))
-            {
-                chat.Add(item);
-            }
-        }
          
         void OnMessageAppearing(Chats message)
         {
@@ -128,9 +123,5 @@ namespace DHwD.ViewModels.GameInterface
 
             }
         }
-
-
-       // public event PropertyChangedEventHandler PropertyChanged;
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DHwD.Interface;
 using DHwD.Models;
+using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
 using Newtonsoft.Json;
@@ -41,7 +42,12 @@ namespace DHwD.Service
             Uri uri;
             uri = new Uri(string.Format(url_.CheckLogin + item.NickName + "/" + item.Token));
             try { response = await client.GetAsync(uri.ToString()); }
-            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return isNewItem; }
+            catch (Exception ex) 
+            {
+                Crashes.TrackError(ex);
+                Debug.WriteLine(ex.Message.ToString());
+                return isNewItem; 
+            }
             if (response.IsSuccessStatusCode)  /// The user exists
             {
                 Debug.WriteLine(@" The user exists. ");
@@ -62,7 +68,12 @@ namespace DHwD.Service
             Uri uri;
             uri = new Uri(string.Format(url_.RegisterUri.ToString(), string.Empty));
             try { response = await client.PostAsync(uri, content); }                                      //  POST  // 
-            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return false; }
+            catch (Exception ex) 
+            {
+                Crashes.TrackError(ex);
+                Debug.WriteLine(ex.Message.ToString()); 
+                return false; 
+            }
 
             if (response.IsSuccessStatusCode)
             {
@@ -81,7 +92,12 @@ namespace DHwD.Service
             Uri uri;
             uri = new Uri(string.Format(url_.CheckLogin + item.NickName + "/" + item.Token));
             try { response = await client.GetAsync(uri.ToString()); }               // REST GET
-            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return null; }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                Debug.WriteLine(ex.Message.ToString()); 
+                return null; 
+            }
             if (response.IsSuccessStatusCode)  /// when user exists
             {
                 string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
@@ -100,7 +116,12 @@ namespace DHwD.Service
             Uri uri;
             uri = new Uri(string.Format(url_.CheckLogin + item.NickName + "/" + item.Token));
             try { response = await client.GetAsync(uri.ToString()); }               // REST GET
-            catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return null; }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                Debug.WriteLine(ex.Message.ToString()); 
+                return null; 
+            }
             if (response.IsSuccessStatusCode)  /// when user exists
             {
                 string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
@@ -126,7 +147,11 @@ namespace DHwD.Service
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
                 try { response = await client.GetAsync(url_.GameList.ToString()); }                // REST GET 
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                catch (Exception ex) 
+                {
+                    Crashes.TrackError(ex);
+                    Debug.WriteLine(ex.Message.ToString());
+                }
                 if (response.IsSuccessStatusCode)  /// when user exists
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
@@ -154,6 +179,7 @@ namespace DHwD.Service
                 }
                 catch (Exception ex)
                 {
+                    Crashes.TrackError(ex);
                     Debug.WriteLine(ex.Message.ToString());
                 }
                 if (response.IsSuccessStatusCode)  /// when user exists
@@ -180,7 +206,12 @@ namespace DHwD.Service
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
                 try { response = await client.PostAsync(url_.TeamList.ToString(), content); }                                      //  POST  // 
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return false; }
+                catch (Exception ex) 
+                {
+                    Crashes.TrackError(ex);
+                    Debug.WriteLine(ex.Message.ToString()); 
+                    return false; 
+                }
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -192,7 +223,11 @@ namespace DHwD.Service
                     json = JsonConvert.SerializeObject(teamMembers);
                     content = new StringContent(json, Encoding.UTF8, "application/json");
                     try { response = await client.PostAsync(url_.TeamMembersNewTeam.ToString(), content); }                                      //  POST  // 
-                    catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); return false; }
+                    catch (Exception ex) 
+                    {
+                        Crashes.TrackError(ex);
+                        Debug.WriteLine(ex.Message.ToString()); return false; 
+                    }
                     if (response.IsSuccessStatusCode)
                     {
                         return true;
@@ -218,6 +253,7 @@ namespace DHwD.Service
                 }                                      //  POST  // 
                 catch (Exception ex) 
                 {
+                    Crashes.TrackError(ex);
                     Debug.WriteLine(ex.Message.ToString()); 
                     return false; 
                 }
@@ -239,7 +275,11 @@ namespace DHwD.Service
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
                 try { response = await client.GetAsync(url_.TeamMembers_I.ToString() + "/" + idGame); }                // REST GET 
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    Debug.WriteLine(ex.Message.ToString()); 
+                }
                 if (response.IsSuccessStatusCode)  /// Status Code
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
@@ -260,7 +300,11 @@ namespace DHwD.Service
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
                 try { response = await client.GetAsync(url_.TeamMembers.ToString() + IdTeam); }                // REST GET 
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                    Debug.WriteLine(ex.Message.ToString()); 
+                }
                 if (response.IsSuccessStatusCode)  /// when user exists
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
@@ -283,7 +327,11 @@ namespace DHwD.Service
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
                 try { response = await client.GetAsync(url_.TeamList.ToString() + idteam + "/" + hashpass); }                // REST GET 
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                catch (Exception ex) 
+                {
+                    Crashes.TrackError(ex);
+                    Debug.WriteLine(ex.Message.ToString());
+                }
                 if (response.IsSuccessStatusCode)  /// Status Code
                 {
                     return true; // Password is correct
@@ -302,7 +350,11 @@ namespace DHwD.Service
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
                 try { response = await client.GetAsync(url_.Location.ToString() + team.Id); }                // REST GET 
-                catch (Exception ex) { Debug.WriteLine(ex.Message.ToString()); }
+                catch (Exception ex) 
+                {
+                    Crashes.TrackError(ex);
+                    Debug.WriteLine(ex.Message.ToString()); 
+                }
                 if (response.IsSuccessStatusCode)  /// Status Code
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
@@ -327,6 +379,7 @@ namespace DHwD.Service
                 }
                 catch (Exception ex)
                 {
+                    Crashes.TrackError(ex);
                     Debug.WriteLine(ex.Message.ToString());
                 }
                 if (response.IsSuccessStatusCode)  /// when user exists

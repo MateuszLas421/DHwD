@@ -10,6 +10,7 @@ using Prism.Services;
 using DHwD.Models;
 using System.Diagnostics;
 using System.Threading;
+using Microsoft.AppCenter.Crashes;
 
 namespace DHwD.ViewModels
 {
@@ -64,6 +65,7 @@ namespace DHwD.ViewModels
             }
             catch (Exception ex) 
             {
+                Crashes.TrackError(ex);
                 Debug.WriteLine(ex.Message);
                 _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK");
             }
