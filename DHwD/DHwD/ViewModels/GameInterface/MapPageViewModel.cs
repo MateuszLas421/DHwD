@@ -102,7 +102,7 @@ namespace DHwD.ViewModels.GameInterface
                 await Gps();
                 for (i = 0; i < MyMap.Pins.Count; i++)
                 {
-                    if (await Distance(MyMap.Pins[i]) < 100)
+                    if (await Distance(MyMap.Pins[i]) < 20)
                     {
                         var parametr = new NavigationParameters
                         {

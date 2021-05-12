@@ -216,7 +216,8 @@ namespace DHwD.ViewModels.GameInterface
         {
             await foreach (var item in  _restService.GetChat(jWT, _game.Id))
             {
-                chat.Add(item);
+                if(item.Text!=null)
+                    chat.Add(item);
             }
         }
 

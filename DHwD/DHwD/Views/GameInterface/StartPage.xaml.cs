@@ -8,5 +8,6 @@ namespace DHwD.Views
         {
             InitializeComponent();
         }
+        protected override bool OnBackButtonPressed() => true;   //Turn off 
     }
 }

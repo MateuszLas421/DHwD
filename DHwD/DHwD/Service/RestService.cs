@@ -395,7 +395,7 @@ namespace DHwD.Service
                 {
                     yield return new Chats();
                 }
-                for (int i = 0; i < List.Count; i++)
+                for (int i = List.Count-1; i >=0; i--)
                 {
                     yield return List[i];
                 }
