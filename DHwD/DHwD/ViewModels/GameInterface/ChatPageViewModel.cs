@@ -58,7 +58,11 @@ namespace DHwD.ViewModels.GameInterface
             {
                 Chat = parameters.GetValue<ObservableCollection<Chats>>("Chat");
             }
-           // await Startchat();
+            if (parameters.ContainsKey("Chat"))
+            {
+                Chat = parameters.GetValue<ObservableCollection<Chats>>("Chat");
+            }
+            // await Startchat();
         }
 
         #region variables

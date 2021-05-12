@@ -82,6 +82,11 @@
             TextColor="WhiteSmoke"
             HorizontalOptions="Center"
                />
+        <!--
+        <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}"
+            VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />                                                TODO
+        -->
+        
         <!--<StackLayout  Orientation="Vertical" VerticalOptions="FillAndExpand"  HorizontalOptions="Center">
             <Label Text="START" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Fill" Padding="0,15,0,0"/>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">

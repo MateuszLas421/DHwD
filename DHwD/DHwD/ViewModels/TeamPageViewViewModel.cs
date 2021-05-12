@@ -164,6 +164,15 @@ namespace DHwD.ViewModels
         public bool MyTeamExist { get => _myTeamExist; set => _myTeamExist = value; }
         #endregion
 
+        #region Navigation
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.GetNavigationMode() == NavigationMode.Back)
+            {
+                ListScrolledCommand();
+            }
+        }
+        #endregion
         async void CreateTeamCommand()
         {
             var p = new NavigationParameters

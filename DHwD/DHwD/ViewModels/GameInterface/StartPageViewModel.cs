@@ -21,6 +21,7 @@ namespace DHwD.ViewModels.GameInterface
         public StartPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService)
         {
+            IsLoading = true;
             _navigationService = navigationService;
             Location Activelocation = new Location();
             url_Data  = new Url_data();
@@ -82,6 +83,7 @@ namespace DHwD.ViewModels.GameInterface
         public JWTToken jWT { get; set; }
 
         public ObservableCollection<Chats> chat;
+        public bool isLoading;
 
         private INavigationService _navigationService;
 
@@ -100,6 +102,12 @@ namespace DHwD.ViewModels.GameInterface
             _map ?? (_map = new DelegateCommand(ExecuteMapCommand));
 
         public Location Activelocation { get; set; }
+
+        public bool IsLoading
+        {
+            get => isLoading;
+            set => SetProperty(ref isLoading, value);
+        }
         public ObservableCollection<Chats> Chat
         {
             get => chat;
@@ -163,11 +171,8 @@ namespace DHwD.ViewModels.GameInterface
                 Id_Location = Activelocation.ID,
                 Id_Game = _game.Id
             };
-            GetRequest getRequest = new GetRequest(url_Data.Check.ToString());
-            getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Id_Team", team.Id.ToString());
-
-            var result = await BaseREST.GetExecuteAsync<BaseRespone>(jWT, getRequest);
-            if (result.Succes == true)
+            
+            if (await CheckTask(team)!=null)
             {
                 await BlockedLocation(blockedPlaceRequest);
             }
@@ -219,6 +224,14 @@ namespace DHwD.ViewModels.GameInterface
                 if(item.Text!=null)
                     chat.Add(item);
             }
+        }
+        private async Task<ActivePlace> CheckTask(Team  team)
+        {
+            GetRequest getRequest = new GetRequest(url_Data.Check.ToString());
+            getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Id_Team", team.Id.ToString());
+
+            var result = await BaseREST.GetExecuteAsync<ActivePlace>(jWT, getRequest);
+            return await Task.FromResult(result); 
         }
 
         #endregion
