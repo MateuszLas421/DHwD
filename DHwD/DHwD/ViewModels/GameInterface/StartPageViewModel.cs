@@ -45,6 +45,7 @@ namespace DHwD.ViewModels.GameInterface
                 _game = parameters.GetValue<Games>("Game");
             }
             await Startchat();
+            activePlace = await CheckTask(_Team);
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -79,6 +80,8 @@ namespace DHwD.ViewModels.GameInterface
         internal Games _game { get; private set; }
 
         public MobileTeam _Team { get; set; }
+
+        public ActivePlace activePlace { get; set; }
 
         public JWTToken jWT { get; set; }
 
@@ -132,7 +135,8 @@ namespace DHwD.ViewModels.GameInterface
                     { "Team", _Team },
                     { "JWT", jWT },
                     { "Game", _game},
-                    { "Chat", chat}
+                    { "Chat", chat},
+                    { "APlace", activePlace }
                 };
             await _navigationService.NavigateAsync("ChatPage", p, useModalNavigation: true, animated: false);
         }

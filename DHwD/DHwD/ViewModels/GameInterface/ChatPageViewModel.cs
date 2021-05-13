@@ -31,7 +31,7 @@ namespace DHwD.ViewModels.GameInterface
                     {
                         TextSolution = TextToSend,
                         gameid = _game.Id,
-                        //idMystery = _
+                        idMystery = activePlace.Place.Location.MysteryRef
                     };
 
                 }
@@ -58,9 +58,9 @@ namespace DHwD.ViewModels.GameInterface
             {
                 Chat = parameters.GetValue<ObservableCollection<Chats>>("Chat");
             }
-            if (parameters.ContainsKey("Chat"))
+            if (parameters.ContainsKey("APlace"))
             {
-                Chat = parameters.GetValue<ObservableCollection<Chats>>("Chat");
+                activePlace = parameters.GetValue<ActivePlace>("APlace");
             }
             // await Startchat();
         }
@@ -81,6 +81,7 @@ namespace DHwD.ViewModels.GameInterface
             get => chat;
             set => SetProperty(ref chat, value);
         }
+        public ActivePlace activePlace { get; set; }
         public string TextToSend { get; set; }
         public ICommand OnSendCommand { get; set; }
         public ICommand MessageAppearingCommand { get; set; }
