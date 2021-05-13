@@ -14,6 +14,8 @@ using Nuke.Common.CI.AzurePipelines;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using System.Collections.Generic;
+using Operations;
 
 class Build : NukeBuild
 {
@@ -44,16 +46,30 @@ class Build : NukeBuild
     Target Clean => _ => _
         .Executes(() =>
         {
+            List<string> list = new List<string>();
+            list.Add(DirectoryAndroidBin);
+            list.Add(DirectoryAndroidObj);
+            list.Add(DirectoryiOSBin);
+            list.Add(DirectoryiOSObj);
+            list.Add(DirectoryCoreBin);
+            list.Add(DirectoryCoreObj);
+            int tryvalue = 0;
             var build = BuildConfig.ToLower();
             
             if (build.Contains("clear"))
             {
-                EnsureCleanDirectory(DirectoryAndroidBin);
-                EnsureCleanDirectory(DirectoryAndroidObj);
-                EnsureCleanDirectory(DirectoryiOSBin);
-                EnsureCleanDirectory(DirectoryiOSObj);
-                EnsureCleanDirectory(DirectoryCoreBin);
-                EnsureCleanDirectory(DirectoryCoreObj);
+                try
+                {
+                    tryvalue++;
+                    ClearFiles.Clear(list);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message.ToString());
+                    if (tryvalue > 3)
+                        return;
+                    ClearFiles.Clear(list);
+                }
             }
         });
 
@@ -61,7 +77,8 @@ class Build : NukeBuild
         .DependsOn(Clean)
         .Executes(() =>
         {
-            DotNetRestore(c => c.SetProjectFile(RootDirectory));
+            DotNetRestore(c => c.SetProjectFile(RootDirectory+ "/DHwD/DHwD.Android"));
+            DotNetRestore(c => c.SetProjectFile(RootDirectory + "/DHwD/DHwD.iOS"));
         });
 
     Target Compile => _ => _
