@@ -55,7 +55,9 @@ namespace DHwD.Service
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
                 var serialized = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-
+#if DEBUG
+                var test = JsonConvert.SerializeObject(item);
+#endif
                 using (HttpResponseMessage response = await client.PostAsync(str, serialized))
                 {
                     try

@@ -1,9 +1,13 @@
 ﻿using DHwD.Models;
 using DHwD.Service;
 using DHwD.ViewModels.Base;
+using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
+using Models.ModelsMobile;
+using Models.Respone;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,23 +23,61 @@ namespace DHwD.ViewModels.GameInterface
             : base(navigationService)
         {
             _navigationService = navigationService;
+            _dialogService = dialogService;
             chat = new ObservableCollection<Chats>();
             _restService = new RestService();
-
-            OnSendCommand = new Command(() =>
+            url_Data = new Url_data();
+            OnSendCommand = new Command(async () =>
             {
-                if (!string.IsNullOrEmpty(TextToSend))
+                if (string.IsNullOrEmpty(TextToSend))
                 {
-                    chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false });
+                    return;
+                }
+                chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false });
+                if (activePlace == null)
+                {
+                    Message message = new Message
+                    {
+                        Text = TextToSend,
+                        gameid = _game.Id
+                    };
+                    var result = await BaseREST.PostExecuteAsync<Message, BaseRespone>(url_Data.Chat.ToString(), jWT, message);
+                    if (result.Succes == false)
+                    {
+                        try
+                        {
+                            await _dialogService.DisplayAlertAsync("Ups!", "Failed to send message.", "OK");
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                    }
+                        
+                }
+                else
+                {
                     SolutionRequest message = new SolutionRequest
                     {
                         TextSolution = TextToSend,
-                        gameid = _game.Id,
-                        idMystery = activePlace.Place.Location.MysteryRef
+                        Id_Game = _game.Id,
+                        Id_Place = activePlace.Place.Id,
+                        Id_Team = _Team.Id,
+                        IdMystery = activePlace.Place.Location.MysteryRef
                     };
-
+                    var result = await BaseREST.PostExecuteAsync<SolutionRequest, BaseRespone>(url_Data.Solutions.ToString(), jWT, message);
+                    if (result.Succes == false)
+                    {
+                        try
+                        {
+                            await _dialogService.DisplayAlertAsync("Ups!", "Failed to send message.", "OK");
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                    }
                 }
-
             });
         }
 
@@ -62,7 +104,6 @@ namespace DHwD.ViewModels.GameInterface
             {
                 activePlace = parameters.GetValue<ActivePlace>("APlace");
             }
-            // await Startchat();
         }
 
         #region variables
@@ -70,9 +111,11 @@ namespace DHwD.ViewModels.GameInterface
         private INavigationService _navigationService;
         public ObservableCollection<Chats> chat;
         private JWTToken jWT;
+        Url_data url_Data;
         private SqliteService _sqliteService;
         private RestService _restService;
         private SolutionRequest message;
+        private IPageDialogService _dialogService;
         #endregion
 
         #region  Property

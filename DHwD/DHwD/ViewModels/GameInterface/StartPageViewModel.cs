@@ -176,7 +176,7 @@ namespace DHwD.ViewModels.GameInterface
                 Id_Game = _game.Id
             };
             activePlace = await CheckTask(team);
-            if (activePlace != null)
+            if (activePlace.Place == null)
             {
                 await BlockedLocation(blockedPlaceRequest);
             }
