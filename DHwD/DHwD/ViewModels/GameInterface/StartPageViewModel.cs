@@ -202,17 +202,7 @@ namespace DHwD.ViewModels.GameInterface
 
                         list = await BaseREST.GetExecuteAsync<List<Chats>>(jWT,getRequest);
                     }
-                    else
-                    {
-                        await Startchat();
-                    }
-                    if (list.Count!=0 && list != null)
-                    {
-                        foreach (var item in list)
-                        {
-                            chat.Add(item);
-                        }
-                    }
+                    await Startchat();
                 }
             }
             catch(Exception ex)

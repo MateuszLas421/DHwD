@@ -4,6 +4,7 @@ using DHwD.ViewModels.Base;
 using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
+using Models.Request;
 using Models.Respone;
 using Prism.Navigation;
 using Prism.Services;
@@ -11,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -27,60 +30,9 @@ namespace DHwD.ViewModels.GameInterface
             chat = new ObservableCollection<Chats>();
             _restService = new RestService();
             url_Data = new Url_data();
-            OnSendCommand = new Command(async () =>
-            {
-                if (string.IsNullOrEmpty(TextToSend))
-                {
-                    return;
-                }
-                chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false });
-                if (activePlace == null)
-                {
-                    Message message = new Message
-                    {
-                        Text = TextToSend,
-                        gameid = _game.Id
-                    };
-                    var result = await BaseREST.PostExecuteAsync<Message, BaseRespone>(url_Data.Chat.ToString(), jWT, message);
-                    if (result.Succes == false)
-                    {
-                        try
-                        {
-                            await _dialogService.DisplayAlertAsync("Ups!", "Failed to send message.", "OK");
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                    }
-                        
-                }
-                else
-                {
-                    SolutionRequest message = new SolutionRequest
-                    {
-                        TextSolution = TextToSend,
-                        Id_Game = _game.Id,
-                        Id_Place = activePlace.Place.Id,
-                        Id_Team = _Team.Id,
-                        IdMystery = activePlace.Place.Location.MysteryRef
-                    };
-                    var result = await BaseREST.PostExecuteAsync<SolutionRequest, BaseRespone>(url_Data.Solutions.ToString(), jWT, message);
-                    if (result.Succes == false)
-                    {
-                        try
-                        {
-                            await _dialogService.DisplayAlertAsync("Ups!", "Failed to send message.", "OK");
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                    }
-                }
-            });
+            OnSendCommand = new Command(async () => await TaskAsync());
+           // OnSendCommand = new Command(async () => { chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false }); });          ///Debug chat
         }
-
 
         public override async void Initialize(INavigationParameters parameters)
         {
@@ -99,6 +51,15 @@ namespace DHwD.ViewModels.GameInterface
             if (parameters.ContainsKey("Chat"))
             {
                 Chat = parameters.GetValue<ObservableCollection<Chats>>("Chat");
+                //try
+                //{
+                //    Chat.OrderByDescending(Chat => Chat.Id);
+                //}
+                //catch (ArgumentNullException ex){ }
+                //catch (Exception  ex)
+                //{
+                //    Crashes.TrackError(ex);
+                //}
             }
             if (parameters.ContainsKey("APlace"))
             {
@@ -171,5 +132,77 @@ namespace DHwD.ViewModels.GameInterface
 
             }
         }
+
+        #region Operation
+
+        private async Task TaskAsync()
+        {
+                if (string.IsNullOrEmpty(TextToSend))
+                {
+                    return;
+                }
+                if (activePlace.Place == null)
+                {
+                    Message message = new Message
+                    {
+                        Text = TextToSend,
+                        gameid = _game.Id
+                    };
+                    var result = await BaseREST.PostExecuteAsync<Message, BaseRespone>(url_Data.Chat.ToString(), jWT, message);
+                    if (result.Succes == false)
+                    {
+                        try
+                        {
+                            await _dialogService.DisplayAlertAsync("Ups!", "Failed to send message.", "OK");
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                    }
+
+                }
+                else
+                {
+                    SolutionRequest message = new SolutionRequest
+                    {
+                        TextSolution = TextToSend,
+                        Id_Game = _game.Id,
+                        Id_Place = activePlace.Place.Id,
+                        Id_Team = _Team.Id,
+                        IdMystery = activePlace.Place.Location.MysteryRef
+                    };
+                    var result = await BaseREST.PostExecuteAsync<SolutionRequest, BaseRespone>(url_Data.Solutions.ToString(), jWT, message);
+                    if (result.Succes == false)
+                    {
+                        try
+                        {
+                            await _dialogService.DisplayAlertAsync("Ups!", "Failed to send message.", "OK");
+                        }
+                        catch (Exception ex)
+                        {
+                            Crashes.TrackError(ex);
+                        }
+                    }
+                    if (result.Message == "Solved" || result.Message == "Unresolved")
+                    {
+                        await Updatechat();
+                    }
+                }
+        }
+
+        internal async Task Updatechat()
+        {
+            GetRequest getRequest = new GetRequest(url_Data.ChatUpdate.ToString());
+            getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Game", _game.Id.ToString());
+            getRequest = await PrepareGetRequest.PrepareMoreParametr(getRequest, "DateTimeCreate", chat[0].DateTimeCreate.ToString());
+            List<Chats> list = await BaseREST.GetExecuteAsync<List<Chats>>(jWT, getRequest);
+            foreach (var item in list)
+            {
+                if (item.Text != null)
+                    chat.Insert(0,item);
+            }
+        }
+        #endregion
     }
 }
