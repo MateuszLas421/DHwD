@@ -24,7 +24,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" FontSize="Large" Text="Log in to start your story." HorizontalTextAlignment="Center" 
-                       VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="#d0efdd"/>
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="#d0efdd" FontFamily=""/>
                 <Label Grid.Row="1" Grid.Column="0" Text="NickName" VerticalOptions="Center" MinimumWidthRequest="100" HorizontalOptions="Center" Margin="8,0,0,0"/>
                 <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" WidthRequest="300" Text="{Binding user.NickName}" BackgroundColor="{Binding NickNameColor}"/>
                 <Frame Grid.Row="2" Grid.ColumnSpan="5" Background="#d0efdd" >
