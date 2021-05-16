@@ -184,10 +184,7 @@ namespace DHwD.ViewModels.GameInterface
                             Crashes.TrackError(ex);
                         }
                     }
-                    if (result.Message == "Solved" || result.Message == "Unresolved")
-                    {
-                        await Updatechat();
-                    }
+                    await Updatechat();
                 }
         }
 

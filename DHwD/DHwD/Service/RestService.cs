@@ -376,16 +376,16 @@ namespace DHwD.Service
                 try
                 {
                     response = await client.GetAsync(url_.Chat.ToString() + "Game=" + IdGame);    // REST GET 
+                    if (response.IsSuccessStatusCode)  /// when user exists
+                    {
+                        string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
+                        List = JsonConvert.DeserializeObject<List<Chats>>(responseContent);          // Deserialize JSON
+                    }
                 }
                 catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
                     Debug.WriteLine(ex.Message.ToString());
-                }
-                if (response.IsSuccessStatusCode)  /// when user exists
-                {
-                    string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
-                    List = JsonConvert.DeserializeObject<List<Chats>>(responseContent);          // Deserialize JSON
                 }
                 if (response.StatusCode==System.Net.HttpStatusCode.NotFound)
                 {
@@ -398,6 +398,10 @@ namespace DHwD.Service
                 for (int i = List.Count-1; i >=0; i--)
                 {
                     yield return List[i];
+                }
+                if (List.Count == 0)
+                {
+                    yield return new Chats();
                 }
             }
         }
