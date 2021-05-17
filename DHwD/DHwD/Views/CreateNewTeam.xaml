@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="DHwD.Views.CreateNewTeam"
-             BackgroundColor="#daf2e5"
+             ControlTemplate="{StaticResource PageWithGradient}"
              xmlns:local="clr-namespace:DHwD;assembly=DHwD">
     <Grid Margin="5">
         <Grid.RowDefinitions>

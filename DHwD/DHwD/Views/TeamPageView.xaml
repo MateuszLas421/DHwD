@@ -5,7 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="DHwD.Views.TeamPageView"
              NavigationPage.HasNavigationBar="True"
-             BackgroundColor="#daf2e5"
+             ControlTemplate="{StaticResource PageWithGradient}"
              xmlns:local="clr-namespace:DHwD;assembly=DHwD">
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
