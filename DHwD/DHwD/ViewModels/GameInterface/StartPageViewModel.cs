@@ -191,8 +191,8 @@ namespace DHwD.ViewModels.GameInterface
             try
             {
                 List<Chats> list = new List<Chats>();
-                var result = await BaseREST.PostExecuteAsync<BlockedPlaceRequest, ActivePlace>(url_Data.BlockedPlace.ToString(), jWT, blockedPlaceRequest);
-                if (result != null)
+                activePlace = await BaseREST.PostExecuteAsync<BlockedPlaceRequest, ActivePlace>(url_Data.BlockedPlace.ToString(), jWT, blockedPlaceRequest);
+                if (activePlace.Place != null)
                 {
                     if (currenttimeforChat != null)
                     {

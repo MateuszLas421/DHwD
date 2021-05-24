@@ -167,15 +167,6 @@ namespace DHwD.ViewModels.GameInterface
 
             });
         }
-        //public static IObservable<T> CheckLocation<T>(T value)  // delete
-        //{
-        //    return Observable.Create<T>(o =>
-        //    {
-        //        o.OnNext(value);
-        //        o.OnCompleted();
-        //        return Disposable.Empty;
-        //    });
-        //}
 
         public void PinClicked(object sender, PinClickedEventArgs args)
         {
