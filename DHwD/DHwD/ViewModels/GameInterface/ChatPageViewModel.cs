@@ -16,6 +16,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DHwD.ViewModels.GameInterface
@@ -160,7 +161,10 @@ namespace DHwD.ViewModels.GameInterface
                             Crashes.TrackError(ex);
                         }
                     }
-
+                    if (result.Succes == true)
+                    {
+                        await Updatechat();
+                    }
                 }
                 else
                 {
@@ -194,10 +198,19 @@ namespace DHwD.ViewModels.GameInterface
             getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Game", _game.Id.ToString());
             getRequest = await PrepareGetRequest.PrepareMoreParametr(getRequest, "DateTimeCreate", chat[0].DateTimeCreate.ToString());
             List<Chats> list = await BaseREST.GetExecuteAsync<List<Chats>>(jWT, getRequest);
+
+
             foreach (var item in list)
             {
                 if (item.Text != null)
-                    chat.Insert(0,item);
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        chat.Insert(0, item);
+                    });
+                    Thread.Sleep(250);
+                }
+
             }
         }
         #endregion
