@@ -26,6 +26,7 @@
     <None Remove="Resources\Kids.png" />
     <None Remove="Resources\Log_in.png" />
     <None Remove="Resources\Map.png" />
+    <None Remove="Resources\Notatki.png" />
     <None Remove="Resources\sampleLogo.png" />
     <None Remove="Resources\Sport.png" />
     <None Remove="Resources\Story_1.png" />
@@ -52,6 +53,7 @@
     <EmbeddedResource Include="Resources\Kids.png" />
     <EmbeddedResource Include="Resources\Log_in.png" />
     <EmbeddedResource Include="Resources\Map.png" />
+    <EmbeddedResource Include="Resources\Notatki.png" />
     <EmbeddedResource Include="Resources\sampleLogo.png" />
     <EmbeddedResource Include="Resources\Sport.png" />
     <EmbeddedResource Include="Resources\Story_1.png" />
