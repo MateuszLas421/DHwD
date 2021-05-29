@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace DHwD.ViewModels
 {
@@ -139,7 +140,7 @@ namespace DHwD.ViewModels
         private IPageDialogService _dialogService;
         private SqliteService _sqliteService;
         private RestService _restService;
-        private DelegateCommand _btnCreateTeam;
+        private Command _btnCreateTeam;
         private bool _isBusy;
         private bool _listviewIsRefreshing;
         #endregion
@@ -148,8 +149,8 @@ namespace DHwD.ViewModels
         public Games _game { get; set; }
         public DelegateCommand<MobileTeam> SelectedCommand { get; }
         public ObservableCollection<MobileTeam> ObTeam { get => _obTeam; set => SetProperty(ref _obTeam, value); }
-        public DelegateCommand BtnCreateTeam =>
-        _btnCreateTeam ?? (_btnCreateTeam = new DelegateCommand(CreateTeamCommand));
+        //public Command BtnCreateTeam =>
+        //_btnCreateTeam ?? (_btnCreateTeam = new Command(CreateTeamCommand));
         public DelegateCommand ListScrolled { get; }
         public bool IsBusy
         {
@@ -173,7 +174,7 @@ namespace DHwD.ViewModels
             }
         }
         #endregion
-        async void CreateTeamCommand()
+        internal async void CreateTeamCommand(object sender, System.EventArgs e)
         {
             var p = new NavigationParameters
             {
@@ -248,6 +249,7 @@ namespace DHwD.ViewModels
             await Init();
             ListviewIsRefreshing = false;
         }
+
     }
 }
 

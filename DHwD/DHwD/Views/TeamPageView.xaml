@@ -6,13 +6,13 @@
              x:Class="DHwD.Views.TeamPageView"
              NavigationPage.HasNavigationBar="True"
              ControlTemplate="{StaticResource PageWithGradient}"
-             xmlns:local="clr-namespace:DHwD;assembly=DHwD">
-    <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal">
-            <Label Text="{Binding Title}" VerticalOptions="Center" TextColor="White" FontSize="Large"/>
-            <Button Text="Create" Command="{Binding BtnCreateTeam}" HorizontalOptions="EndAndExpand" WidthRequest="120" CornerRadius="40"/>
-        </StackLayout>
-    </NavigationPage.TitleView>
+             xmlns:local="clr-namespace:DHwD;assembly=DHwD"
+             Title="{Binding Title}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="Toolbar_CreateTeam" Text="Create" Clicked="Create_Clicked" />
+    </ContentPage.ToolbarItems>
+    
     <ListView ItemsSource="{Binding ObTeam}"
             HasUnevenRows="True" 
             IsPullToRefreshEnabled="true"
