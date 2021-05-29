@@ -8,7 +8,9 @@
              ControlTemplate="{StaticResource PageWithGradient}"
              xmlns:local="clr-namespace:DHwD;assembly=DHwD">
     <ScrollView Margin="25">
-        <ListView ItemsSource="{Binding ObGames}" HasUnevenRows="True" >
+        <ListView ItemsSource="{Binding ObGames}" HasUnevenRows="True"   
+                  BackgroundColor="Transparent"
+                  >
             <ListView.Behaviors>
                 <prism:EventToCommandBehavior EventName="ItemTapped"
                                               EventArgsParameterPath="Item"
@@ -17,7 +19,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid Margin="5,0,5,15" Background="#daf2e5" >
+                        <Grid Margin="5,0,5,15" BackgroundColor="Transparent" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto" />
@@ -28,10 +30,13 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Image Source="{local:ImageResource DHwD.Resources.Story_1.png}" Scale="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
-                            <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" Background="#daf2e5" Text="{Binding Name, Mode=OneWay}" />
-                            <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Background="#daf2e5" Text="{Binding DateTimeStart, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>
-                            <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Background="#daf2e5" Text="{Binding DateTimeEnd, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>
-                            <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" Background="#daf2e5" Text="{Binding Description, Mode=OneWay}" />
+                            <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" BackgroundColor="Transparent" TextColor="Black" Text="{Binding Name, Mode=OneWay}" />
+                            <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" TextColor="Black" BackgroundColor="Transparent" 
+                                   Text="{Binding DateTimeStart, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>
+                            <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" TextColor="Black"
+                                   BackgroundColor="Transparent" Text="{Binding DateTimeEnd, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>
+                            <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" BackgroundColor="Transparent" 
+                                   TextColor="Black" Text="{Binding Description, Mode=OneWay}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

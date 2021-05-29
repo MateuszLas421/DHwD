@@ -205,7 +205,7 @@ namespace DHwD.ViewModels.GameInterface
                 var startTimeSpan = TimeSpan.Zero;
                 var periodTimeSpan = TimeSpan.FromMilliseconds(400);
                 Timer timer;
-                timer = new Timer(async (e) =>
+                timer = new Timer(async (e) => 
                 {
                     if (toaddedchats.Count > i)
                         AddChat(toaddedchats[i]);
