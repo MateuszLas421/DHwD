@@ -10,8 +10,8 @@
     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
 
 
-        <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Horror.png}"  VerticalOptions="Center" HorizontalOptions="Center" Margin="20"/>
-        <Frame CornerRadius="40" Padding="0">
+        <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Orange_Horror.png}"  VerticalOptions="Center"  HorizontalOptions="Center" Margin="20"/>
+        <Frame CornerRadius="20" Padding="0">
             <Grid>
 
                 <magicGradients:GradientView  VerticalOptions="FillAndExpand" >
@@ -20,12 +20,7 @@
                             <x:String>
                                 <![CDATA[
                                 
-                                radial-gradient(circle at 17% 1%, rgba(198, 198, 198,0.03) 0%, rgba(198, 198, 198,0.03) 50%,rgba(42, 42, 42,0.03) 50%, 
-                                rgba(42, 42, 42,0.03) 100%),radial-gradient(circle at 8% 81%, rgba(253, 253, 253,0.03) 0%,
-                                rgba(253, 253, 253,0.03) 50%,rgba(36, 36, 36,0.03) 50%, rgba(36, 36, 36,0.03) 100%),
-                                radial-gradient(circle at 83% 29%, rgba(164, 164, 164,0.03) 0%, rgba(164, 164, 164,0.03) 50%,rgba(60, 60, 60,0.03) 50%,
-                                rgba(60, 60, 60,0.03) 100%),radial-gradient(circle at 96% 62%, rgba(170, 170, 170,0.03) 0%, rgba(170, 170, 170,0.03) 50%,rgba(169, 169, 169,0.03) 50%,
-                                rgba(169, 169, 169,0.03) 100%),linear-gradient(518deg, rgb(2, 141, 213),rgb(5, 172, 81))
+                                 linear-gradient(180deg, rgba(255, 252, 242, 1), rgba(255, 251, 224, 1), rgba(255, 252, 234, 1))
  
                                     ]]>
                             </x:String>
@@ -52,7 +47,7 @@
                     <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" WidthRequest="300"
                            TextColor="Black" Text="{Binding user.NickName}" BackgroundColor="{Binding NickNameColor}"/>
                 
-                    <Frame Grid.Row="2" Grid.ColumnSpan="5" CornerRadius="40" Margin="15" Padding="0 ">
+                    <Frame Grid.Row="2" Grid.ColumnSpan="5" CornerRadius="20" Margin="15" Padding="0 ">
                             <Button  Command="{Binding LoginCommand}" Text="Log In" VerticalOptions="Center" 
                             HorizontalOptions="Center" WidthRequest="200"  CornerRadius="40" BackgroundColor="Transparent"/>
                     </Frame>
