@@ -31,7 +31,7 @@ namespace DHwD.ViewModels.GameInterface
             chat = new ObservableCollection<Chats>();
             _restService = new RestService();
             url_Data = new Url_data();
-            OnSendCommand = new Command(async () => await TaskAsync());
+            OnSendCommand = new Command(() => TaskAsync());
            // OnSendCommand = new Command(async () => { chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false }); });          ///Debug chat
         }
 
@@ -78,6 +78,7 @@ namespace DHwD.ViewModels.GameInterface
         private RestService _restService;
         private SolutionRequest message;
         private IPageDialogService _dialogService;
+        List<Chats> toaddedchats;
         #endregion
 
         #region  Property
@@ -136,60 +137,81 @@ namespace DHwD.ViewModels.GameInterface
 
         #region Operation
 
-        private async Task TaskAsync()
+        private async void TaskAsync()
         {
-                if (string.IsNullOrEmpty(TextToSend))
+            if (string.IsNullOrEmpty(TextToSend))
+            {
+                return;
+            }
+
+            if (activePlace.Place == null)
+            {
+                Message message = new Message
                 {
-                    return;
-                }
-                if (activePlace.Place == null)
+                    Text = TextToSend,
+                    gameid = _game.Id
+                };
+                var result = await BaseREST.PostExecuteAsync<Message, BaseRespone>(url_Data.Chat.ToString(), jWT, message);
+                if (result.Succes == false)
                 {
-                    Message message = new Message
+                    try
                     {
-                        Text = TextToSend,
-                        gameid = _game.Id
-                    };
-                    var result = await BaseREST.PostExecuteAsync<Message, BaseRespone>(url_Data.Chat.ToString(), jWT, message);
-                    if (result.Succes == false)
-                    {
-                        try
-                        {
-                            await _dialogService.DisplayAlertAsync("Ups!", "Failed to send message.", "OK");
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
+                        await _dialogService.DisplayAlertAsync("Ups!", "Failed to send message.", "OK");
                     }
-                    if (result.Succes == true)
+                    catch (Exception ex)
                     {
-                        await Updatechat();
+                        Crashes.TrackError(ex);
                     }
                 }
-                else
+                if (result.Succes == true)
                 {
-                    SolutionRequest message = new SolutionRequest
-                    {
-                        TextSolution = TextToSend,
-                        Id_Game = _game.Id,
-                        Id_Place = activePlace.Place.Id,
-                        Id_Team = _Team.Id,
-                        IdMystery = activePlace.Place.Location.MysteryRef
-                    };
-                    var result = await BaseREST.PostExecuteAsync<SolutionRequest, BaseRespone>(url_Data.Solutions.ToString(), jWT, message);
-                    if (result.Succes == false)
-                    {
-                        try
-                        {
-                            await _dialogService.DisplayAlertAsync("Ups!", "Failed to send message.", "OK");
-                        }
-                        catch (Exception ex)
-                        {
-                            Crashes.TrackError(ex);
-                        }
-                    }
                     await Updatechat();
+                    int i = 0;
+                    var startTimeSpan = TimeSpan.Zero;
+                    var periodTimeSpan = TimeSpan.FromMilliseconds(400);
+                    Timer timer;
+                    timer = new Timer(async (e) =>
+                    {
+                        if (toaddedchats.Count > i)
+                            AddChat(toaddedchats[i]);
+                        i++;
+                    }, TimeSpan.FromSeconds(15), startTimeSpan, periodTimeSpan);
                 }
+            }
+            else
+            {
+                SolutionRequest message = new SolutionRequest
+                {
+                    TextSolution = TextToSend,
+                    Id_Game = _game.Id,
+                    Id_Place = activePlace.Place.Id,
+                    Id_Team = _Team.Id,
+                    IdMystery = activePlace.Place.Location.MysteryRef
+                };
+                var result = await BaseREST.PostExecuteAsync<SolutionRequest, BaseRespone>(url_Data.Solutions.ToString(), jWT, message);
+                if (result.Succes == false)
+                {
+                    try
+                    {
+                        await _dialogService.DisplayAlertAsync("Ups!", "Failed to send message.", "OK");
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
+                    }
+                }
+                await Updatechat();
+                int i = 0;
+                var startTimeSpan = TimeSpan.Zero;
+                var periodTimeSpan = TimeSpan.FromMilliseconds(400);
+                Timer timer;
+                timer = new Timer(async (e) =>
+                {
+                    if (toaddedchats.Count > i)
+                        AddChat(toaddedchats[i]);
+                    i++;
+                }, TimeSpan.FromSeconds(15), startTimeSpan, periodTimeSpan);
+            }
         }
 
         internal async Task Updatechat()
@@ -197,21 +219,13 @@ namespace DHwD.ViewModels.GameInterface
             GetRequest getRequest = new GetRequest(url_Data.ChatUpdate.ToString());
             getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Game", _game.Id.ToString());
             getRequest = await PrepareGetRequest.PrepareMoreParametr(getRequest, "DateTimeCreate", chat[0].DateTimeCreate.ToString());
-            List<Chats> list = await BaseREST.GetExecuteAsync<List<Chats>>(jWT, getRequest);
+            toaddedchats = await BaseREST.GetExecuteAsync<List<Chats>>(jWT, getRequest);
 
-
-            foreach (var item in list)
-            {
-                if (item.Text != null)
-                {
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        chat.Insert(0, item);
-                    });
-                    Thread.Sleep(250);
-                }
-
-            }
+        }
+        private void AddChat(Chats item)
+        {
+            chat.Insert(0, item);
+            
         }
         #endregion
     }
