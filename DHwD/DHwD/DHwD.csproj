@@ -14,7 +14,6 @@
   <ItemGroup>
     <None Remove="Resources\12589656.png" />
     <None Remove="Resources\126203687.png" />
-    <None Remove="Resources\Action.png" />
     <None Remove="Resources\backgroundstartpage.jpg" />
     <None Remove="Resources\Chat.png" />
     <None Remove="Resources\Comedy.png" />
@@ -26,6 +25,19 @@
     <None Remove="Resources\Kids.png" />
     <None Remove="Resources\Log_in.png" />
     <None Remove="Resources\Map.png" />
+    <None Remove="Resources\Neon_Action.png" />
+    <None Remove="Resources\Neon_Chat.png" />
+    <None Remove="Resources\Neon_Comedy.png" />
+    <None Remove="Resources\Neon_Educational.png" />
+    <None Remove="Resources\Neon_Fantasy.png" />
+    <None Remove="Resources\Neon_GPS.png" />
+    <None Remove="Resources\Neon_Horror.png" />
+    <None Remove="Resources\Neon_Kids.png" />
+    <None Remove="Resources\Neon_LogIn.png" />
+    <None Remove="Resources\Neon_Notatki.png" />
+    <None Remove="Resources\Neon_Sport.png" />
+    <None Remove="Resources\Neon_Story_Feet.png" />
+    <None Remove="Resources\Neon_Team.png" />
     <None Remove="Resources\Notatki.png" />
     <None Remove="Resources\Orange_Action.png" />
     <None Remove="Resources\Orange_Chat.png" />
@@ -52,8 +64,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Neon_Kids.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Resources\126203687.png" />
-    <EmbeddedResource Include="Resources\Action.png" />
     <EmbeddedResource Include="Resources\backgroundstartpage.jpg" />
     <EmbeddedResource Include="Resources\Chat.png" />
     <EmbeddedResource Include="Resources\Comedy.png" />
@@ -65,6 +80,18 @@
     <EmbeddedResource Include="Resources\Kids.png" />
     <EmbeddedResource Include="Resources\Log_in.png" />
     <EmbeddedResource Include="Resources\Map.png" />
+    <EmbeddedResource Include="Resources\Neon_Action.png" />
+    <EmbeddedResource Include="Resources\Neon_Chat.png" />
+    <EmbeddedResource Include="Resources\Neon_Comedy.png" />
+    <EmbeddedResource Include="Resources\Neon_Educational.png" />
+    <EmbeddedResource Include="Resources\Neon_Fantasy.png" />
+    <EmbeddedResource Include="Resources\Neon_GPS.png" />
+    <EmbeddedResource Include="Resources\Neon_Horror.png" />
+    <EmbeddedResource Include="Resources\Neon_LogIn.png" />
+    <EmbeddedResource Include="Resources\Neon_Notatki.png" />
+    <EmbeddedResource Include="Resources\Neon_Sport.png" />
+    <EmbeddedResource Include="Resources\Neon_Story_Feet.png" />
+    <EmbeddedResource Include="Resources\Neon_Team.png" />
     <EmbeddedResource Include="Resources\Notatki.png" />
     <EmbeddedResource Include="Resources\Orange_Action.png" />
     <EmbeddedResource Include="Resources\Orange_Chat.png" />
