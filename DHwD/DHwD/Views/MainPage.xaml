@@ -10,7 +10,7 @@
     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
 
 
-        <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Orange_Horror.png}"  VerticalOptions="Center"  HorizontalOptions="Center" Margin="20"/>
+        <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Orange_Logo.png}"  VerticalOptions="Center"  HorizontalOptions="Center" Margin="20"/>
         <Frame CornerRadius="20" Padding="0" Margin="15" BackgroundColor="Transparent">
             <Grid>
 

@@ -48,6 +48,7 @@
     <None Remove="Resources\Orange_Horror.png" />
     <None Remove="Resources\Orange_Kids.png" />
     <None Remove="Resources\Orange_LogIn.png" />
+    <None Remove="Resources\Orange_Logo.png" />
     <None Remove="Resources\Orange_Sport.png" />
     <None Remove="Resources\Orange_Story_Feet.png" />
     <None Remove="Resources\Orange_Team.png" />
@@ -92,6 +93,7 @@
     <EmbeddedResource Include="Resources\Orange_Horror.png" />
     <EmbeddedResource Include="Resources\Orange_Kids.png" />
     <EmbeddedResource Include="Resources\Orange_LogIn.png" />
+    <EmbeddedResource Include="Resources\Orange_Logo.png" />
     <EmbeddedResource Include="Resources\Orange_Sport.png" />
     <EmbeddedResource Include="Resources\Orange_Story_Feet.png" />
     <EmbeddedResource Include="Resources\Orange_Team.png" />
