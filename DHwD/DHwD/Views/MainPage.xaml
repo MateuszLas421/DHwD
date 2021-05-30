@@ -51,10 +51,10 @@
                     <Label Grid.Row="1" Grid.Column="0" Text="NickName" TextColor="Black" VerticalOptions="Center" MinimumWidthRequest="100" HorizontalOptions="Center" Margin="8,0,0,0"/>
                     <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" WidthRequest="300"
                            TextColor="Black" Text="{Binding user.NickName}" BackgroundColor="{Binding NickNameColor}"/>
-                
-                    <Frame Grid.Row="2" Grid.ColumnSpan="5" CornerRadius="40" Margin="15" Padding="0 ">
-                            <Button  Command="{Binding LoginCommand}" Text="Log In" VerticalOptions="Center" 
-                            HorizontalOptions="Center" WidthRequest="200"  CornerRadius="40" BackgroundColor="Transparent"/>
+
+                    <Frame Grid.Row="2" Grid.ColumnSpan="5" CornerRadius="40" Margin="15" Padding="0" BackgroundColor="Transparent">
+                        <Button  Command="{Binding LoginCommand}" Text="Log In" VerticalOptions="Center"  Visual="Material"  TextColor="Black"
+                            HorizontalOptions="Center" WidthRequest="250"  CornerRadius="40" BackgroundColor="Transparent"/>
                     </Frame>
                 </Grid>
             </Grid>
