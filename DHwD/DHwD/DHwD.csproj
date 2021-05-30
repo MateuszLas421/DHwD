@@ -70,16 +70,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\126203687.png" />
     <EmbeddedResource Include="Resources\backgroundstartpage.jpg" />
-    <EmbeddedResource Include="Resources\Chat.png" />
-    <EmbeddedResource Include="Resources\Comedy.png" />
-    <EmbeddedResource Include="Resources\Educational.png" />
-    <EmbeddedResource Include="Resources\Fantasy.png" />
-    <EmbeddedResource Include="Resources\GPS.png" />
-    <EmbeddedResource Include="Resources\Horror.png" />
     <EmbeddedResource Include="Resources\ic_padlock.png" />
-    <EmbeddedResource Include="Resources\Kids.png" />
-    <EmbeddedResource Include="Resources\Log_in.png" />
-    <EmbeddedResource Include="Resources\Map.png" />
     <EmbeddedResource Include="Resources\Neon_Action.png" />
     <EmbeddedResource Include="Resources\Neon_Chat.png" />
     <EmbeddedResource Include="Resources\Neon_Comedy.png" />
@@ -92,7 +83,6 @@
     <EmbeddedResource Include="Resources\Neon_Sport.png" />
     <EmbeddedResource Include="Resources\Neon_Story_Feet.png" />
     <EmbeddedResource Include="Resources\Neon_Team.png" />
-    <EmbeddedResource Include="Resources\Notatki.png" />
     <EmbeddedResource Include="Resources\Orange_Action.png" />
     <EmbeddedResource Include="Resources\Orange_Chat.png" />
     <EmbeddedResource Include="Resources\Orange_Comedy.png" />
@@ -106,9 +96,6 @@
     <EmbeddedResource Include="Resources\Orange_Story_Feet.png" />
     <EmbeddedResource Include="Resources\Orange_Team.png" />
     <EmbeddedResource Include="Resources\sampleLogo.png" />
-    <EmbeddedResource Include="Resources\Sport.png" />
-    <EmbeddedResource Include="Resources\Story_1.png" />
-    <EmbeddedResource Include="Resources\Teams.png" />
     <EmbeddedResource Include="Resources\wallpaper_1.1.png" />
     <EmbeddedResource Include="Resources\Wallpaper_1.png" />
     <EmbeddedResource Include="Resources\wallpaper_2.png" />
