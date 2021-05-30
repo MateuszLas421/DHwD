@@ -79,33 +79,6 @@ namespace DHwD.Service
             return await Task.FromResult(JsonConvert.DeserializeObject<TOut>(null));
         }
 
-        ///// <summary>
-        ///// Rest Get Method
-        ///// </summary>
-        ///// <param name="getRequest"></param>
-        ///// <returns>BaseRespone</returns>
-        //public static async Task<BaseRespone> GetExecuteAsync(GetRequest getRequest) 
-        //{
-        //    using (client = new HttpClient())
-        //    {
-        //        BaseRespone response = new BaseRespone();
-        //        try { response = (BaseRespone)await client.GetAsync(getRequest.strURL); }                 //  Get  
-        //        catch (Exception ex)
-        //        {
-        //            Debug.WriteLine(ex.Message.ToString());
-        //            Crashes.TrackError(ex);
-        //            return await Task.FromResult<BaseRespone>(response);
-        //        }
-
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            Debug.WriteLine(@"successfully saved.");
-        //            return response;
-        //        }
-        //        return await Task.FromResult<BaseRespone>(response);
-        //    }
-        //}
-
         /// <summary>
         /// Rest Get Method
         /// </summary>

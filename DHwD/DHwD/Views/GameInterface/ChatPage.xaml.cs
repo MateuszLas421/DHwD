@@ -7,10 +7,12 @@ namespace DHwD.Views
     public partial class ChatPage : ContentPage
     {
         public ICommand ScrollListCommand { get; set; }
+
+        private ChatPageViewModel vm;
         public ChatPage()
         {
             InitializeComponent();
-            //this.BindingContext = BindingContext as ChatPageViewModel; 
+            vm = BindingContext as ChatPageViewModel;
         }
         public void ScrollTap(object sender, System.EventArgs e)
         {
@@ -18,8 +20,6 @@ namespace DHwD.Views
             {
                 if (BindingContext != null)
                 {
-                    var vm = BindingContext as ChatPageViewModel;
-
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         while (vm.DelayedMessages.Count > 0)
@@ -31,10 +31,7 @@ namespace DHwD.Views
                         vm.PendingMessageCount = 0;
                         ChatList?.ScrollToFirst();
                     });
-
-
                 }
-
             }
         }
         public void OnListTapped(object sender, ItemTappedEventArgs e)

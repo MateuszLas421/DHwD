@@ -52,15 +52,6 @@ namespace DHwD.ViewModels.GameInterface
             if (parameters.ContainsKey("Chat"))
             {
                 Chat = parameters.GetValue<ObservableCollection<Chats>>("Chat");
-                //try
-                //{
-                //    Chat.OrderByDescending(Chat => Chat.Id);
-                //}
-                //catch (ArgumentNullException ex){ }
-                //catch (Exception  ex)
-                //{
-                //    Crashes.TrackError(ex);
-                //}
             }
             if (parameters.ContainsKey("APlace"))
             {
@@ -152,7 +143,7 @@ namespace DHwD.ViewModels.GameInterface
                     gameid = _game.Id
                 };
                 var result = await BaseREST.PostExecuteAsync<Message, BaseRespone>(url_Data.Chat.ToString(), jWT, message);
-                if (result.Succes == false)
+                if (result.Succes == false) 
                 {
                     try
                     {
@@ -180,6 +171,23 @@ namespace DHwD.ViewModels.GameInterface
             }
             else
             {
+                if (activePlace.IsCompleted)   // TODO 
+                {
+                    if (activePlace.IsCompleted == true)
+                        activePlace = null;
+                    //return ;
+                }
+
+                if (activePlace.TypePlace==2 &&  !String.IsNullOrEmpty(activePlace.QuizStatus) && Int32.Parse(activePlace.QuizStatus) > 0)    // TypePlace==2 Quiz
+                {
+                    await QuizRequest();
+                    GetRequest getRequest = new GetRequest(url_Data.ActivePlace.ToString());
+                    getRequest = await PrepareGetRequest.AddOnlyValue(getRequest, activePlace.ID.ToString());
+                    activePlace = await BaseREST.GetExecuteAsync<ActivePlace>(jWT, getRequest);
+                    await Updatechat();
+                    await UpdateMessage();
+                    return;
+                }
                 SolutionRequest message = new SolutionRequest
                 {
                     TextSolution = TextToSend,
@@ -200,6 +208,19 @@ namespace DHwD.ViewModels.GameInterface
                         Crashes.TrackError(ex);
                     }
                 }
+                if (result.Message == "Chat")
+                {
+                    GetRequest getRequest = new GetRequest(url_Data.Quiz.ToString());
+                    getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Id_place", activePlace.Place.Id.ToString());
+                    getRequest = await PrepareGetRequest.PrepareMoreParametr(getRequest, "Id_team", _Team.Id.ToString());
+                    await BaseREST.GetExecuteAsync<Quiz>(jWT, getRequest);
+
+                    getRequest = new GetRequest(url_Data.ActivePlace.ToString());
+                    getRequest = await PrepareGetRequest.AddOnlyValue(getRequest, activePlace.ID.ToString());
+                    activePlace = await BaseREST.GetExecuteAsync<ActivePlace>(jWT ,getRequest);
+                    if (activePlace.IsCompleted == true)
+                        activePlace = null;
+                }    
                 await Updatechat();
                 int i = 0;
                 var startTimeSpan = TimeSpan.Zero;
@@ -212,6 +233,28 @@ namespace DHwD.ViewModels.GameInterface
                     i++;
                 }, TimeSpan.FromSeconds(15), startTimeSpan, periodTimeSpan);
             }
+        }
+
+        private async Task UpdateMessage()          // TO Check
+        {
+            int i = 0;
+            var timer = new Timer(async (e) =>
+            {
+                if (toaddedchats.Count > i)
+                    AddChat(toaddedchats[i]);
+                i++;
+            }, TimeSpan.FromSeconds(15), TimeSpan.Zero, TimeSpan.FromMilliseconds(400));
+        }
+
+        private async Task QuizRequest()
+        {
+            QuizSolution quizSolution = new QuizSolution
+            {
+                Id_Place = activePlace.Place.Id,
+                TextSolution = TextToSend,
+                Id_Team = _Team.Id
+            };
+            var result = await BaseREST.PostExecuteAsync<QuizSolution ,BaseRespone>(url_Data.Quiz.ToString(), jWT, quizSolution);
         }
 
         internal async Task Updatechat()

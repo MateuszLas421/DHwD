@@ -11,10 +11,10 @@
 
 
         <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Orange_Horror.png}"  VerticalOptions="Center"  HorizontalOptions="Center" Margin="20"/>
-        <Frame CornerRadius="20" Padding="0" Margin="15">
+        <Frame CornerRadius="20" Padding="0" Margin="15" BackgroundColor="Transparent">
             <Grid>
 
-                <magicGradients:GradientView  VerticalOptions="FillAndExpand" >
+                <magicGradients:GradientView  VerticalOptions="FillAndExpand"  Opacity="1">
                     <magicGradients:GradientView.GradientSource>
                         <magicGradients:CssGradientSource>
                             <x:String>

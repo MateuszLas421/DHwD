@@ -169,9 +169,10 @@ namespace DHwD.ViewModels.GameInterface
         /// <returns></returns>
         private async Task StartLocationEventAsync(MobileTeam team, Location activelocation)
         {
-            BlockedPlaceRequest blockedPlaceRequest = new BlockedPlaceRequest{ 
+            BlockedPlaceRequest blockedPlaceRequest = new BlockedPlaceRequest
+            {
                 Id_Place = activelocation.Place.Id,
-                Id_Team =  team.Id,
+                Id_Team = team.Id,
                 Id_Location = Activelocation.ID,
                 Id_Game = _game.Id
             };

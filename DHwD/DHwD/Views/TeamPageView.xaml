@@ -7,6 +7,7 @@
              NavigationPage.HasNavigationBar="True"
              ControlTemplate="{StaticResource PageWithGradient}"
              xmlns:local="clr-namespace:DHwD;assembly=DHwD"
+             Visual="Material"
              Title="{Binding Title}">
     
     <ContentPage.ToolbarItems>
@@ -39,10 +40,10 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Image Source="{local:ImageResource DHwD.Resources.ic_padlock.png}" IsVisible="{Binding StatusPassword}" Scale="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
-                        <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" Text="{Binding Name, Mode=OneWay}" />
-                        <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding UserNickName, Mode=OneWay}"/>
-                        <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" Text="{Binding OnlyOnePlayer, Mode=OneWay}"/>
-                        <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"  TextColor="Green" IsVisible="{Binding MyTeam}"
+                        <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding Name, Mode=OneWay}" />
+                        <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" TextColor="Black" FontSize="Micro" Text="{Binding UserNickName, Mode=OneWay}"/>
+                        <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" TextColor="Black" FontSize="Micro" Text="{Binding OnlyOnePlayer, Mode=OneWay}"/>
+                        <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"  TextColor="DarkGreen" IsVisible="{Binding MyTeam}"
                                    HorizontalTextAlignment="Center" Text="{Binding ItIsMyteamTEXT}" />
                     </Grid>
                     </ViewCell>
