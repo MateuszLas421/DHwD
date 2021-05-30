@@ -44,7 +44,7 @@
                     <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="15" FontSize="Large" Text="Log in to start your story." HorizontalTextAlignment="Center" 
                            VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" TextColor="Black" BackgroundColor="Transparent" FontFamily=""/>
                     <Label Grid.Row="1" Grid.Column="0" Text="NickName" TextColor="Black" VerticalOptions="Center" MinimumWidthRequest="100" HorizontalOptions="Center" Margin="8,0,0,0"/>
-                    <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" WidthRequest="300"
+                    <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" WidthRequest="300" 
                            TextColor="Black" Text="{Binding user.NickName}" BackgroundColor="{Binding NickNameColor}"/>
 
                     <Frame Grid.Row="2" Grid.ColumnSpan="5" CornerRadius="20" Margin="15" Padding="0" BackgroundColor="Transparent">
