@@ -173,10 +173,13 @@ namespace DHwD.ViewModels.GameInterface
             //var mapView = (MapView)sender;
             args.Pin.Label = "click";
             args.Pin.IsVisible = true;
+            args.Handled = true;
             var parameters = new DialogParameters
             {
                 { "title", "test!" },
-                { "message", "test message" }
+                { "message", "test message" },
+                { "JWT", jWT },
+                { "location", location }
             };
             _dialog.ShowDialog("LocationDetailsDialog", parameters);
             args.Pin.Callout.CalloutClicked += (s, e) =>
