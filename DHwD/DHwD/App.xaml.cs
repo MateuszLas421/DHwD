@@ -61,7 +61,7 @@ namespace DHwD
             containerRegistry.RegisterForNavigation<MyTeamPage, MyTeamPageViewModel>();
 
             //Dialogs Containers
-            containerRegistry.RegisterDialog<LocationDetailsDialog, LocationDetailsDialogViewModel>();   //.RegisterForNavigation<LocationDetailsDialog, LocationDetailsDialogViewModel>();
+            containerRegistry.RegisterDialog<LocationDetailsDialog, LocationDetailsDialogViewModel>(); 
         }
     }
 }

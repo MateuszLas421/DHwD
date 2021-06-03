@@ -9,6 +9,6 @@
         <mapsui:MapView x:Name="MyMap"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="Fill"
-                    BackgroundColor="Gray" />
+                    BackgroundColor="Gray"/>
     </StackLayout>
 </ContentPage>

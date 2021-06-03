@@ -8,20 +8,27 @@ namespace DHwD.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapPage : ContentPage
     {
+        public MapPageViewModel VM;
         public Position CurrentLocation { get; set; }
         public MapPage()
         {
             InitializeComponent();
-            var vm = BindingContext as MapPageViewModel;
-            vm.MyMap = MyMap;
-            this.CurrentLocation = vm.CurrentLocation;
-            MyMap.PinClicked += vm.PinClicked;
-            MyMap.Map = vm.Map;
+            VM = BindingContext as MapPageViewModel;
+            VM.MyMap = MyMap;
+            this.CurrentLocation = VM.CurrentLocation;
+            MyMap.PinClicked += VM.PinClicked;
+            MyMap.Map = VM.Map;
 
         }
         protected override void OnAppearing()
         {
 
         }
+
+        /* private void MyMap_PinClicked(object sender, Mapsui.UI.Forms.PinClickedEventArgs e)
+        {
+            VM.PinClicked(sender, e);
+            e.Handled = true;
+        }*/
     }
 }

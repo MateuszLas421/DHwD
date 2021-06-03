@@ -29,7 +29,7 @@ namespace DHwD.ViewModels.GameInterface
         private readonly IPageDialogService _dialogService;
         private Task _initializingTask, _pinstask, _gpsTask;
         private RestService _restService;
-        List<Location> location;
+        private List<Location> location;
 
         #region  Property
         public MobileTeam _Team { get; set; }
@@ -172,20 +172,26 @@ namespace DHwD.ViewModels.GameInterface
         {
             //var mapView = (MapView)sender;
             args.Pin.Label = "click";
-            args.Pin.IsVisible = true;
             args.Handled = true;
+            Location postlocation = new Location();
+
+            foreach (var item in location)
+            {
+                if (item.Latitude == args.Pin.Position.Latitude && item.Longitude == args.Pin.Position.Longitude)
+                    postlocation = item;
+            }
+            args.Pin.IsVisible = true;
             var parameters = new DialogParameters
             {
                 { "title", "test!" },
                 { "message", "test message" },
                 { "JWT", jWT },
-                { "location", location }
+                { "location", postlocation }
             };
             _dialog.ShowDialog("LocationDetailsDialog", parameters);
             args.Pin.Callout.CalloutClicked += (s, e) =>
             {
-                args.Pin.Label = "You clicked me!";
-                e.Handled = true;            
+                args.Pin.Label = "You clicked me!";         
                 args.Pin.ShowCallout();
                 return;
             };

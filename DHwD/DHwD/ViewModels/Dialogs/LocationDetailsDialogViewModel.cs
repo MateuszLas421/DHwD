@@ -57,7 +57,7 @@ namespace DHwD.ViewModels.Dialogs
             Console.WriteLine("The Demo Dialog has been closed...");
         }
 
-        public void OnDialogOpened(IDialogParameters parameters)
+        public async void OnDialogOpened(IDialogParameters parameters)
         {
             if (parameters.ContainsKey("message"))
             {
@@ -71,20 +71,20 @@ namespace DHwD.ViewModels.Dialogs
             {
                 jWT = parameters.GetValue<JWTToken>("JWT");
             };
-            /*if (parameters.ContainsKey("location"))
+            if (parameters.ContainsKey("location"))
             {
-                //Place.Location = parameters.GetValue<Location>("location");
+                Place.Location = parameters.GetValue<Location>("location");
             };
-            //await GetPlace(Place.Location.ID); */
+            await GetPlace(Place.Location.ID);
         }
 
         public async Task GetPlace(int IdLocation)
         {
             Url_data url_Data = new Url_data();
             GetRequest getRequest = new GetRequest(url_Data.PlacebyLocation.ToString());
+            getRequest = await PrepareGetRequest.AddOnlyValue(getRequest, IdLocation.ToString());
 
-
-            Place = await BaseREST.GetExecuteAsync<Place>(jWT ,await PrepareGetRequest.AddOnlyValue(getRequest, IdLocation.ToString()));
+            Place = await BaseREST.GetExecuteAsync<Place>(jWT, getRequest);
         }
     }
 }
