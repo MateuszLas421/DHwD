@@ -179,7 +179,6 @@ namespace DHwD.ViewModels.GameInterface
         public void PinClicked(object sender, PinClickedEventArgs args)
         {
             //var mapView = (MapView)sender;
-            args.Pin.Label = "click";
             args.Handled = true;
             Location postlocation = new Location();
 
