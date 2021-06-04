@@ -16,6 +16,7 @@ using DHwD.ViewModels.Base;
 using System.Collections.Generic;
 using Models.ModelsDB;
 using Models.ModelsMobile;
+using Microsoft.AppCenter.Crashes;
 
 namespace DHwD.ViewModels.GameInterface
 {
@@ -102,15 +103,22 @@ namespace DHwD.ViewModels.GameInterface
                 await Gps();
                 for (i = 0; i < MyMap.Pins.Count; i++)
                 {
-                    if (await Distance(MyMap.Pins[i]) < 20)
+                    try
                     {
-                        var parametr = new NavigationParameters
+                        if (await Distance(MyMap.Pins[i]) < 20)
+                        {
+                            var parametr = new NavigationParameters
                         {
                             { "Team", _Team },
                             { "JWT", jWT },
                             { "Location", location[i] }
                         };
-                        await _navigationService.GoBackAsync(parametr);
+                            await _navigationService.GoBackAsync(parametr);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
                     }
                 }
                 if (tick < 5)
