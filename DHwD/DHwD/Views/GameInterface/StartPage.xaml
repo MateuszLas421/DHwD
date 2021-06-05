@@ -59,7 +59,7 @@
             Grid.Row="1"
             Grid.Column="3"
             Command="{Binding SettingsCommand}" 
-            ImageSource="{local:ImageResource DHwD.Resources.Neon_Notatk.png}"
+            ImageSource="{local:ImageResource DHwD.Resources.Neon_Notatki.png}"
             BorderColor="Transparent" 
             BackgroundColor="Transparent"
             />
