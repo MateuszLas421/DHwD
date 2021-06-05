@@ -75,12 +75,12 @@ namespace DHwD.ViewModels.GameInterface
             });
 
             CurrentLocation = new Plugin.Geolocator.Abstractions.Position();
-
-            Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), Map.Resolutions[14]);
+            //Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1019114.80157058, 5719580.75916194), Map.Resolutions[14]);
         }
 
         public override void Initialize(INavigationParameters parameters)
         {
+            Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), Map.Resolutions[14]);
             if (parameters.ContainsKey("Team"))
             {
                 _Team = parameters.GetValue<MobileTeam>("Team");
@@ -94,9 +94,7 @@ namespace DHwD.ViewModels.GameInterface
                     { "Team", _Team },
                     { "JWT", jWT }
                 };
-
-            var startTimeSpan = TimeSpan.Zero;
-            var periodTimeSpan = TimeSpan.FromSeconds(3);
+            
             int i,tick=0;
             var timer = new Timer(async (e) =>
             {
@@ -126,7 +124,7 @@ namespace DHwD.ViewModels.GameInterface
                     MyMap.MyLocationFollow = true;
                     tick++;
                 }
-            }, null, startTimeSpan, periodTimeSpan);
+            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(4));
 
             _gpsTask = Gps();
             _pinstask = GetPinsData(_Team, jWT);
@@ -140,6 +138,7 @@ namespace DHwD.ViewModels.GameInterface
             CurrentLocation.Longitude = location.Longitude;
             var coords = new Mapsui.UI.Forms.Position(CurrentLocation.Latitude, CurrentLocation.Longitude);
             MyMap.MyLocationLayer.UpdateMyLocation(coords);
+            MyMap.MyLocationFollow = true;
             /// Check map.Home = n => n.NavigateT
         }
 
@@ -195,10 +194,10 @@ namespace DHwD.ViewModels.GameInterface
                 { "JWT", jWT },
                 { "location", postlocation }
             };
-            _dialog.ShowDialog("LocationDetailsDialog", parameters);
+            _dialog.ShowDialogAsync("LocationDetailsDialog", parameters);
             args.Pin.Callout.CalloutClicked += (s, e) =>
             {
-                args.Pin.Label = "You clicked me!";         
+                args.Pin.Label = postlocation.Place.Name;         
                 args.Pin.ShowCallout();
                 return;
             };

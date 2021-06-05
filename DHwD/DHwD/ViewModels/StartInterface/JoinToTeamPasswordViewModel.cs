@@ -42,7 +42,7 @@ namespace DHwD.ViewModels
                     { "Game", _game }
                 };
             if (_Team.MyTeam == true)
-                _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
+                _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: true, useModalNavigation: true);
             if (_Team.StatusPassword == false && _Team.MyTeam == false)
             {
                 _initializingTask = Init();
@@ -50,7 +50,7 @@ namespace DHwD.ViewModels
                 //_initializingTask.RunSynchronously();
                 Thread.Sleep(1500);
                 //if (_initializingTask.Result == true) //
-                _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
+                _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: true, useModalNavigation: true);
             }
         }
         private async Task<bool> Init()
@@ -114,7 +114,7 @@ namespace DHwD.ViewModels
                 await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
                 return;
             }
-            await _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: false, useModalNavigation: true);
+            await _navigationService.NavigateAsync("NavigationPage/StartPage", p, animated: true, useModalNavigation: true);
         }
     }
 }

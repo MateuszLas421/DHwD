@@ -110,7 +110,7 @@ namespace DHwD.ViewModels
                 {
                     { "JWT", jWT }
                 };
-                await _navigationService.NavigateAsync("NavigationPage/GameListView",p, useModalNavigation: true, animated: false);
+                await _navigationService.NavigateAsync("NavigationPage/GameListView",p, useModalNavigation: true, animated: true);
             }                                                                        
             else 
             {
@@ -126,7 +126,7 @@ namespace DHwD.ViewModels
                     {
                         { "JWT", jWT }
                     };
-                    await _navigationService.NavigateAsync("NavigationPage/GameListView", p, useModalNavigation: true, animated: false);
+                    await _navigationService.NavigateAsync("NavigationPage/GameListView", p, useModalNavigation: true, animated: true);
                 }
                 else
                     await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return;   

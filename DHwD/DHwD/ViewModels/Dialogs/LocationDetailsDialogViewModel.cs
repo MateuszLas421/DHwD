@@ -8,6 +8,8 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace DHwD.ViewModels.Dialogs
@@ -57,7 +59,7 @@ namespace DHwD.ViewModels.Dialogs
             Console.WriteLine("The Demo Dialog has been closed...");
         }
 
-        public async void OnDialogOpened(IDialogParameters parameters)
+        public void OnDialogOpened(IDialogParameters parameters)
         {
             if (parameters.ContainsKey("message"))
             {
@@ -75,7 +77,12 @@ namespace DHwD.ViewModels.Dialogs
             {
                 Place.Location = parameters.GetValue<Location>("location");
             };
-            await GetPlace(Place.Location.ID);
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+            {
+                Observable.Create<Task>(async o => await GetPlace(Place.Location.ID) )
+                .SubscribeOn(Scheduler.CurrentThread)
+                .Subscribe();
+            });
         }
 
         public async Task GetPlace(int IdLocation)

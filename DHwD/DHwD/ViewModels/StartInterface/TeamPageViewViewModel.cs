@@ -239,7 +239,7 @@ namespace DHwD.ViewModels
                     return;
                 }
             }
-            await _navigationService.NavigateAsync("JoinToTeamPassword", p, animated: false,useModalNavigation:false);
+            await _navigationService.NavigateAsync("JoinToTeamPassword", p, animated: true, useModalNavigation:false);
             IsBusy = false;
         }
         private async void ListScrolledCommand()
