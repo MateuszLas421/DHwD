@@ -48,8 +48,8 @@
                            TextColor="Black" Text="{Binding user.NickName}" BackgroundColor="{Binding NickNameColor}"/>
 
                     <Frame Grid.Row="2" Grid.ColumnSpan="5" CornerRadius="20" Margin="15" Padding="0" BackgroundColor="Transparent">
-                        <Button  Command="{Binding LoginCommand}" Text="Log In" VerticalOptions="Center"  Visual="Material"  TextColor="Black"
-                            HorizontalOptions="Center" WidthRequest="250"  CornerRadius="20" BackgroundColor="#84ae84"/>
+                        <Button  Command="{Binding LoginCommand}" Text="Log In" VerticalOptions="Center"  Visual="Material"  TextColor="White"
+                            HorizontalOptions="Center" WidthRequest="250"  CornerRadius="20" BackgroundColor="#074d29"/>
                     </Frame>
                 </Grid>
             </Grid>
