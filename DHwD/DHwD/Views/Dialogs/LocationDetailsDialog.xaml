@@ -1,28 +1,71 @@
 ﻿<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
           xmlns:prism="http://prismlibrary.com"
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-      BackgroundColor="White"
-        prism:ViewModelLocator.AutowireViewModel="True"
-      x:Class="DHwD.Views.Dialog.LocationDetailsDialog">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+      prism:ViewModelLocator.AutowireViewModel="True"
+      xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:magicGradients="http://magic.com/schemas/gradients"
+             x:Class="DHwD.Views.Dialog.LocationDetailsDialog">
+    
+    <Frame BackgroundColor="White" 
+           CornerRadius="20"
+           Padding="0"
+           >
 
-        <BoxView Color="Black" />
-        <Label Text="{Binding Title}"
-           Style="{DynamicResource TitleStyle}"
-           Margin="20,5"
-           TextColor="White" />
-        <Label Text="{Binding Message}"
-           Margin="20,0,20,10"
-           Grid.Row="1" />
-        <Button Text="Ok"
-            Command="{Binding CloseCommand}"
-            HorizontalOptions="Center"
-            Margin="0,0,0,10"
-            Grid.Row="2"/>
-    </Grid>
+        <Grid>
+            <magicGradients:GradientView  VerticalOptions="FillAndExpand" Opacity="1" >
+                <magicGradients:GradientView.GradientSource>
+                    <magicGradients:CssGradientSource>
+                        <x:String>
+                            <![CDATA[
+                                
+                            radial-gradient(circle at 17% 1%, rgba(198, 198, 198,0.03) 0%, rgba(198, 198, 198,0.03) 50%,rgba(42, 42, 42,0.03) 50%, rgba(42, 42, 42,0.03) 100%),radial-gradient(circle at 8% 81%, rgba(253, 253, 253,0.03) 0%, rgba(253, 253, 253,0.03) 50%,rgba(36, 36, 36,0.03) 50%, rgba(36, 36, 36,0.03) 100%),radial-gradient(circle at 83% 29%, rgba(164, 164, 164,0.03) 0%, rgba(164, 164, 164,0.03) 50%,rgba(60, 60, 60,0.03) 50%, rgba(60, 60, 60,0.03) 100%),radial-gradient(circle at 96% 62%, rgba(170, 170, 170,0.03) 0%, rgba(170, 170, 170,0.03) 50%,rgba(169, 169, 169,0.03) 50%, rgba(169, 169, 169,0.03) 100%),linear-gradient(518deg, rgb(2, 141, 213),rgb(5, 172, 81))
+ 
+                                    ]]>
+                        </x:String>
+                    </magicGradients:CssGradientSource>
+                </magicGradients:GradientView.GradientSource>
+            </magicGradients:GradientView>
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+
+                <Label Text="{Binding Place.Name}"
+                    HorizontalTextAlignment="Center"
+                    Style="{DynamicResource TitleStyle}"
+                    Margin="0,5,0,0"
+                    Grid.Row="0"
+                    TextColor="Black" 
+                    FontSize="Title"/>
+
+                <ffimageloading:CachedImage 
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+			        WidthRequest="300"
+                    HeightRequest="300"
+			        DownsampleToViewSize="true"
+                    Grid.Row="1" 
+			        Source = "{Binding Place.ImageLink}">
+                </ffimageloading:CachedImage>
+
+                <Label Text="{Binding Place.Description}"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Start"
+                   FontSize="Medium"
+                   WidthRequest="320"
+                   Grid.Row="2" />
+                <Button Text="Ok"
+                    Command="{Binding CloseCommand}"
+                    Visual="Material"
+                    CornerRadius="20"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,10"
+                    Grid.Row="3"/>
+            </Grid>
+        </Grid>
+    </Frame>
 </ContentView>

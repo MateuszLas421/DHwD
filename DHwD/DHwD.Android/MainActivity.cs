@@ -19,6 +19,7 @@ namespace DHwD.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer:false);
             LoadApplication(new App(new AndroidInitializer()));
         }
 

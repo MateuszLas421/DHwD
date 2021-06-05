@@ -16,6 +16,7 @@ using DHwD.ViewModels.Base;
 using System.Collections.Generic;
 using Models.ModelsDB;
 using Models.ModelsMobile;
+using Microsoft.AppCenter.Crashes;
 
 namespace DHwD.ViewModels.GameInterface
 {
@@ -29,7 +30,7 @@ namespace DHwD.ViewModels.GameInterface
         private readonly IPageDialogService _dialogService;
         private Task _initializingTask, _pinstask, _gpsTask;
         private RestService _restService;
-        List<Location> location;
+        private List<Location> location;
 
         #region  Property
         public MobileTeam _Team { get; set; }
@@ -102,15 +103,22 @@ namespace DHwD.ViewModels.GameInterface
                 await Gps();
                 for (i = 0; i < MyMap.Pins.Count; i++)
                 {
-                    if (await Distance(MyMap.Pins[i]) < 20)
+                    try
                     {
-                        var parametr = new NavigationParameters
+                        if (await Distance(MyMap.Pins[i]) < 20)
+                        {
+                            var parametr = new NavigationParameters
                         {
                             { "Team", _Team },
                             { "JWT", jWT },
                             { "Location", location[i] }
                         };
-                        await _navigationService.GoBackAsync(parametr);
+                            await _navigationService.GoBackAsync(parametr);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex);
                     }
                 }
                 if (tick < 5)
@@ -171,18 +179,26 @@ namespace DHwD.ViewModels.GameInterface
         public void PinClicked(object sender, PinClickedEventArgs args)
         {
             //var mapView = (MapView)sender;
-            args.Pin.Label = "click";
+            args.Handled = true;
+            Location postlocation = new Location();
+
+            foreach (var item in location)
+            {
+                if (item.Latitude == args.Pin.Position.Latitude && item.Longitude == args.Pin.Position.Longitude)
+                    postlocation = item;
+            }
             args.Pin.IsVisible = true;
             var parameters = new DialogParameters
             {
                 { "title", "test!" },
-                { "message", "test message" }
+                { "message", "test message" },
+                { "JWT", jWT },
+                { "location", postlocation }
             };
             _dialog.ShowDialog("LocationDetailsDialog", parameters);
             args.Pin.Callout.CalloutClicked += (s, e) =>
             {
-                args.Pin.Label = "You clicked me!";
-                e.Handled = true;            
+                args.Pin.Label = "You clicked me!";         
                 args.Pin.ShowCallout();
                 return;
             };
