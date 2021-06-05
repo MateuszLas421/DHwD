@@ -9,7 +9,7 @@ namespace DHwD.Views
     public partial class MapPage : ContentPage
     {
         public MapPageViewModel VM;
-        public Position CurrentLocation { get; set; }
+        public Xamarin.Essentials.Location CurrentLocation { get; set; }
         public MapPage()
         {
             InitializeComponent();

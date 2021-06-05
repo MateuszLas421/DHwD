@@ -24,13 +24,14 @@ namespace DHwD.ViewModels.GameInterface
     {
         private MapView _mapView;
         private Mapsui.Map _map;
-        private Plugin.Geolocator.Abstractions.Position _currentLocation;
+        private Xamarin.Essentials.Location _currentLocation;
         private readonly IDialogService _dialog;
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private Task _initializingTask, _pinstask, _gpsTask;
         private RestService _restService;
         private List<Location> location;
+        CancellationTokenSource cts;
 
         #region  Property
         public MobileTeam _Team { get; set; }
@@ -45,7 +46,7 @@ namespace DHwD.ViewModels.GameInterface
             get => _map;
             set => SetProperty(ref _map, value);
         }
-        public Plugin.Geolocator.Abstractions.Position CurrentLocation
+        public Xamarin.Essentials.Location CurrentLocation
         {
             get => _currentLocation;
             set => SetProperty(ref _currentLocation, value);
@@ -64,7 +65,7 @@ namespace DHwD.ViewModels.GameInterface
             {
                 CRS = "EPSG:3857",
                 Transformation = new MinimalTransformation()
-            };
+            }; 
             var tileLayer = OpenStreetMap.CreateTileLayer();
             Map.Layers.Add(tileLayer);
             Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(Map)
@@ -74,13 +75,12 @@ namespace DHwD.ViewModels.GameInterface
                 VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
             });
 
-            CurrentLocation = new Plugin.Geolocator.Abstractions.Position();
+            CurrentLocation = new Xamarin.Essentials.Location();
             //Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1019114.80157058, 5719580.75916194), Map.Resolutions[14]);
         }
 
         public override void Initialize(INavigationParameters parameters)
         {
-            Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), Map.Resolutions[14]);
             if (parameters.ContainsKey("Team"))
             {
                 _Team = parameters.GetValue<MobileTeam>("Team");
@@ -89,70 +89,79 @@ namespace DHwD.ViewModels.GameInterface
             {
                 jWT = parameters.GetValue<JWTToken>("JWT");
             }
+            MyMap.MyLocationFollow = true;
             var p = new NavigationParameters
                 {
                     { "Team", _Team },
                     { "JWT", jWT }
                 };
-            
-            int i,tick=0;
-            var timer = new Timer(async (e) =>
-            {
-                await Gps();
-                for (i = 0; i < MyMap.Pins.Count; i++)
-                {
-                    try
-                    {
-                        if (await Distance(MyMap.Pins[i]) < 20)
-                        {
-                            var parametr = new NavigationParameters
-                        {
-                            { "Team", _Team },
-                            { "JWT", jWT },
-                            { "Location", location[i] }
-                        };
-                            await _navigationService.GoBackAsync(parametr);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Crashes.TrackError(ex);
-                    }
-                }
-                if (tick < 5)
-                {
-                    MyMap.MyLocationFollow = true;
-                    tick++;
-                }
-            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(4));
 
+            int i;
             _gpsTask = Gps();
+
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), Map.Resolutions[14]);
+                  var timer = new Timer( (e) =>
+                   {
+
+                  for (i = 0; i < MyMap.Pins.Count; i++)
+                  {
+                      try
+                      {
+                          if (Distance(MyMap.Pins[i]) < 20)
+                          {
+                              var parametr = new NavigationParameters
+                          {
+                              { "Team", _Team },
+                              { "JWT", jWT },
+                              { "Location", location[i] }
+                          };
+                               _navigationService.GoBackAsync(parametr);
+                          }
+                      }
+                      catch (Exception ex)
+                      {
+                          Crashes.TrackError(ex);
+                      }
+                  }
+              }, null, TimeSpan.Zero, TimeSpan.FromSeconds(4)); 
+            });           
             _pinstask = GetPinsData(_Team, jWT);
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            OnDisappearing();
         }
 
         public async Task Gps()
         {
-            var request = new Xamarin.Essentials.GeolocationRequest(Xamarin.Essentials.GeolocationAccuracy.Best);
-            var location = await Xamarin.Essentials.Geolocation.GetLocationAsync(request);
-            CurrentLocation.Latitude = location.Latitude;
-            CurrentLocation.Longitude = location.Longitude;
+           Device.BeginInvokeOnMainThread(async () => { 
+           var request = new Xamarin.Essentials.GeolocationRequest(Xamarin.Essentials.GeolocationAccuracy.Best, TimeSpan.FromSeconds(4));
+            cts = new CancellationTokenSource();
+            CurrentLocation = await Xamarin.Essentials.Geolocation.GetLocationAsync(request, cts.Token);
             var coords = new Mapsui.UI.Forms.Position(CurrentLocation.Latitude, CurrentLocation.Longitude);
             MyMap.MyLocationLayer.UpdateMyLocation(coords);
             MyMap.MyLocationFollow = true;
+            });   
             /// Check map.Home = n => n.NavigateT
         }
 
-        public async Task<double> Distance(Pin activepin)
+        public double Distance(Pin activepin)
         {
             var distance =  CalculateCoordinates.DistanceInKmBetweenEarthCoordinates(CurrentLocation.Latitude, CurrentLocation.Longitude,activepin.Position.Latitude,activepin.Position.Longitude);
-            return await Task.FromResult<double>(distance);
+            return distance;
         }
-
-
-
+        protected void OnDisappearing()
+        {
+            if (cts != null && !cts.IsCancellationRequested)
+                cts.Cancel();
+        }
+        
         public async Task GetPinsData(Team team, JWTToken jWT)
         {
-            await Task.Run(async () =>
+            Device.BeginInvokeOnMainThread(async () =>
             {
                 location = await _restService.GetLocationAsync(jWT, team);
 
@@ -175,9 +184,8 @@ namespace DHwD.ViewModels.GameInterface
             });
         }
 
-        public void PinClicked(object sender, PinClickedEventArgs args)
-        {
-            //var mapView = (MapView)sender;
+    public void PinClicked(object sender, PinClickedEventArgs args)
+        {  
             args.Handled = true;
             Location postlocation = new Location();
 
