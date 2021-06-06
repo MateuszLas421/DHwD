@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com" 
+             xmlns:magicGradients="http://magic.com/schemas/gradients"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="DHwD.Views.Dialogs.GameStartAlertDialog">
+
+    <Frame BackgroundColor="red" 
+           CornerRadius="20"
+           Padding="0"
+           >
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+
+
+            <Label Text="UWAGA!"
+                    HorizontalTextAlignment="Center"
+                    Style="{DynamicResource TitleStyle}"
+                    Margin="0,5,0,0"
+                    Grid.Row="0"
+                    TextColor="Black" 
+                    FontSize="Title"/>
+
+            <Label Text="Gra zawiera treści dla dorosłych, przemoc oraz wulgarny język."
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Start"
+                   FontSize="Medium"
+                   WidthRequest="320"
+                   Grid.Row="2" />
+            <Label Text="Wchodzisz na własną odpowiedzialność."
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Start"
+                   FontSize="Medium"
+                   WidthRequest="320"
+                   Grid.Row="3" />
+            
+            <Button Text="Ok"
+                    Command="{Binding CloseCommand}"
+                    Visual="Material"
+                    CornerRadius="20"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,10"
+                    Grid.Row="4" 
+                    BackgroundColor="#074d29"
+                    TextColor="White"
+                    />
+        </Grid>
+    </Frame>
+</ContentView>

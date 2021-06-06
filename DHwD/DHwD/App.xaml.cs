@@ -13,6 +13,7 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using DHwD.Service;
+using DHwD.Views.Dialogs;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace DHwD
@@ -61,7 +62,8 @@ namespace DHwD
             containerRegistry.RegisterForNavigation<MyTeamPage, MyTeamPageViewModel>();
 
             //Dialogs Containers
-            containerRegistry.RegisterDialog<LocationDetailsDialog, LocationDetailsDialogViewModel>(); 
+            containerRegistry.RegisterDialog<LocationDetailsDialog, LocationDetailsDialogViewModel>();
+            containerRegistry.RegisterDialog<GameStartAlertDialog, GameStartAlertDialogViewModel>();
         }
     }
 }

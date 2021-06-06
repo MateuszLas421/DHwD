@@ -8,6 +8,7 @@ using Models.Request;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,13 +17,14 @@ using System.Threading.Tasks;
 
 namespace DHwD.ViewModels.GameInterface
 {
-    public class StartPageViewModel : GameBaseViewModel
+    public class StartPageViewModel : GameBaseViewModel, INavigationAware
     {
-        public StartPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public StartPageViewModel(INavigationService navigationService, IDialogService dialog)
             : base(navigationService)
         {
             IsLoading = true;
             _navigationService = navigationService;
+            _pageDialog = dialog;
             url_Data = new Url_data();
             _restService = new RestService();
             chat = new ObservableCollection<Chats>();
@@ -34,7 +36,7 @@ namespace DHwD.ViewModels.GameInterface
         }
 
         #region Navigation
-        public override void Initialize(INavigationParameters parameters)
+        public override async void Initialize(INavigationParameters parameters)
         {
             
             if (parameters.ContainsKey("Team"))
@@ -50,6 +52,22 @@ namespace DHwD.ViewModels.GameInterface
                 _game = parameters.GetValue<Games>("Game");
             }
             Init = InitializeTask();
+            try
+            {
+                var oauthToken = await Xamarin.Essentials.SecureStorage.GetAsync("first_start");
+                if (oauthToken == null)
+                {
+                    await Xamarin.Essentials.SecureStorage.SetAsync("first_start", "yes_is_a_first_start");
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                    {
+                        _pageDialog.ShowDialog("GameStartAlertDialog");
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -110,6 +128,8 @@ namespace DHwD.ViewModels.GameInterface
         public bool isLoading;
 
         private INavigationService _navigationService;
+
+        private IDialogService  _pageDialog;
 
         private DelegateCommand _map, _chat, _settings, _teampage;
 
@@ -223,7 +243,12 @@ namespace DHwD.ViewModels.GameInterface
                         getRequest = await PrepareGetRequest.PrepareMoreParametr(getRequest, "DateTimeCreate", currenttimeforChat.ToString());
 
                         list = await BaseREST.GetExecuteAsync<List<Chats>>(jWT,getRequest);
+                        foreach (var item in list)
+                        {
+                                chat.Insert(0,item);
+                        }
                     }
+                    else
                     await Startchat();
                 }
             }

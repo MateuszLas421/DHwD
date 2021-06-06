@@ -98,10 +98,11 @@ namespace DHwD.ViewModels.GameInterface
             Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), Map.Resolutions[14]);
             var timer = new Timer(async (e) =>
             {
-                await GpsAsync();
+                
                 var coords = new Mapsui.UI.Forms.Position(CurrentLocation.Latitude, CurrentLocation.Longitude);
-                Device.BeginInvokeOnMainThread(() =>
+                Device.BeginInvokeOnMainThread(async () =>
                 {
+                    await GpsAsync();
                     MyMap.MyLocationLayer.UpdateMyLocation(coords);
                     //MyMap.MyLocationFollow = true;
                 });
