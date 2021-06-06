@@ -23,9 +23,9 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Label
-            Text="12:12"
+            Text="{Binding Time}"
             TextColor="WhiteSmoke"
-            FontSize="Header"
+            FontSize="70"
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="4"
@@ -74,7 +74,7 @@
             HorizontalOptions="Center"
                />
         <Label 
-            Text="XYZJKHBNUHNBOPP"
+            Text="{Binding _Team.Name}"
             Grid.Column="0"
             Grid.ColumnSpan="4"
             Grid.Row="3"
@@ -110,22 +110,17 @@
             <Label Text="Points" VerticalOptions="Start" HorizontalTextAlignment="End" TextColor="White" FontSize="Large"/>
             <Label Text="16x18e16" HorizontalOptions="Start" TextColor="White" FontSize="Large"/>
         </StackLayout>-->
-        
-        
-        
+
+
+
         <Label
-            Text="Time to "
+            Text="Time to end"
             Grid.Row="4"
             Grid.Column="0"
+            Grid.ColumnSpan="2"
             TextColor="White"
             HorizontalOptions="End"
-            />
-        <Label
-            Text="end"
-            Grid.Row="4"
-            Grid.Column="1"
-            TextColor="White"
-            HorizontalOptions="Start"
+            IsVisible="false"
             />
         <Label
             Text="03:32"
@@ -133,6 +128,7 @@
             Grid.Column="2"
             TextColor="White"
             HorizontalOptions="Start"
+            IsVisible="false"
             />
     </Grid>
 </ContentPage>

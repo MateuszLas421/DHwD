@@ -64,7 +64,10 @@
                     CornerRadius="20"
                     HorizontalOptions="Center"
                     Margin="0,0,0,10"
-                    Grid.Row="3"/>
+                    Grid.Row="3" 
+                    BackgroundColor="#074d29"
+                    TextColor="White"
+                    />
             </Grid>
         </Grid>
     </Frame>

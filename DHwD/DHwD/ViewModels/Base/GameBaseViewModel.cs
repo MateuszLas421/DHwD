@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DHwD.ViewModels.Base
 {
-    public class GameBaseViewModel : BindableBase, IInitialize, INavigationAware, IDestructible
+    public class GameBaseViewModel : BindableBase, IInitialize, INavigationAware, IDestructible, IAsyncInit
     {
         protected INavigationService NavigationService { get; private set; }
         private Position _currentLocation;
@@ -24,6 +24,7 @@ namespace DHwD.ViewModels.Base
             get => _currentLocation;
             set => SetProperty(ref _currentLocation, value);
         }
+        public Task Init { get; set; }
 
         public GameBaseViewModel(INavigationService navigationService)
         {

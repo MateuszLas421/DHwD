@@ -5,13 +5,13 @@ using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
 using Models.Request;
-using Models.Respone;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DHwD.ViewModels.GameInterface
@@ -23,15 +23,20 @@ namespace DHwD.ViewModels.GameInterface
         {
             IsLoading = true;
             _navigationService = navigationService;
-            Location Activelocation = new Location();
-            url_Data  = new Url_data();
+            url_Data = new Url_data();
             _restService = new RestService();
             chat = new ObservableCollection<Chats>();
+            Location Activelocation = new Location();
+            var timer = new Timer((e) =>
+            {
+                Time = DateTime.Now.ToString("HH:mm");
+            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
         }
 
         #region Navigation
-        public override async void Initialize(INavigationParameters parameters)
+        public override void Initialize(INavigationParameters parameters)
         {
+            
             if (parameters.ContainsKey("Team"))
             {
                 _Team = parameters.GetValue<MobileTeam>("Team");
@@ -44,8 +49,7 @@ namespace DHwD.ViewModels.GameInterface
             {
                 _game = parameters.GetValue<Games>("Game");
             }
-            await Startchat();
-            activePlace = await CheckTask(_Team);
+            Init = InitializeTask();
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -67,6 +71,11 @@ namespace DHwD.ViewModels.GameInterface
                 }
             }
         }
+        private async Task InitializeTask()
+        {
+            await Startchat();
+            activePlace = await CheckTask(_Team);
+        }
 
         #endregion
 
@@ -75,11 +84,23 @@ namespace DHwD.ViewModels.GameInterface
 
         private RestService _restService;
 
+        public string time;
+        public string Time
+        {
+            get => time;
+            set => SetProperty(ref time, value);
+        }
+
         public Url_data url_Data { get; set; }
 
         internal Games _game { get; private set; }
 
-        public MobileTeam _Team { get; set; }
+        public MobileTeam _team;
+        public MobileTeam _Team
+        {
+            get => _team;
+            set => SetProperty(ref _team, value);
+        }
 
         public ActivePlace activePlace { get; set; }
 

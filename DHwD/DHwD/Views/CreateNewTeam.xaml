@@ -20,17 +20,20 @@
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image Grid.ColumnSpan="2" Grid.Row="0" Source="{local:ImageResource DHwD.Resources.sampleLogo.png}" HorizontalOptions="Center" VerticalOptions="Center"/>    <!-- ERORR API 30 --> 
-        <Label Text="Name" Grid.Column="0" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Image Grid.ColumnSpan="2" Grid.Row="0" Source="{local:ImageResource DHwD.Resources.Neon_Team.png}" HorizontalOptions="Center" VerticalOptions="Center"/>    <!-- ERORR API 30 -->
+        <Label Text="Name" Grid.Column="0" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black"/>
         <Entry Grid.Column="1" Grid.Row="1" Text="{Binding Team.Name}" Placeholder="Name"/>
-        <Label Text="Description" Grid.Column="0" Grid.Row="2" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label Text="Description" Grid.Column="0" Grid.Row="2" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black"/>
         <Entry Grid.Column="1" Grid.Row="2" Text="{Binding Team.Description}" Placeholder="Description"/>
-        <Label Text="Create Password?" Grid.Column="0" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label Text="Create Password?" Grid.Column="0" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black"/>
         <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding ChboX}"/>
-        <Label Text="Password" Grid.Column="0" Grid.Row="4" IsVisible="{Binding ChboX}" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-        <Entry Grid.Column="1" Grid.Row="4" Text="{Binding Team.Password}" IsPassword="True" IsVisible="{Binding ChboX}" Placeholder="Password"/>
-        <Label Text="Team with only one player" Grid.Column="0" Grid.Row="5" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Label Text="Password" Grid.Column="0" Grid.Row="4" IsVisible="{Binding ChboX}" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"
+               TextColor="Black"/>
+        <Entry Grid.Column="1" Grid.Row="4" Text="{Binding Team.Password}" IsPassword="True" IsVisible="{Binding ChboX}" Placeholder="Password" TextColor="Black"/>
+        <Label Text="Team with only one player" Grid.Column="0" Grid.Row="5" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"
+               TextColor="Black"/>
         <CheckBox Grid.Column="1" Grid.Row="5" IsChecked="{Binding Team.OnlyOnePlayer}"/>
-        <Button Grid.ColumnSpan="2" Grid.Row="6" Command="{Binding BtnCreateTeam}" Text="Create" CornerRadius="40" Margin="25"/>
-    </Grid>
+        <Button Grid.ColumnSpan="2" Grid.Row="6" Command="{Binding BtnCreateTeam}" Text="Create" Margin="25"
+                CornerRadius="20" BackgroundColor="#074d29"  Visual="Material"  TextColor="White"/>
+    </Grid> 
 </ContentPage>
