@@ -30,16 +30,22 @@
                                 <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="{local:ImageResource DHwD.Resources.Orange_Story_Feet.png}" Scale="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
-                            <Label Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Medium"
+                            <Image Source="{local:ImageResource DHwD.Resources.Orange_Story_Feet.png}"
+                                   Scale="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+                            <Label Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center" FontSize="Medium"
                                    BackgroundColor="Transparent" TextColor="Black" Text="{Binding Name, Mode=OneWay}" />
-                            <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" TextColor="Black" BackgroundColor="Transparent" 
+                            <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro"
+                                   TextColor="Black" BackgroundColor="Transparent" 
                                    Text="{Binding DateTimeStart, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>
-                            <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro" TextColor="Black"
+                            <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" FontSize="Micro"
+                                   TextColor="Black"
                                    BackgroundColor="Transparent" Text="{Binding DateTimeEnd, Mode=OneWay, StringFormat='{0:d MMMM, yyyy HH:mm}'}"/>
-                            <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" BackgroundColor="Transparent" 
+                            <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Center"
+                                   BackgroundColor="Transparent" 
                                    TextColor="Black" Text="{Binding Description, Mode=OneWay}" />
-                            <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" HorizontalTextAlignment="Center" BackgroundColor="Transparent" 
+                            <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" HorizontalTextAlignment="Center"
+                                   BackgroundColor="Transparent" 
                                    TextColor="Black" Text="{Binding RecommendedStartingPlace, Mode=OneWay}" />
                         </Grid>
                     </ViewCell>

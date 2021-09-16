@@ -22,24 +22,34 @@ namespace DHwD.ViewModels
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
-            Title = "Login Page";
+            Title = "Login Page";  
+        }
+        #region Navigation
+        public override void Initialize(INavigationParameters parameters)
+        {
+            Init = Task.Run(async () => await InitializeTask());
+        }
+        #endregion
+
+        private async Task InitializeTask()   //  To Check! !!!  // TODO!
+        {
             user = new UserRegistration();
             NickNameColor = Color.Default;
-            _sqliteService = new SqliteService();
+            _sqliteService = new SqliteService();   // TODO Repository
             _restService = new RestService();
-            bool a = false;
-            Task t = Task.Run(async () =>
+            bool userExist = false;
+            Task sqlTask =  Task.Run(async () =>
             {
                 UserRegistration user = await _sqliteService.GetItemAsync();
                 if (user != null)
                 {
                     JWTToken jwt = new JWTToken();
-                    jwt = await _restService.LoginAsync(user);
+                    jwt = await _restService.LoginAsync(user); // Update
                     if (jwt != null)
                     {
                         await _sqliteService.SaveToken(jwt);
                         jwt = null;
-                        a = true;
+                        userExist = true;
                     }
                     if (jwt == null)
                     {
@@ -49,31 +59,30 @@ namespace DHwD.ViewModels
             });
             try
             {
-                while (t.IsCompleted==false)
+                while (sqlTask.IsCompleted == false)
                 {
                     Thread.Sleep(250);
                 }
-                if (a)
+                if (userExist)
                 {
                     var p = new NavigationParameters
                     {
 
                     };
-                    //_navigationService.NavigateAsync("NavigationPage/StartPage", useModalNavigation: true, animated: false);
-                    _navigationService.NavigateAsync("NavigationPage/GameListView", p,  useModalNavigation: true, animated: false);                        
+                    await _navigationService.NavigateAsync("NavigationPage/GameListView", p, useModalNavigation: true, animated: false);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
                 Debug.WriteLine(ex.Message);
-                _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK");
+                await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK");
             }
         }
 
         #endregion
 
-        # region variables
+        #region variables
         private DelegateCommand _logincommand;
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
@@ -101,7 +110,7 @@ namespace DHwD.ViewModels
             Func<string, string> token = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());
             if (string.IsNullOrEmpty(user.NickName))        { NickNameColor = Color.Red; await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK"); return; }
             user.Token = token(CrossDeviceInfo.Current.Id.ToString());
-            jWT = await _restService.LoginAsync(user);
+            jWT = await _restService.LoginAsync(user);  // Update
             if (jWT!=null) 
             {
                 await _sqliteService.SaveUser(user);

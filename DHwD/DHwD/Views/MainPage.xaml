@@ -6,15 +6,16 @@
              xmlns:local="clr-namespace:DHwD;assembly=DHwD"
              ControlTemplate="{StaticResource PageWithGradient}"
              xmlns:magicGradients="clr-namespace:MagicGradients;assembly=MagicGradients"
+             Visual="Material"
              NavigationPage.HasNavigationBar="False">
     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
 
-
-        <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Orange_Logo.png}"  VerticalOptions="Center"  HorizontalOptions="Center" Margin="20"/>
-        <Frame CornerRadius="20" Padding="0" Margin="15" BackgroundColor="Transparent">
+        <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Orange_Logo.png}"
+               VerticalOptions="Center"  HorizontalOptions="Center" Margin="20"/>
+        <Frame CornerRadius="20" Padding="0" Margin="15" BackgroundColor="Transparent" Visual="Default">
             <Grid>
 
-                <magicGradients:GradientView  VerticalOptions="FillAndExpand" Opacity="0.6" >
+                <magicGradients:GradientView  VerticalOptions="FillAndExpand" BackgroundColor="Transparent" Opacity="0.6" >
                     <magicGradients:GradientView.GradientSource>
                         <magicGradients:CssGradientSource>
                             <x:String>
@@ -29,7 +30,10 @@
                 </magicGradients:GradientView>
 
 
-                <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
+                <Grid HorizontalOptions="CenterAndExpand"
+                      VerticalOptions="CenterAndExpand"
+                      BackgroundColor="Transparent"
+                      Margin="0">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="Auto"/>
@@ -41,15 +45,23 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="15" FontSize="Large" Text="Log in to start your story." HorizontalTextAlignment="Center" 
-                           VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" TextColor="Black" BackgroundColor="Transparent" FontFamily=""/>
-                    <Label Grid.Row="1" Grid.Column="0" Text="NickName" TextColor="Black" VerticalOptions="Center" MinimumWidthRequest="100" HorizontalOptions="Center" Margin="8,0,0,0"/>
-                    <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" WidthRequest="300" 
-                           TextColor="Black" Text="{Binding user.NickName}" BackgroundColor="{Binding NickNameColor}"/>
-
+                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="15" FontSize="Large"
+                           Text="Log in to start your story."
+                           HorizontalTextAlignment="Center" 
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" TextColor="Black"
+                           BackgroundColor="Transparent" FontFamily=""/>
+                    <Entry Grid.Row="1"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="4"
+                           Placeholder="NickName"
+                           WidthRequest="300" 
+                           TextColor="Black"
+                           Text="{Binding user.NickName}"
+                           BackgroundColor="{Binding NickNameColor}"/>
                     <Frame Grid.Row="2" Grid.ColumnSpan="5" CornerRadius="20" Margin="15" Padding="0" BackgroundColor="Transparent">
-                        <Button  Command="{Binding LoginCommand}" Text="Log In" VerticalOptions="Center"  Visual="Material"  TextColor="White"
-                            HorizontalOptions="Center" WidthRequest="250"  CornerRadius="20" BackgroundColor="#074d29"/>
+                        <Button  Command="{Binding LoginCommand}" Text="Log In" VerticalOptions="Center" Style="{StaticResource btnStandardStyle}"
+                            HorizontalOptions="Center" />
                     </Frame>
                 </Grid>
             </Grid>

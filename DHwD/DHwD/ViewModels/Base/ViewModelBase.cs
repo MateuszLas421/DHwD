@@ -4,6 +4,7 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DHwD.ViewModels
 {
@@ -17,6 +18,7 @@ namespace DHwD.ViewModels
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
+        public Task Init { get; set; }
 
         public ViewModelBase(INavigationService navigationService)
         {
