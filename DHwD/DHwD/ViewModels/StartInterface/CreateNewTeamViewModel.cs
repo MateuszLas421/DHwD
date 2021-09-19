@@ -1,5 +1,7 @@
 ﻿using DHwD.Models;
+using DHwD.Repository.Interfaces;
 using DHwD.Service;
+using DHwD.Tools;
 using Models.ModelsDB;
 using Prism.Commands;
 using Prism.Navigation;
@@ -13,11 +15,12 @@ namespace DHwD.ViewModels
 {
     public class CreateNewTeamViewModel : ViewModelBase, INavigationAware
     {
-        public CreateNewTeamViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
+        public CreateNewTeamViewModel(INavigationService navigationService,
+            IStorage storage ,IPageDialogService dialogService) : base(navigationService)
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
-            _sqliteService = new SqliteService();
+            _storage = storage;
             _restService = new RestService();
             Team = new Team();
             Game = new Games();
@@ -36,7 +39,7 @@ namespace DHwD.ViewModels
         private JWTToken jwt;
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
-        private SqliteService _sqliteService;
+        private IStorage _storage;
         private RestService _restService;
         private DelegateCommand _btnCreateTeam;
         #endregion
@@ -63,8 +66,7 @@ namespace DHwD.ViewModels
         
         async void CreateTeamCommand()
         {
-            jwt = new JWTToken();
-            jwt = await _sqliteService.GetToken();
+            jwt = new JWTToken { Token = await _storage.ReadData(Constans.JWT) };
             Team.StatusPassword = ChboX;
             Team.Games = new Games();
             Team.Games.Id = Game.Id;

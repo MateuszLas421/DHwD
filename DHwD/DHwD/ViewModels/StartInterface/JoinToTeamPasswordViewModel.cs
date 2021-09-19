@@ -18,7 +18,6 @@ namespace DHwD.ViewModels
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
-            _sqliteService = new SqliteService();
             _restService = new RestService();
         }
         public override void Initialize(INavigationParameters parameters)
@@ -69,7 +68,6 @@ namespace DHwD.ViewModels
         private DelegateCommand _logincommand;
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
-        private SqliteService _sqliteService;
         private RestService _restService;
         private string _TeamPassword;
         #endregion

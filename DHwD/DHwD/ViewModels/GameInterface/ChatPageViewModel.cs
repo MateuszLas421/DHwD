@@ -65,7 +65,6 @@ namespace DHwD.ViewModels.GameInterface
         public ObservableCollection<Chats> chat;
         private JWTToken jWT;
         Url_data url_Data;
-        private SqliteService _sqliteService;
         private RestService _restService;
         private SolutionRequest message;
         private IPageDialogService _dialogService;

@@ -14,6 +14,8 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using DHwD.Service;
 using DHwD.Views.Dialogs;
+using DHwD.Repository.Interfaces;
+using DHwD.Repository;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace DHwD
@@ -64,6 +66,10 @@ namespace DHwD
             //Dialogs Containers
             containerRegistry.RegisterDialog<LocationDetailsDialog, LocationDetailsDialogViewModel>();
             containerRegistry.RegisterDialog<GameStartAlertDialog, GameStartAlertDialogViewModel>();
+
+            // Register
+            containerRegistry.Register<ILogs, LogsRepository>();
+            containerRegistry.Register<IStorage, Storage>();
         }
     }
 }

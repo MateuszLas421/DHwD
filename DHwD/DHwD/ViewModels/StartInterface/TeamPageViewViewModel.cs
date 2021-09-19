@@ -1,5 +1,7 @@
 ﻿using DHwD.Models;
+using DHwD.Repository.Interfaces;
 using DHwD.Service;
+using DHwD.Tools;
 using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
@@ -16,12 +18,13 @@ namespace DHwD.ViewModels
 {
     public class TeamPageViewViewModel: ViewModelBase, INavigationAware
     {
-        public TeamPageViewViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
+        public TeamPageViewViewModel(INavigationService navigationService,
+            IStorage storage, IPageDialogService dialogService) : base(navigationService)
         {
             Title = "Error";
             _navigationService = navigationService;
             _dialogService = dialogService;
-            _sqliteService = new SqliteService();
+            _storage = storage;
             _restService = new RestService();
             ObTeam = new ObservableCollection<MobileTeam>();
             _game = new Games();
@@ -33,8 +36,7 @@ namespace DHwD.ViewModels
         {
             await Task.Run(async () =>
                                      {
-                                         jwt = new JWTToken();
-                                         jwt = await _sqliteService.GetToken();
+                                         jwt = new JWTToken { Token = await _storage.ReadData(Constans.JWT) };
                                          var Member = await _restService.GetMyTeams(jwt, _game.Id);
                                             try { 
                                                 await foreach (MobileTeam item in _restService.GetTeams(jwt, _game.Id))
@@ -138,7 +140,7 @@ namespace DHwD.ViewModels
         private JWTToken jwt;
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
-        private SqliteService _sqliteService;
+        private IStorage _storage;
         private RestService _restService;
         private Command _btnCreateTeam;
         private bool _isBusy;

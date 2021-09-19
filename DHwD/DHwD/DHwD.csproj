@@ -10,6 +10,9 @@
     <EmbeddedResource Remove="Service\Rest\**" />
     <None Remove="Service\Rest\**" />
     <None Remove="Service\Base\" />
+    <None Remove="Repository\" />
+    <None Remove="Repository\Interfaces\" />
+    <None Remove="Xamarin.Essentials" />
   </ItemGroup>
 
   <ItemGroup>
@@ -128,6 +131,7 @@
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.6.1" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="8.0.0.1909" />
     <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.8.0.1821" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -196,5 +200,7 @@
 
   <ItemGroup>
     <Folder Include="Service\Base\" />
+    <Folder Include="Repository\" />
+    <Folder Include="Repository\Interfaces\" />
   </ItemGroup>
 </Project>

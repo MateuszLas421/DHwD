@@ -8,20 +8,23 @@ using System.Security.Cryptography;
 using DHwD.Service;
 using Prism.Services;
 using DHwD.Models;
-using System.Diagnostics;
 using System.Threading;
-using Microsoft.AppCenter.Crashes;
+using DHwD.Repository.Interfaces;
+using DHwD.Tools;
 
 namespace DHwD.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
         #region constructor 
-        public MainPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public MainPageViewModel(INavigationService navigationService, IPageDialogService dialogService,
+            ILogs logs, IStorage storage)
             : base(navigationService)
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
+            _logsRepository = logs;
+            _storage = storage;
             Title = "Login Page";  
         }
         #region Navigation
@@ -35,25 +38,25 @@ namespace DHwD.ViewModels
         {
             user = new UserRegistration();
             NickNameColor = Color.Default;
-            _sqliteService = new SqliteService();   // TODO Repository
+            //_sqliteService = new SqliteService();   // TODO Repository
             _restService = new RestService();
             bool userExist = false;
             Task sqlTask =  Task.Run(async () =>
             {
-                UserRegistration user = await _sqliteService.GetItemAsync();
+               // UserRegistration user = await _sqliteService.GetItemAsync();
                 if (user != null)
                 {
                     JWTToken jwt = new JWTToken();
                     jwt = await _restService.LoginAsync(user); // Update
                     if (jwt != null)
                     {
-                        await _sqliteService.SaveToken(jwt);
+                        await _storage.SaveData(Constans.JWT, jwt.Token);
                         jwt = null;
                         userExist = true;
                     }
-                    if (jwt == null)
+                    else if (jwt == null)
                     {
-                        await _sqliteService.DeleteUser();
+                        //await _sqliteService.DeleteUser();
                     }
                 }
             });
@@ -74,8 +77,8 @@ namespace DHwD.ViewModels
             }
             catch (Exception ex)
             {
-                Crashes.TrackError(ex);
-                Debug.WriteLine(ex.Message);
+                _logsRepository.LogError(ex);
+
                 await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK");
             }
         }
@@ -84,10 +87,12 @@ namespace DHwD.ViewModels
 
         #region variables
         private DelegateCommand _logincommand;
+        private ILogs _logsRepository;
+        private IStorage _storage;
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
         private Color _nickNameColor;
-        private SqliteService _sqliteService;
+        //private SqliteService _sqliteService;
         private RestService _restService;
         #endregion
 
@@ -113,8 +118,8 @@ namespace DHwD.ViewModels
             jWT = await _restService.LoginAsync(user);  // Update
             if (jWT!=null) 
             {
-                await _sqliteService.SaveUser(user);
-                await _sqliteService.SaveToken(jWT);
+                //await _sqliteService.SaveUser(user);
+                await _storage.SaveData(Constans.JWT, jWT.Token);
                 var p = new NavigationParameters
                 {
                     { "JWT", jWT }
@@ -129,8 +134,8 @@ namespace DHwD.ViewModels
                 jWT = await _restService.LoginAsync(user);
                 if (jWT != null)
                 {
-                    await _sqliteService.SaveUser(user);
-                    await _sqliteService.SaveToken(jWT);
+                    //await _sqliteService.SaveUser(user);
+                    await _storage.SaveData(Constans.JWT, jWT.Token);
                     var p = new NavigationParameters
                     {
                         { "JWT", jWT }
