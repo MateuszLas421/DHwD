@@ -32,7 +32,7 @@ namespace DHwD.ViewModels.GameInterface
             _restService = new RestService();
             url_Data = new Url_data();
             OnSendCommand = new Command(() => TaskAsync());
-           // OnSendCommand = new Command(async () => { chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false }); });          ///Debug chat
+            //OnSendCommand = new Command(async () => { chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false }); });          ///Debug chat
         }
 
         public override async void Initialize(INavigationParameters parameters)
