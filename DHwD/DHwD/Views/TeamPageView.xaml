@@ -1,55 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="DHwD.Views.TeamPageView"
-             NavigationPage.HasNavigationBar="True"
-             ControlTemplate="{StaticResource PageWithGradient}"
-             xmlns:local="clr-namespace:DHwD;assembly=DHwD"
-             Visual="Material"
-             Title="{Binding Title}">
-    
+<ContentPage
+    x:Class="DHwD.Views.TeamPageView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:DHwD;assembly=DHwD"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    ControlTemplate="{StaticResource PageWithGradient}"
+    NavigationPage.HasNavigationBar="True"
+    Visual="Material">
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="Toolbar_CreateTeam" Text="Create" Clicked="Create_Clicked" />
+        <ToolbarItem
+            x:Name="Toolbar_CreateTeam"
+            Clicked="Create_Clicked"
+            Text="Create" />
     </ContentPage.ToolbarItems>
-    
-    <ListView ItemsSource="{Binding ObTeam}"
-            HasUnevenRows="True" 
-            IsPullToRefreshEnabled="true"
-            RefreshControlColor="Red"
-            IsRefreshing="{Binding ListviewIsRefreshing}" >
-            <ListView.Behaviors>
-                <prism:EventToCommandBehavior EventName="ItemTapped"
-                                              EventArgsParameterPath="Item"
-                                              Command="{Binding SelectedCommand}" />
-                <prism:EventToCommandBehavior EventName="Refreshing"
-                                              Command="{Binding ListScrolled}" />
+
+    <ListView
+        HasUnevenRows="True"
+        IsPullToRefreshEnabled="true"
+        IsRefreshing="{Binding ListviewIsRefreshing}"
+        ItemsSource="{Binding ObTeam}"
+        RefreshControlColor="Red">
+        <ListView.Behaviors>
+            <prism:EventToCommandBehavior
+                Command="{Binding SelectedCommand}"
+                EventArgsParameterPath="Item"
+                EventName="ItemTapped" />
+            <prism:EventToCommandBehavior Command="{Binding ListScrolled}" EventName="Refreshing" />
         </ListView.Behaviors>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Margin="5,0,5,15">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="45"/>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Source="{local:ImageResource DHwD.Resources.ic_padlock.png}" IsVisible="{Binding StatusPassword}" Scale="1" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
-                        <Label Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" TextColor="Black" FontSize="Small"
-                               Text="{Binding Name, Mode=OneWay}" />
-                        <Label Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" TextColor="Black" FontSize="Micro" Text="{Binding UserNickName, Mode=OneWay}"/>
-                        <Label Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" TextColor="Black" FontSize="Micro" Text="Private Team"
-                               IsVisible="{Binding OnlyOnePlayer, Mode=OneWay}"/>
-                        <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"  TextColor="DarkGreen" IsVisible="{Binding MyTeam}" FontSize="Small"
-                                   HorizontalTextAlignment="Center" Text="{Binding ItIsMyteamTEXT}" />
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid Margin="5,0,5,15">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="0"
+                            IsVisible="{Binding StatusPassword}"
+                            Scale="1"
+                            Source="{local:ImageResource DHwD.Resources.ic_padlock.png}" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Name, Mode=OneWay}"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            FontSize="Micro"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding UserNickName, Mode=OneWay}"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            FontSize="Micro"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="{Binding OnlyOnePlayer, Mode=OneWay}"
+                            Text="Private Team"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Grid.ColumnSpan="2"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="{Binding MyTeam}"
+                            Text="{Binding ItIsMyteamTEXT}"
+                            TextColor="DarkGreen" />
                     </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </ContentPage>

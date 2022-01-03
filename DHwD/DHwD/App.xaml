@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             xmlns:magicGradients="clr-namespace:MagicGradients;assembly=MagicGradients"
-             x:Class="DHwD.App">
-  <Application.Resources>
+<prism:PrismApplication
+    x:Class="DHwD.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:magicGradients="clr-namespace:MagicGradients;assembly=MagicGradients"
+    xmlns:prism="http://prismlibrary.com">
+    <Application.Resources>
 
-        <!--Gradient -->
+        <!--  Gradient  -->
 
         <ControlTemplate x:Key="PageWithGradient">
             <Grid>
-                <magicGradients:GradientView VerticalOptions="FillAndExpand" >
+                <magicGradients:GradientView VerticalOptions="FillAndExpand">
                     <magicGradients:GradientView.GradientSource>
                         <magicGradients:CssGradientSource>
                             <x:String>
@@ -25,9 +26,9 @@
             </Grid>
         </ControlTemplate>
 
-        <!-- Application resource dictionary -->
+        <!--  Application resource dictionary  -->
 
-        <!-- Style -->
+        <!--  Style  -->
         <Style x:Key="btnStandardStyle" TargetType="Button">
             <Setter Property="Visual" Value="Material" />
             <Setter Property="BackgroundColor" Value="#074d29" />
@@ -37,7 +38,12 @@
             <Setter Property="WidthRequest" Value="300" />
         </Style>
 
-        <!-- EndStyle -->
+        <Style x:Key="btnStartGameStyle" TargetType="Button">
+            <Setter Property="BorderColor" Value="Transparent" />
+            <Setter Property="BackgroundColor" Value="#Transparent" />
+        </Style>
 
-  </Application.Resources>
+        <!--  EndStyle  -->
+
+    </Application.Resources>
 </prism:PrismApplication>

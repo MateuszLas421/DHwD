@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHwD.iOS", "DHwD\DHwD.iOS\D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "..\DHwD_web\Models\Models.csproj", "{BD937EE6-0771-4F28-A080-B647EACCD2E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{64632881-9010-4CCA-A3F0-82B2FBF3619C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "Tests\UnitTests.csproj", "{64632881-9010-4CCA-A3F0-82B2FBF3619C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{68BABEAB-6649-449F-8BE3-5E0B22D8AD40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -160,6 +162,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64632881-9010-4CCA-A3F0-82B2FBF3619C} = {68BABEAB-6649-449F-8BE3-5E0B22D8AD40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90C5DB3C-418F-4A52-8EEB-9D010F6090B3}

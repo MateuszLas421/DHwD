@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="DHwD.Views.StartPage"
-             NavigationPage.HasNavigationBar="False"
-             xmlns:local="clr-namespace:DHwD;assembly=DHwD"
-             BackgroundImageSource="{local:ImageResource DHwD.Resources.Wallpaper_1.png}"
-             >
+<ContentPage
+    x:Class="DHwD.Views.StartPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:DHwD;assembly=DHwD"
+    xmlns:prism="http://prismlibrary.com"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    BackgroundImageSource="{local:ImageResource DHwD.Resources.Wallpaper_1.png}"
+    NavigationPage.HasNavigationBar="False">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -23,70 +23,59 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Label
-            Text="{Binding Time}"
-            TextColor="WhiteSmoke"
-            FontSize="70"
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="4"
+            FontSize="70"
             HorizontalOptions="Center"
-            />
+            Text="{Binding Time}"
+            TextColor="WhiteSmoke" />
         <Button
             Grid.Row="1"
             Grid.Column="0"
-            Command="{Binding MapCommand}" 
+            Command="{Binding MapCommand}"
             ImageSource="{local:ImageResource DHwD.Resources.Neon_GPS.png}"
-            BorderColor="Transparent" 
-            BackgroundColor="Transparent"
-            />
+            Style="{StaticResource btnStartGameStyle}" />
         <Button
             Grid.Row="1"
             Grid.Column="1"
-            Command="{Binding ChatCommand}" 
+            Command="{Binding ChatCommand}"
             ImageSource="{local:ImageResource DHwD.Resources.Neon_Chat.png}"
-            BorderColor="Transparent" 
-            BackgroundColor="Transparent"
-            />
+            Style="{StaticResource btnStartGameStyle}" />
         <Button
             Grid.Row="1"
             Grid.Column="2"
-            Command="{Binding MyTeampageCommand}" 
+            Command="{Binding MyTeampageCommand}"
             ImageSource="{local:ImageResource DHwD.Resources.Neon_Team.png}"
-            BorderColor="Transparent" 
-            BackgroundColor="Transparent"
-            />
+            Style="{StaticResource btnStartGameStyle}" />
         <Button
             Grid.Row="1"
             Grid.Column="3"
-            Command="{Binding SettingsCommand}" 
+            Command="{Binding SettingsCommand}"
             ImageSource="{local:ImageResource DHwD.Resources.Neon_Notatk.png}"
-            BorderColor="Transparent" 
-            BackgroundColor="Transparent"
-            />
-        <Label 
-            Text="Team"
+            Style="{StaticResource btnStartGameStyle}" />
+        <Label
+            Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="4"
-            Grid.Row="2"
-            TextColor="WhiteSmoke"
-            VerticalTextAlignment="Center"
             FontSize="Medium"
             HorizontalOptions="Center"
-               />
-        <Label 
-            Text="{Binding _Team.Name}"
+            Text="Team"
+            TextColor="WhiteSmoke"
+            VerticalTextAlignment="Center" />
+        <Label
+            Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="4"
-            Grid.Row="3"
             FontSize="Large"
-            TextColor="WhiteSmoke"
             HorizontalOptions="Center"
-               />
+            Text="{Binding _Team.Name}"
+            TextColor="WhiteSmoke" />
         <!--
         <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}"
             VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />                                                TODO
         -->
-        
+
         <!--<StackLayout  Orientation="Vertical" VerticalOptions="FillAndExpand"  HorizontalOptions="Center">
             <Label Text="START" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Fill" Padding="0,15,0,0"/>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
@@ -114,21 +103,19 @@
 
 
         <Label
-            Text="Time to end"
             Grid.Row="4"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            TextColor="White"
             HorizontalOptions="End"
             IsVisible="false"
-            />
+            Text="Time to end"
+            TextColor="White" />
         <Label
-            Text="03:32"
             Grid.Row="4"
             Grid.Column="2"
-            TextColor="White"
             HorizontalOptions="Start"
             IsVisible="false"
-            />
+            Text="03:32"
+            TextColor="White" />
     </Grid>
 </ContentPage>
