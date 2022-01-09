@@ -27,9 +27,6 @@ class Build : NukeBuild
 
     public static int Main () => Execute<Build>(x => x.Compile);
 
-    [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
-    readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-
     [Parameter("Build config")]
     string BuildConfig { get; set; }
 
@@ -40,10 +37,13 @@ class Build : NukeBuild
 
     AbsolutePath DirectoryiOSObj => RootDirectory / "DHwD/DHwD.iOS/obj";
 
+    AbsolutePath DirectoryUnitTest => RootDirectory / "Tests/UnitTests.csproj";
+
     AbsolutePath DirectoryCoreBin => RootDirectory / "DHwD/DHwD/bin";
 
     AbsolutePath DirectoryCoreObj => RootDirectory / "DHwD/DHwD/obj";
     Target Clean => _ => _
+        .Requires(() => BuildConfig)
         .Executes(() =>
         {
             List<string> list = new List<string>();
@@ -72,6 +72,22 @@ class Build : NukeBuild
                 }
             }
         });
+
+    Target Test => _ => _
+    .Executes(() =>
+    {
+        DotNetBuild(c => c
+                .SetProjectFile(DirectoryUnitTest)
+                .SetConfiguration("Release"));
+
+        DotNetTest(_ => _
+            .SetProjectFile(DirectoryUnitTest)
+            .SetConfiguration("Release")
+            .EnableNoBuild()
+            .EnableBlameMode()
+            .SetDiagnosticsFile("Logs/log.txt")
+        );
+    });
 
     Target Restore => _ => _
         .DependsOn(Clean)

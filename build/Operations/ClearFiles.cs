@@ -24,6 +24,7 @@ namespace Operations
         {
             foreach (var item in list)
              {
+                Console.WriteLine($"Clean Directory > {item}");
                 EnsureCleanDirectory(item);
             }
 
