@@ -1,13 +1,12 @@
-﻿using DHwD.Models;
-using DHwD.Service;
+﻿using DHwD.Service;
 using DHwD.ViewModels.Base;
 using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
+using Models.ModelsMobile.Common;
 using Models.Request;
 using Prism.Commands;
 using Prism.Navigation;
-using Prism.Services;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;

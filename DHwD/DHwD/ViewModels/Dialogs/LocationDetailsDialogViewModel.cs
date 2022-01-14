@@ -1,6 +1,6 @@
-﻿using DHwD.Models;
-using DHwD.Service;
+﻿using DHwD.Service;
 using Models.ModelsDB;
+using Models.ModelsMobile.Common;
 using Models.Request;
 using Prism.Commands;
 using Prism.Mvvm;

@@ -13,6 +13,9 @@
     <None Remove="Repository\" />
     <None Remove="Repository\Interfaces\" />
     <None Remove="Xamarin.Essentials" />
+    <None Remove="Service\Interface.cs\" />
+    <None Remove="Service\Enums\" />
+    <None Remove="Polly" />
   </ItemGroup>
 
   <ItemGroup>
@@ -131,6 +134,7 @@
     <PackageReference Include="Prism.DryIoc.Forms" Version="8.0.0.1909" />
     <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.8.0.1821" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Polly" Version="7.2.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -201,5 +205,7 @@
     <Folder Include="Service\Base\" />
     <Folder Include="Repository\" />
     <Folder Include="Repository\Interfaces\" />
+    <Folder Include="Service\Interfaces\" />
+    <Folder Include="Service\Enums\" />
   </ItemGroup>
 </Project>

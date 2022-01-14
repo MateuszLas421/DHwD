@@ -1,7 +1,6 @@
-﻿using DHwD.Models;
-using DHwD.ViewModels.Base;
-using Models.ModelsDB;
+﻿using DHwD.ViewModels.Base;
 using Models.ModelsMobile;
+using Models.ModelsMobile.Common;
 using Prism.Navigation;
 using Prism.Services;
 

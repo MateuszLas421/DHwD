@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using DHwD.Service;
 using Prism.Services;
-using DHwD.Models;
 using System.Threading;
 using DHwD.Repository.Interfaces;
 using DHwD.Tools;
+using Models.ModelsMobile.Common;
 
 namespace DHwD.ViewModels
 {

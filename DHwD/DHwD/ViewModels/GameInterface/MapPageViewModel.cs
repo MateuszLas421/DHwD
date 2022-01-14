@@ -8,7 +8,6 @@ using Prism.Navigation;
 using Prism.Services;
 using System.Threading;
 using Xamarin.Forms;
-using DHwD.Models;
 using DHwD.Service;
 using Prism.Services.Dialogs;
 using DHwD.Tools;
@@ -17,6 +16,7 @@ using System.Collections.Generic;
 using Models.ModelsDB;
 using Models.ModelsMobile;
 using Microsoft.AppCenter.Crashes;
+using Models.ModelsMobile.Common;
 
 namespace DHwD.ViewModels.GameInterface
 {

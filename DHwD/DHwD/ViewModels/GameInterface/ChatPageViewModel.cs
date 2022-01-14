@@ -1,22 +1,19 @@
-﻿using DHwD.Models;
-using DHwD.Service;
+﻿using DHwD.Service;
 using DHwD.ViewModels.Base;
 using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
+using Models.ModelsMobile.Common;
 using Models.Request;
-using Models.Respone;
 using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DHwD.ViewModels.GameInterface
