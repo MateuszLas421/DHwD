@@ -25,7 +25,7 @@ namespace DHwD.ViewModels
             _dialogService = dialogService;
             _logsRepository = logs;
             _storage = storage;
-            Title = "Login Page";  
+            Title = "Login Page";
         }
         #region Navigation
         public override void Initialize(INavigationParameters parameters)
@@ -38,12 +38,12 @@ namespace DHwD.ViewModels
         {
             user = new UserRegistration();
             NickNameColor = Color.Default;
-            //_sqliteService = new SqliteService();   // TODO Repository
             _restService = new RestService();
             bool userExist = false;
             Task sqlTask =  Task.Run(async () =>
             {
-               // UserRegistration user = await _sqliteService.GetItemAsync();
+                //UserRegistration user = await _sqliteService.GetItemAsync();
+                user.Token = await _storage.ReadData(Constans.JWT);
                 if (user != null)
                 {
                     JWTToken jwt = new JWTToken();
@@ -113,7 +113,12 @@ namespace DHwD.ViewModels
             JWTToken jWT;
             Hash hash = new Hash();
             Func<string, string> token = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());
-            if (string.IsNullOrEmpty(user.NickName))        { NickNameColor = Color.Red; await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK"); return; }
+            if (string.IsNullOrEmpty(user.NickName))    
+            {
+                NickNameColor = Color.Red;
+                await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK"); 
+                return; 
+            }
             user.Token = token(CrossDeviceInfo.Current.Id.ToString());
             jWT = await _restService.LoginAsync(user);  // Update
             if (jWT!=null) 

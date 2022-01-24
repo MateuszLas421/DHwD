@@ -5,6 +5,7 @@ using Models.ModelsDB;
 using Models.ModelsMobile;
 using Models.ModelsMobile.Common;
 using Models.Request;
+using Models.Respone;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -138,7 +139,7 @@ namespace DHwD.ViewModels.GameInterface
                     Text = TextToSend,
                     gameid = _game.Id
                 };
-                var result = await BaseREST.PostExecuteAsync<Message, BaseRespone>(url_Data.Chat.ToString(), jWT, message);
+                var result = await BaseREST.PostExecuteAsync<Message, BaseResponse>(url_Data.Chat.ToString(), jWT, message);
                 if (result.Succes == false) 
                 {
                     try
@@ -192,7 +193,7 @@ namespace DHwD.ViewModels.GameInterface
                     Id_Team = _Team.Id,
                     IdMystery = activePlace.Place.Location.MysteryRef
                 };
-                var result = await BaseREST.PostExecuteAsync<SolutionRequest, BaseRespone>(url_Data.Solutions.ToString(), jWT, message);
+                var result = await BaseREST.PostExecuteAsync<SolutionRequest, BaseResponse>(url_Data.Solutions.ToString(), jWT, message);
                 if (result.Succes == false)
                 {
                     try
@@ -250,7 +251,7 @@ namespace DHwD.ViewModels.GameInterface
                 TextSolution = TextToSend,
                 Id_Team = _Team.Id
             };
-            var result = await BaseREST.PostExecuteAsync<QuizSolution ,BaseRespone>(url_Data.Quiz.ToString(), jWT, quizSolution);
+            var result = await BaseREST.PostExecuteAsync<QuizSolution ,BaseResponse>(url_Data.Quiz.ToString(), jWT, quizSolution);
         }
 
         internal async Task Updatechat()

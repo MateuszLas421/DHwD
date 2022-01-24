@@ -26,14 +26,16 @@ namespace DHwD.ViewModels
             SelectedCommand = new DelegateCommand<Games>(Selected, _ => !IsBusy).ObservesProperty(() => IsBusy);
         }
         #endregion
-        private async Task Init()
+
+        private new async Task Init()
         {
             await Task.Run(async () =>
              {
                  jwt = new JWTToken { Token = await _storage.ReadData(Constans.JWT) };
                  await foreach (var item in _restService.GetGames(jwt))
                  {
-                     ObGames.Add(item);
+                     if(item != null)
+                        ObGames.Add(item);
                  }
              });
         }
