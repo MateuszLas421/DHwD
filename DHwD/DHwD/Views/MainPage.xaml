@@ -1,21 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DHwD.Views.MainPage"
-             Title="{Binding Title}"
-             xmlns:local="clr-namespace:DHwD;assembly=DHwD"
-             ControlTemplate="{StaticResource PageWithGradient}"
-             xmlns:magicGradients="clr-namespace:MagicGradients;assembly=MagicGradients"
-             Visual="Material"
-             NavigationPage.HasNavigationBar="False">
-    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
+<ContentPage
+    x:Class="DHwD.Views.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:DHwD;assembly=DHwD"
+    xmlns:magicGradients="clr-namespace:MagicGradients;assembly=MagicGradients"
+    Title="{Binding Title}"
+    ControlTemplate="{StaticResource PageWithGradient}"
+    NavigationPage.HasNavigationBar="False"
+    Visual="Material">
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
 
-        <Image x:Name="LogoImage" Source="{local:ImageResource DHwD.Resources.Orange_Logo.png}"
-               VerticalOptions="Center"  HorizontalOptions="Center" Margin="20"/>
-        <Frame CornerRadius="20" Padding="0" Margin="15" BackgroundColor="Transparent" Visual="Default">
+        <Image
+            x:Name="LogoImage"
+            Margin="20"
+            HorizontalOptions="Center"
+            Source="{local:ImageResource DHwD.Resources.Orange_Logo.png}"
+            VerticalOptions="Center" />
+        <Frame
+            Margin="15"
+            Padding="0"
+            BackgroundColor="Transparent"
+            CornerRadius="20"
+            Visual="Default">
             <Grid>
 
-                <magicGradients:GradientView  VerticalOptions="FillAndExpand" BackgroundColor="Transparent" Opacity="0.6" >
+                <magicGradients:GradientView
+                    BackgroundColor="Transparent"
+                    Opacity="0.6"
+                    VerticalOptions="FillAndExpand">
                     <magicGradients:GradientView.GradientSource>
                         <magicGradients:CssGradientSource>
                             <x:String>
@@ -30,38 +43,57 @@
                 </magicGradients:GradientView>
 
 
-                <Grid HorizontalOptions="CenterAndExpand"
-                      VerticalOptions="CenterAndExpand"
-                      BackgroundColor="Transparent"
-                      Margin="0">
+                <Grid
+                    Margin="0"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition />
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Margin="15" FontSize="Large"
-                           Text="Log in to start your story."
-                           HorizontalTextAlignment="Center" 
-                           VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" TextColor="Black"
-                           BackgroundColor="Transparent" FontFamily=""/>
-                    <Entry Grid.Row="1"
-                           Grid.Column="1"
-                           Grid.ColumnSpan="4"
-                           Placeholder="NickName"
-                           WidthRequest="300" 
-                           TextColor="Black"
-                           Text="{Binding user.NickName}"
-                           BackgroundColor="{Binding NickNameColor}"/>
-                    <Frame Grid.Row="2" Grid.ColumnSpan="5" CornerRadius="20" Margin="15" Padding="0" BackgroundColor="Transparent">
-                        <Button  Command="{Binding LoginCommand}" Text="Log In" VerticalOptions="Center" Style="{StaticResource btnStandardStyle}"
-                            HorizontalOptions="Center" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Margin="15"
+                        BackgroundColor="Transparent"
+                        FontFamily=""
+                        FontSize="Large"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="Log in to start your story."
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand" />
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="4"
+                        BackgroundColor="{Binding NickNameColor}"
+                        Placeholder="NickName"
+                        Text="{Binding user.NickName}"
+                        TextColor="Black"
+                        WidthRequest="300" />
+                    <Frame
+                        Grid.Row="2"
+                        Grid.ColumnSpan="5"
+                        Margin="15"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        CornerRadius="20">
+                        <Button
+                            Command="{Binding LoginCommand}"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource btnStandardStyle}"
+                            Text="Log In"
+                            VerticalOptions="Center" />
                     </Frame>
                 </Grid>
             </Grid>

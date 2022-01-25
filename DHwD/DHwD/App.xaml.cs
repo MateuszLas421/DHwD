@@ -16,6 +16,7 @@ using DHwD.Service;
 using DHwD.Views.Dialogs;
 using DHwD.Repository.Interfaces;
 using DHwD.Repository;
+using DHwD.ViewModels.StartInterface;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace DHwD
@@ -55,6 +56,7 @@ namespace DHwD
             containerRegistry.RegisterForNavigation<GameListView, GameListViewModel>();
             containerRegistry.RegisterForNavigation<CreateNewTeam, CreateNewTeamViewModel>();
             containerRegistry.RegisterForNavigation<JoinToTeamPassword, JoinToTeamPasswordViewModel>();
+            containerRegistry.RegisterForNavigation<LoginPage, LoginViewModel>();
 
             //Game Containers
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
