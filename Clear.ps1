@@ -1,1 +1,1 @@
-nuke Compile --BuildConfig  clear
+nuke Clean

@@ -18,14 +18,8 @@ using System.Collections.Generic;
 using Operations;
 
 class Build : NukeBuild
-{
-    /// Support plugins are available for:
-    ///   - JetBrains ReSharper        https://nuke.build/resharper
-    ///   - JetBrains Rider            https://nuke.build/rider
-    ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
-    ///   - Microsoft VSCode           https://nuke.build/vscode
-
-    public static int Main () => Execute<Build>(x => x.Compile);
+{  
+    public static int Main () => Execute<Build>(x => x.Clean);
 
     [Parameter("Build config")]
     string BuildConfig { get; set; }
@@ -43,33 +37,27 @@ class Build : NukeBuild
 
     AbsolutePath DirectoryCoreObj => RootDirectory / "DHwD/DHwD/obj";
     Target Clean => _ => _
-        .Requires(() => BuildConfig)
         .Executes(() =>
         {
-            List<string> list = new List<string>();
-            list.Add(DirectoryAndroidBin);
-            list.Add(DirectoryAndroidObj);
-            list.Add(DirectoryiOSBin);
-            list.Add(DirectoryiOSObj);
-            list.Add(DirectoryCoreBin);
-            list.Add(DirectoryCoreObj);
+            var _list = new List<string>();
+            _list.Add(DirectoryAndroidBin);
+            _list.Add(DirectoryAndroidObj);
+            _list.Add(DirectoryiOSBin);
+            _list.Add(DirectoryiOSObj);
+            _list.Add(DirectoryCoreBin);
+            _list.Add(DirectoryCoreObj);
             int tryvalue = 0;
-            var build = BuildConfig.ToLower();
-            
-            if (build.Contains("clear"))
+            try
             {
-                try
-                {
-                    tryvalue++;
-                    ClearFiles.Clear(list);
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message.ToString());
-                    if (tryvalue > 3)
-                        return;
-                    ClearFiles.Clear(list);
-                }
+                tryvalue++;
+                ClearFiles.Clear(_list);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+                if (tryvalue > 3)
+                    return;
+                ClearFiles.Clear(_list);
             }
         });
 
