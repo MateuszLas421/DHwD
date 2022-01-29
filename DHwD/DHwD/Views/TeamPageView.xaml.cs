@@ -16,7 +16,7 @@ namespace DHwD.Views
 
         private void Create_Clicked(object sender, System.EventArgs e)
         {
-            vm.CreateTeamCommand(sender,e);
+            vm.CreateTeamCommand(sender, e);
         }
     }
 }

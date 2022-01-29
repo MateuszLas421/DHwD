@@ -1,22 +1,22 @@
-﻿using Mapsui;
-using Mapsui.Projection;
-using Mapsui.Utilities;
-using Mapsui.UI.Forms;
-using System;
-using System.Threading.Tasks;
-using Prism.Navigation;
-using Prism.Services;
-using System.Threading;
-using Xamarin.Forms;
-using DHwD.Models;
-using DHwD.Service;
-using Prism.Services.Dialogs;
+﻿using DHwD.Service;
 using DHwD.Tools;
 using DHwD.ViewModels.Base;
-using System.Collections.Generic;
+using Mapsui;
+using Mapsui.Projection;
+using Mapsui.UI.Forms;
+using Mapsui.Utilities;
+using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
-using Microsoft.AppCenter.Crashes;
+using Models.ModelsMobile.Common;
+using Prism.Navigation;
+using Prism.Services;
+using Prism.Services.Dialogs;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace DHwD.ViewModels.GameInterface
 {
@@ -65,7 +65,7 @@ namespace DHwD.ViewModels.GameInterface
             {
                 CRS = "EPSG:3857",
                 Transformation = new MinimalTransformation()
-            }; 
+            };
             var tileLayer = OpenStreetMap.CreateTileLayer();
             Map.Layers.Add(tileLayer);
             Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(Map)
@@ -98,7 +98,7 @@ namespace DHwD.ViewModels.GameInterface
             Map.Home = n => n.NavigateTo(new Mapsui.Geometries.Point(1059114.80157058, 5179580.75916194), Map.Resolutions[14]);
             var timer = new Timer(async (e) =>
             {
-                
+
                 var coords = new Mapsui.UI.Forms.Position(CurrentLocation.Latitude, CurrentLocation.Longitude);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
@@ -137,14 +137,14 @@ namespace DHwD.ViewModels.GameInterface
 
         public async Task GpsAsync()
         {
-           var request = new Xamarin.Essentials.GeolocationRequest(Xamarin.Essentials.GeolocationAccuracy.Best, TimeSpan.FromSeconds(30));
+            var request = new Xamarin.Essentials.GeolocationRequest(Xamarin.Essentials.GeolocationAccuracy.Best, TimeSpan.FromSeconds(30));
             cts = new CancellationTokenSource();
-            CurrentLocation = await Xamarin.Essentials.Geolocation.GetLocationAsync(request, cts.Token);              
+            CurrentLocation = await Xamarin.Essentials.Geolocation.GetLocationAsync(request, cts.Token);
         }
 
         public double Distance(Pin activepin)
         {
-            var distance =  CalculateCoordinates.DistanceInKmBetweenEarthCoordinates(CurrentLocation.Latitude, CurrentLocation.Longitude,activepin.Position.Latitude,activepin.Position.Longitude);
+            var distance = CalculateCoordinates.DistanceInKmBetweenEarthCoordinates(CurrentLocation.Latitude, CurrentLocation.Longitude, activepin.Position.Latitude, activepin.Position.Longitude);
             return distance;
         }
         protected void OnDisappearing()
@@ -152,7 +152,7 @@ namespace DHwD.ViewModels.GameInterface
             if (cts != null && !cts.IsCancellationRequested)
                 cts.Cancel();
         }
-        
+
         public async Task GetPinsData(Team team, JWTToken jWT)
         {
             location = await _restService.GetLocationAsync(jWT, team);
@@ -173,8 +173,8 @@ namespace DHwD.ViewModels.GameInterface
             }
         }
 
-    public void PinClicked(object sender, PinClickedEventArgs args)
-        {  
+        public void PinClicked(object sender, PinClickedEventArgs args)
+        {
             args.Handled = true;
             Location postlocation = new Location();
 
@@ -194,7 +194,7 @@ namespace DHwD.ViewModels.GameInterface
             _dialog.ShowDialogAsync("LocationDetailsDialog", parameters);
             args.Pin.Callout.CalloutClicked += (s, e) =>
             {
-                args.Pin.Label = postlocation.Place.Name;         
+                args.Pin.Label = postlocation.Place.Name;
                 args.Pin.ShowCallout();
                 return;
             };

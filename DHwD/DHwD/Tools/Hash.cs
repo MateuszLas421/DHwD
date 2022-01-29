@@ -1,12 +1,11 @@
 ﻿using DHwD.Interface;
 using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace DHwD.Models
+namespace DHwD.Tools
 {
-    public class Hash: IHash
+    public class Hash : IHash
     {
         public string ComputeHash(string input, HashAlgorithm algorithm)  //Hash
         {

@@ -1,6 +1,6 @@
-﻿using DHwD.Models;
-using DHwD.Service;
+﻿using DHwD.Service;
 using Models.ModelsDB;
+using Models.ModelsMobile.Common;
 using Models.Request;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -77,7 +77,7 @@ namespace DHwD.ViewModels.Dialogs
             };
             Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
             {
-                Observable.Create<Task>(async o => await GetPlace(Place.Location.ID) )
+                Observable.Create<Task>(async o => await GetPlace(Place.Location.ID))
                 .SubscribeOn(Scheduler.CurrentThread)
                 .Subscribe();
             });

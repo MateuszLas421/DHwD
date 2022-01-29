@@ -1,8 +1,10 @@
-﻿using DHwD.Models;
+﻿using DHwD.Repository.Interfaces;
 using DHwD.Service;
+using DHwD.Tools;
 using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
+using Models.ModelsMobile.Common;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -14,14 +16,15 @@ using Xamarin.Forms;
 
 namespace DHwD.ViewModels
 {
-    public class TeamPageViewViewModel: ViewModelBase, INavigationAware
+    public class TeamPageViewViewModel : ViewModelBase, INavigationAware
     {
-        public TeamPageViewViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService)
+        public TeamPageViewViewModel(INavigationService navigationService,
+            IStorage storage, IPageDialogService dialogService) : base(navigationService)
         {
             Title = "Error";
             _navigationService = navigationService;
             _dialogService = dialogService;
-            _sqliteService = new SqliteService();
+            _storage = storage;
             _restService = new RestService();
             ObTeam = new ObservableCollection<MobileTeam>();
             _game = new Games();
@@ -33,92 +36,92 @@ namespace DHwD.ViewModels
         {
             await Task.Run(async () =>
                                      {
-                                         jwt = new JWTToken();
-                                         jwt = await _sqliteService.GetToken();
+                                         jwt = new JWTToken { Token = await _storage.ReadData(Constans.JWT) };
                                          var Member = await _restService.GetMyTeams(jwt, _game.Id);
-                                            try { 
-                                                await foreach (MobileTeam item in _restService.GetTeams(jwt, _game.Id))
-                                                {
+                                         try
+                                         {
+                                             await foreach (MobileTeam item in _restService.GetTeams(jwt, _game.Id))
+                                             {
 
-                                                    try
-                                                    {
-                                                       if (Member != null)
-                                                       {
-                                                            if (item.Id == Member.Team.Id)
-                                                            {
-                                                                item.MyTeam = true;
-                                                                item.ItIsMyteamTEXT = "Attached";
-                                                                MyTeamExist = true;
-                                                                ObTeam.Add(item);
-                                                                continue;
-                                                            }
-                                                       }
-                                                    }
-                                                    catch (ArgumentNullException ex)
-                                                    {
+                                                 try
+                                                 {
+                                                     if (Member != null)
+                                                     {
+                                                         if (item.Id == Member.Team.Id)
+                                                         {
+                                                             item.MyTeam = true;
+                                                             item.ItIsMyteamTEXT = "Attached";
+                                                             MyTeamExist = true;
+                                                             ObTeam.Add(item);
+                                                             continue;
+                                                         }
+                                                     }
+                                                 }
+                                                 catch (ArgumentNullException ex)
+                                                 {
+                                                     Crashes.TrackError(ex);
+                                                     await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
+                                                     return;
+                                                 }
+                                                 catch (NullReferenceException ex)
+                                                 {
+                                                     Crashes.TrackError(ex);
+                                                     await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
+                                                     return;
+                                                 }
+                                                 catch (Exception ex)
+                                                 {
+                                                     Crashes.TrackError(ex);
+                                                     await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
+                                                     return;
+                                                 }
+                                                 item.MyTeam = false;
+                                                 if (item != null)
+                                                 {
+                                                     try
+                                                     {
+                                                         ObTeam.Add(item);
+                                                     }
+                                                     catch (System.Reflection.TargetInvocationException ex)
+                                                     {
                                                          Crashes.TrackError(ex);
                                                          await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
                                                          return;
-                                                    }
-                                                    catch (NullReferenceException ex)
-                                                    {
-                                                        Crashes.TrackError(ex);
-                                                        await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
-                                                        return;
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        Crashes.TrackError(ex);
-                                                        await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
-                                                        return;
-                                                    }
-                                                    item.MyTeam = false;
-                                                    if (item != null)
-                                                    {
-                                                        try
-                                                        {
-                                                            ObTeam.Add(item);
-                                                        }
-                                                        catch (System.Reflection.TargetInvocationException ex)
-                                                        {
-                                                            Crashes.TrackError(ex);
-                                                            await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
-                                                            return;
-                                                        }
-                                                        catch (Exception ex)
-                                                        {
-                                                            Crashes.TrackError(ex);
-                                                            await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
-                                                            return;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            catch (System.Reflection.TargetInvocationException ex)
-                                            {
-                                                Crashes.TrackError(ex);
-                                                await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
-                                                return;
-                                            }
-                                            catch (ArgumentNullException ex)
-                                            {
-                                                Crashes.TrackError(ex);
-                                                 await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
-                                                return;
-                                            }
-                                            catch (NullReferenceException ex)
-                                            {
+                                                     }
+                                                     catch (Exception ex)
+                                                     {
+                                                         Crashes.TrackError(ex);
+                                                         await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
+                                                         return;
+                                                     }
+                                                 }
+                                             }
+                                         }
+                                         catch (System.Reflection.TargetInvocationException ex)
+                                         {
+                                             Crashes.TrackError(ex);
+                                             await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
+                                             return;
+                                         }
+                                         catch (ArgumentNullException ex)
+                                         {
+                                             Crashes.TrackError(ex);
+                                             await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
+                                             return;
+                                         }
+                                         catch (NullReferenceException ex)
+                                         {
                                              Crashes.TrackError(ex);
                                              //await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");   // TODO !! System.Reflection.TargetInvocationException
                                              return;
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                Crashes.TrackError(ex);
-                                                await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
-                                                return;
-                                            }
-        });
+                                         }
+                                         catch (Exception ex)
+                                         {
+                                             Crashes.TrackError(ex);
+                                             await _dialogService.DisplayAlertAsync("Error", ex.Message.ToString(), "OK");
+                                             return;
+                                         }
+                                     });
         }
         public override void Initialize(INavigationParameters parameters)
         {
@@ -138,7 +141,7 @@ namespace DHwD.ViewModels
         private JWTToken jwt;
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
-        private SqliteService _sqliteService;
+        private IStorage _storage;
         private RestService _restService;
         private Command _btnCreateTeam;
         private bool _isBusy;
@@ -185,14 +188,14 @@ namespace DHwD.ViewModels
         private async void Selected(MobileTeam teams)
         {
             IsBusy = true;
-            List<TeamMembers> list=new List<TeamMembers>();
+            List<TeamMembers> list = new List<TeamMembers>();
             var p = new NavigationParameters
             {
                 { "Team", teams },
                 { "JWT", jwt },
                 { "Game", _game }
             };
-            if (!teams.MyTeam)  
+            if (!teams.MyTeam)
             {
                 if (MyTeamExist == true)
                 {
@@ -206,7 +209,7 @@ namespace DHwD.ViewModels
                     {
                         list.Add(item);
                     }
-                    catch(NullReferenceException ex)
+                    catch (NullReferenceException ex)
                     {
                         Crashes.TrackError(ex);
                         await _dialogService.DisplayAlertAsync("ALERT", ex.Message.ToString(), "OK");
@@ -239,7 +242,7 @@ namespace DHwD.ViewModels
                     return;
                 }
             }
-            await _navigationService.NavigateAsync("JoinToTeamPassword", p, animated: true, useModalNavigation:false);
+            await _navigationService.NavigateAsync("JoinToTeamPassword", p, animated: true, useModalNavigation: false);
             IsBusy = false;
         }
         private async void ListScrolledCommand()

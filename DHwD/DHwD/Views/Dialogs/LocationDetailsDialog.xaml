@@ -60,13 +60,10 @@
                    Grid.Row="2" />
                 <Button Text="Ok"
                     Command="{Binding CloseCommand}"
-                    Visual="Material"
-                    CornerRadius="20"
                     HorizontalOptions="Center"
                     Margin="0,0,0,10"
-                    Grid.Row="3" 
-                    BackgroundColor="#074d29"
-                    TextColor="White"
+                    Grid.Row="3"
+                    Style="{StaticResource btnStandardStyle}"
                     />
             </Grid>
         </Grid>

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Models.Request
 {
@@ -20,7 +17,7 @@ namespace Models.Request
         }
         public static Task<GetRequest> PrepareMoreParametr(GetRequest getRequest, string nameparametr, string parametr)
         {
-            getRequest.strURL += "?"+ nameparametr + "=" + parametr;
+            getRequest.strURL += "?" + nameparametr + "=" + parametr;
             return Task.FromResult<GetRequest>(getRequest);
         }
     }

@@ -1,13 +1,11 @@
-﻿using Prism.Commands;
+﻿using DHwD.Interface;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace DHwD.ViewModels
 {
-    public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible
+    public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible, IInit
     {
         protected INavigationService NavigationService { get; private set; }
 
@@ -17,6 +15,7 @@ namespace DHwD.ViewModels
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
+        public Task Init { get; set; }
 
         public ViewModelBase(INavigationService navigationService)
         {

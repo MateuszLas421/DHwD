@@ -1,5 +1,4 @@
 ﻿using DHwD.ViewModels.GameInterface;
-using Plugin.Geolocator.Abstractions;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

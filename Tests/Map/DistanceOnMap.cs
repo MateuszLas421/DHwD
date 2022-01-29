@@ -1,5 +1,4 @@
 using DHwD.Tools;
-using System;
 using Xunit;
 
 namespace Tests.Map

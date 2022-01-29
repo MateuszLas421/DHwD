@@ -1,39 +1,106 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="DHwD.Views.CreateNewTeam"
-             ControlTemplate="{StaticResource PageWithGradient}"
-             xmlns:local="clr-namespace:DHwD;assembly=DHwD">
+<ContentPage
+    x:Class="DHwD.Views.CreateNewTeam"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:DHwD;assembly=DHwD"
+    xmlns:prism="http://prismlibrary.com"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    ControlTemplate="{StaticResource PageWithGradient}">
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="250"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="250" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Grid.ColumnSpan="2" Grid.Row="0" Source="{local:ImageResource DHwD.Resources.Orange_Team.png}" HorizontalOptions="Center" VerticalOptions="Center"/>    <!-- ERORR API 30 -->
-        <Label Text="Name" Grid.Column="0" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black"/>
-        <Entry Grid.Column="1" Grid.Row="1" Text="{Binding Team.Name}" Placeholder="Name"/>
-        <Label Text="Description" Grid.Column="0" Grid.Row="2" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black"/>
-        <Entry Grid.Column="1" Grid.Row="2" Text="{Binding Team.Description}" Placeholder="Description"/>
-        <Label Text="Create Password?" Grid.Column="0" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black"/>
-        <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding ChboX}"/>
-        <Label Text="Password" Grid.Column="0" Grid.Row="4" IsVisible="{Binding ChboX}" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"
-               TextColor="Black"/>
-        <Entry Grid.Column="1" Grid.Row="4" Text="{Binding Team.Password}" IsPassword="True" IsVisible="{Binding ChboX}" Placeholder="Password" TextColor="Black"/>
-        <Label Text="Team with only one player" Grid.Column="0" Grid.Row="5" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"
-               TextColor="Black"/>
-        <CheckBox Grid.Column="1" Grid.Row="5" IsChecked="{Binding Team.OnlyOnePlayer}"/>
-        <Button Grid.ColumnSpan="2" Grid.Row="6" Command="{Binding BtnCreateTeam}" Text="Create" Margin="25"
-                CornerRadius="20" BackgroundColor="#074d29"  Visual="Material"  TextColor="White"/>
-    </Grid> 
+        <Image
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="Center"
+            Source="{local:ImageResource DHwD.Resources.Orange_Team.png}"
+            VerticalOptions="Center" />
+        <!--  ERORR API 30  -->
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="Name"
+            TextColor="Black"
+            VerticalOptions="Center" />
+        <Entry
+            Grid.Row="1"
+            Grid.Column="1"
+            Placeholder="Name"
+            Text="{Binding Team.Name}" />
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="Description"
+            TextColor="Black"
+            VerticalOptions="Center" />
+        <Entry
+            Grid.Row="2"
+            Grid.Column="1"
+            Placeholder="Description"
+            Text="{Binding Team.Description}" />
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="Create Password?"
+            TextColor="Black"
+            VerticalOptions="Center" />
+        <CheckBox
+            Grid.Row="3"
+            Grid.Column="1"
+            IsChecked="{Binding ChboX}" />
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding ChboX}"
+            Text="Password"
+            TextColor="Black"
+            VerticalOptions="Center" />
+        <Entry
+            Grid.Row="4"
+            Grid.Column="1"
+            IsPassword="True"
+            IsVisible="{Binding ChboX}"
+            Placeholder="Password"
+            Text="{Binding Team.Password}"
+            TextColor="Black" />
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="Team with only one player"
+            TextColor="Black"
+            VerticalOptions="Center" />
+        <CheckBox
+            Grid.Row="5"
+            Grid.Column="1"
+            IsChecked="{Binding Team.OnlyOnePlayer}" />
+        <Button
+            Grid.Row="6"
+            Grid.ColumnSpan="2"
+            Margin="25"
+            Command="{Binding BtnCreateTeam}"
+            Style="{StaticResource btnStandardStyle}"
+            Text="Create" />
+    </Grid>
 </ContentPage>

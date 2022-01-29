@@ -1,9 +1,9 @@
-﻿using DHwD.Models;
-using DHwD.Service;
+﻿using DHwD.Service;
 using DHwD.ViewModels.Base;
 using Microsoft.AppCenter.Crashes;
 using Models.ModelsDB;
 using Models.ModelsMobile;
+using Models.ModelsMobile.Common;
 using Models.Request;
 using Models.Respone;
 using Prism.Navigation;
@@ -12,11 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DHwD.ViewModels.GameInterface
@@ -32,7 +30,7 @@ namespace DHwD.ViewModels.GameInterface
             _restService = new RestService();
             url_Data = new Url_data();
             OnSendCommand = new Command(() => TaskAsync());
-           // OnSendCommand = new Command(async () => { chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false }); });          ///Debug chat
+            //OnSendCommand = new Command(async () => { chat.Insert(0, new Chats() { Text = TextToSend, IsSystem = false }); });          ///Debug chat
         }
 
         public override async void Initialize(INavigationParameters parameters)
@@ -65,7 +63,6 @@ namespace DHwD.ViewModels.GameInterface
         public ObservableCollection<Chats> chat;
         private JWTToken jWT;
         Url_data url_Data;
-        private SqliteService _sqliteService;
         private RestService _restService;
         private SolutionRequest message;
         private IPageDialogService _dialogService;
@@ -93,7 +90,7 @@ namespace DHwD.ViewModels.GameInterface
         internal Team _Team { get; private set; }
         internal Games _game { get; private set; }
         #endregion
-         
+
         void OnMessageAppearing(Chats message)
         {
             var idx = chat.IndexOf(message);
@@ -142,8 +139,8 @@ namespace DHwD.ViewModels.GameInterface
                     Text = TextToSend,
                     gameid = _game.Id
                 };
-                var result = await BaseREST.PostExecuteAsync<Message, BaseRespone>(url_Data.Chat.ToString(), jWT, message);
-                if (result.Succes == false) 
+                var result = await BaseREST.PostExecuteAsync<Message, BaseResponse>(url_Data.Chat.ToString(), jWT, message);
+                if (result.Succes == false)
                 {
                     try
                     {
@@ -178,7 +175,7 @@ namespace DHwD.ViewModels.GameInterface
                     //return ;
                 }
 
-                if (activePlace.TypePlace==2 &&  !String.IsNullOrEmpty(activePlace.QuizStatus) && Int32.Parse(activePlace.QuizStatus) > 0)    // TypePlace==2 Quiz
+                if (activePlace.TypePlace == 2 && !String.IsNullOrEmpty(activePlace.QuizStatus) && Int32.Parse(activePlace.QuizStatus) > 0)    // TypePlace==2 Quiz
                 {
                     await QuizRequest();
                     GetRequest getRequest = new GetRequest(url_Data.ActivePlace.ToString());
@@ -196,7 +193,7 @@ namespace DHwD.ViewModels.GameInterface
                     Id_Team = _Team.Id,
                     IdMystery = activePlace.Place.Location.MysteryRef
                 };
-                var result = await BaseREST.PostExecuteAsync<SolutionRequest, BaseRespone>(url_Data.Solutions.ToString(), jWT, message);
+                var result = await BaseREST.PostExecuteAsync<SolutionRequest, BaseResponse>(url_Data.Solutions.ToString(), jWT, message);
                 if (result.Succes == false)
                 {
                     try
@@ -217,16 +214,16 @@ namespace DHwD.ViewModels.GameInterface
 
                     getRequest = new GetRequest(url_Data.ActivePlace.ToString());
                     getRequest = await PrepareGetRequest.AddOnlyValue(getRequest, activePlace.ID.ToString());
-                    activePlace = await BaseREST.GetExecuteAsync<ActivePlace>(jWT ,getRequest);
+                    activePlace = await BaseREST.GetExecuteAsync<ActivePlace>(jWT, getRequest);
                     if (activePlace.IsCompleted == true)
                         activePlace = null;
-                }    
+                }
                 await Updatechat();
                 int i = 0;
                 var startTimeSpan = TimeSpan.Zero;
                 var periodTimeSpan = TimeSpan.FromMilliseconds(400);
                 Timer timer;
-                timer = new Timer(async (e) => 
+                timer = new Timer(async (e) =>
                 {
                     if (toaddedchats.Count > i)
                         AddChat(toaddedchats[i]);
@@ -254,7 +251,7 @@ namespace DHwD.ViewModels.GameInterface
                 TextSolution = TextToSend,
                 Id_Team = _Team.Id
             };
-            var result = await BaseREST.PostExecuteAsync<QuizSolution ,BaseRespone>(url_Data.Quiz.ToString(), jWT, quizSolution);
+            var result = await BaseREST.PostExecuteAsync<QuizSolution, BaseResponse>(url_Data.Quiz.ToString(), jWT, quizSolution);
         }
 
         internal async Task Updatechat()
@@ -268,7 +265,7 @@ namespace DHwD.ViewModels.GameInterface
         private void AddChat(Chats item)
         {
             chat.Insert(0, item);
-            
+
         }
         #endregion
     }

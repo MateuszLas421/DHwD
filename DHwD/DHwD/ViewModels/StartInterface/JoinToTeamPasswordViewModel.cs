@@ -1,7 +1,8 @@
-﻿using DHwD.Models;
-using DHwD.Service;
+﻿using DHwD.Service;
+using DHwD.Tools;
 using Models.ModelsDB;
 using Models.ModelsMobile;
+using Models.ModelsMobile.Common;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -18,7 +19,6 @@ namespace DHwD.ViewModels
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
-            _sqliteService = new SqliteService();
             _restService = new RestService();
         }
         public override void Initialize(INavigationParameters parameters)
@@ -55,13 +55,13 @@ namespace DHwD.ViewModels
         }
         private async Task<bool> Init()
         {
-                bool result = await _restService.JoinToTeam(jWT, _Team);
-                if (!result)
-                {
-                    await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
-                    return false;
-                }
-                return true;
+            bool result = await _restService.JoinToTeam(jWT, _Team);
+            if (!result)
+            {
+                await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
+                return false;
+            }
+            return true;
         }
 
         #region variables
@@ -69,7 +69,6 @@ namespace DHwD.ViewModels
         private DelegateCommand _logincommand;
         private INavigationService _navigationService;
         private IPageDialogService _dialogService;
-        private SqliteService _sqliteService;
         private RestService _restService;
         private string _TeamPassword;
         #endregion
@@ -92,7 +91,7 @@ namespace DHwD.ViewModels
             {
                 await _dialogService.DisplayAlertAsync("Alert", "You did not enter your password!", "OK");
                 return;
-            }    
+            }
             var p = new NavigationParameters
                 {
                     { "Team", _Team },
