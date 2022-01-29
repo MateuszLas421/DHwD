@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace DHwD.Service
+﻿namespace DHwD.Service
 {
     //class SqlConst
     //{

@@ -1,5 +1,4 @@
-﻿using System;
-using Models.Respone;
+﻿using Models.Respone;
 
 namespace DHwD.Service.Interfaces
 {

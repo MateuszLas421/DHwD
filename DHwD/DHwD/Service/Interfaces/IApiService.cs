@@ -1,5 +1,4 @@
-﻿using System;
-namespace DHwD.Service.Interfaces
+﻿namespace DHwD.Service.Interfaces
 {
     public interface IApiService
     {

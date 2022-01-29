@@ -1,5 +1,4 @@
-﻿using System;
-namespace DHwD.Tools
+﻿namespace DHwD.Tools
 {
     public static class Constans
     {

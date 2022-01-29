@@ -43,7 +43,7 @@ namespace DHwD.Service
 
         }
 
-        public static async Task<TOut> PostExecuteAsync<T,TOut>(string str, JWTToken jWT, T item) where T : class
+        public static async Task<TOut> PostExecuteAsync<T, TOut>(string str, JWTToken jWT, T item) where T : class
         {
             var authValue = new AuthenticationHeaderValue("Bearer", jWT.Token);
             using (client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })      //  POST  // 
@@ -91,9 +91,9 @@ namespace DHwD.Service
                 string responseContent;
                 try
                 {
-                    response =  await client.GetAsync(getRequest.strURL);                       //  Get  
+                    response = await client.GetAsync(getRequest.strURL);                       //  Get  
                     responseContent = await response.Content.ReadAsStringAsync();
-                }                
+                }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message.ToString());

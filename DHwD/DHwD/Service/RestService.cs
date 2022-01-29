@@ -42,11 +42,11 @@ namespace DHwD.Service
             Uri uri;
             uri = new Uri(string.Format(url_.CheckLogin + item.NickName + "/" + item.Token));
             try { response = await client.GetAsync(uri.ToString()); }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
                 Debug.WriteLine(ex.Message.ToString());
-                return isNewItem; 
+                return isNewItem;
             }
             if (response.IsSuccessStatusCode)  /// The user exists
             {
@@ -68,11 +68,11 @@ namespace DHwD.Service
             Uri uri;
             uri = new Uri(string.Format(url_.RegisterUri.ToString(), string.Empty));
             try { response = await client.PostAsync(uri, content); }                                      //  POST  // 
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
-                Debug.WriteLine(ex.Message.ToString()); 
-                return false; 
+                Debug.WriteLine(ex.Message.ToString());
+                return false;
             }
 
             if (response.IsSuccessStatusCode)
@@ -95,8 +95,8 @@ namespace DHwD.Service
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
-                Debug.WriteLine(ex.Message.ToString()); 
-                return null; 
+                Debug.WriteLine(ex.Message.ToString());
+                return null;
             }
             if (response.IsSuccessStatusCode)  /// when user exists
             {
@@ -119,8 +119,8 @@ namespace DHwD.Service
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
-                Debug.WriteLine(ex.Message.ToString()); 
-                return null; 
+                Debug.WriteLine(ex.Message.ToString());
+                return null;
             }
             if (response.IsSuccessStatusCode)  /// when user exists
             {
@@ -147,7 +147,7 @@ namespace DHwD.Service
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
                 try { response = await client.GetAsync(url_.GameList.ToString()); }                // REST GET 
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
                     Debug.WriteLine(ex.Message.ToString());
@@ -206,27 +206,27 @@ namespace DHwD.Service
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
                 try { response = await client.PostAsync(url_.TeamList.ToString(), content); }                                      //  POST  // 
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
-                    Debug.WriteLine(ex.Message.ToString()); 
-                    return false; 
+                    Debug.WriteLine(ex.Message.ToString());
+                    return false;
                 }
 
                 if (response.IsSuccessStatusCode)
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
                     TeamMembers teamMembers = new TeamMembers();
-                    var deserializeJSON= JsonConvert.DeserializeObject<Team>(responseContent);
+                    var deserializeJSON = JsonConvert.DeserializeObject<Team>(responseContent);
                     teamMembers.Team = item;
                     teamMembers.Team.Id = deserializeJSON.Id;
                     json = JsonConvert.SerializeObject(teamMembers);
                     content = new StringContent(json, Encoding.UTF8, "application/json");
                     try { response = await client.PostAsync(url_.TeamMembersNewTeam.ToString(), content); }                                      //  POST  // 
-                    catch (Exception ex) 
+                    catch (Exception ex)
                     {
                         Crashes.TrackError(ex);
-                        Debug.WriteLine(ex.Message.ToString()); return false; 
+                        Debug.WriteLine(ex.Message.ToString()); return false;
                     }
                     if (response.IsSuccessStatusCode)
                     {
@@ -249,13 +249,13 @@ namespace DHwD.Service
             {
                 try
                 {
-                    response = await client.PostAsync(url_.TeamMembers.ToString(), content); 
+                    response = await client.PostAsync(url_.TeamMembers.ToString(), content);
                 }                                      //  POST  // 
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
-                    Debug.WriteLine(ex.Message.ToString()); 
-                    return false; 
+                    Debug.WriteLine(ex.Message.ToString());
+                    return false;
                 }
                 if (response.IsSuccessStatusCode)
                 {
@@ -278,20 +278,20 @@ namespace DHwD.Service
                 catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
-                    Debug.WriteLine(ex.Message.ToString()); 
+                    Debug.WriteLine(ex.Message.ToString());
                 }
                 if (response.IsSuccessStatusCode)  /// Status Code
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     ListTeams = JsonConvert.DeserializeObject<TeamMembers>(responseContent);          // Deserialize JSON
                 }
-                else {  return null; } 
+                else { return null; }
                 return ListTeams;
             }
         }
 
         [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
-        public async IAsyncEnumerable<TeamMembers> GetTeamMembers(JWTToken jWT, int IdTeam) 
+        public async IAsyncEnumerable<TeamMembers> GetTeamMembers(JWTToken jWT, int IdTeam)
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
@@ -303,14 +303,14 @@ namespace DHwD.Service
                 catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
-                    Debug.WriteLine(ex.Message.ToString()); 
+                    Debug.WriteLine(ex.Message.ToString());
                 }
                 if (response.IsSuccessStatusCode)  /// when user exists
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     ListTeams = JsonConvert.DeserializeObject<List<TeamMembers>>(responseContent);          // Deserialize JSON
                 }
-                else { yield return null; } 
+                else { yield return null; }
                 for (int i = 0; i < ListTeams.Count; i++)
                 {
                     yield return ListTeams[i];
@@ -319,7 +319,7 @@ namespace DHwD.Service
         }
 
         [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
-        public async Task<bool> CheckTeamPass(JWTToken jWT,int idteam, string hashpass)
+        public async Task<bool> CheckTeamPass(JWTToken jWT, int idteam, string hashpass)
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
@@ -327,7 +327,7 @@ namespace DHwD.Service
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
                 try { response = await client.GetAsync(url_.TeamList.ToString() + idteam + "/" + hashpass); }                // REST GET 
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
                     Debug.WriteLine(ex.Message.ToString());
@@ -341,7 +341,7 @@ namespace DHwD.Service
         }
 
         [ObsoleteAttribute("This method is obsolete. Use Generic BaseREST instead.", false)]
-        public async Task<List<Location>> GetLocationAsync(JWTToken jWT,Team team)
+        public async Task<List<Location>> GetLocationAsync(JWTToken jWT, Team team)
         {
             Url_data url_ = new Url_data();
             HttpResponseMessage response = null;
@@ -350,17 +350,17 @@ namespace DHwD.Service
             using (var client = new HttpClient() { DefaultRequestHeaders = { Authorization = authValue } })
             {
                 try { response = await client.GetAsync(url_.Location.ToString() + team.Id); }                // REST GET 
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     Crashes.TrackError(ex);
-                    Debug.WriteLine(ex.Message.ToString()); 
+                    Debug.WriteLine(ex.Message.ToString());
                 }
                 if (response.IsSuccessStatusCode)  /// Status Code
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();               // Read GET
                     location = JsonConvert.DeserializeObject<List<Location>>(responseContent);          // Deserialize JSON
                 }
-                else { return null;   } 
+                else { return null; }
                 return location;
             }
         }
@@ -387,7 +387,7 @@ namespace DHwD.Service
                     Crashes.TrackError(ex);
                     Debug.WriteLine(ex.Message.ToString());
                 }
-                if (response.StatusCode==System.Net.HttpStatusCode.NotFound)
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     List = new List<Chats>();
                 }
@@ -395,7 +395,7 @@ namespace DHwD.Service
                 {
                     yield return new Chats();
                 }
-                for (int i = List.Count-1; i >=0; i--)
+                for (int i = List.Count - 1; i >= 0; i--)
                 {
                     yield return List[i];
                 }

@@ -34,8 +34,8 @@ namespace DHwD.ViewModels
                  jwt = new JWTToken { Token = await _storage.ReadData(Constans.JWT) };
                  await foreach (var item in _restService.GetGames(jwt))
                  {
-                     if(item != null)
-                        ObGames.Add(item);
+                     if (item != null)
+                         ObGames.Add(item);
                  }
              });
         }

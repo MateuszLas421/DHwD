@@ -1,22 +1,22 @@
-using Prism;
-using Prism.Ioc;
+using DHwD.Repository;
+using DHwD.Repository.Interfaces;
+using DHwD.Service;
 using DHwD.ViewModels;
-using DHwD.Views;
-using Xamarin.Essentials.Interfaces;
-using Xamarin.Essentials.Implementation;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using DHwD.Views.Dialog;
-using DHwD.ViewModels.GameInterface;
 using DHwD.ViewModels.Dialogs;
+using DHwD.ViewModels.GameInterface;
+using DHwD.ViewModels.StartInterface;
+using DHwD.Views;
+using DHwD.Views.Dialog;
+using DHwD.Views.Dialogs;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using DHwD.Service;
-using DHwD.Views.Dialogs;
-using DHwD.Repository.Interfaces;
-using DHwD.Repository;
-using DHwD.ViewModels.StartInterface;
+using Prism;
+using Prism.Ioc;
+using Xamarin.Essentials.Implementation;
+using Xamarin.Essentials.Interfaces;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace DHwD
@@ -41,8 +41,8 @@ namespace DHwD
         protected override void OnStart()
         {
             Url_data data = new Url_data();
-            AppCenter.Start("android=" + data.AppCenterAndroid +";"  +
-                  "ios="+ data.AppCenteriOS,
+            AppCenter.Start("android=" + data.AppCenterAndroid + ";" +
+                  "ios=" + data.AppCenteriOS,
                   typeof(Analytics), typeof(Crashes));
         }
 
@@ -56,6 +56,8 @@ namespace DHwD
             containerRegistry.RegisterForNavigation<GameListView, GameListViewModel>();
             containerRegistry.RegisterForNavigation<CreateNewTeam, CreateNewTeamViewModel>();
             containerRegistry.RegisterForNavigation<JoinToTeamPassword, JoinToTeamPasswordViewModel>();
+
+            //new
             containerRegistry.RegisterForNavigation<LoginPage, LoginViewModel>();
 
             //Game Containers

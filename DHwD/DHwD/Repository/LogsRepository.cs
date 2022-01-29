@@ -1,7 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using DHwD.Repository.Interfaces;
+﻿using DHwD.Repository.Interfaces;
 using Microsoft.AppCenter.Crashes;
+using System;
+using System.Diagnostics;
 
 namespace DHwD.Repository
 {

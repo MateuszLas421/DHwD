@@ -55,13 +55,13 @@ namespace DHwD.ViewModels
         }
         private async Task<bool> Init()
         {
-                bool result = await _restService.JoinToTeam(jWT, _Team);
-                if (!result)
-                {
-                    await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
-                    return false;
-                }
-                return true;
+            bool result = await _restService.JoinToTeam(jWT, _Team);
+            if (!result)
+            {
+                await _dialogService.DisplayAlertAsync("ALERT", "You cannot join this team.", "OK");
+                return false;
+            }
+            return true;
         }
 
         #region variables
@@ -91,7 +91,7 @@ namespace DHwD.ViewModels
             {
                 await _dialogService.DisplayAlertAsync("Alert", "You did not enter your password!", "OK");
                 return;
-            }    
+            }
             var p = new NavigationParameters
                 {
                     { "Team", _Team },

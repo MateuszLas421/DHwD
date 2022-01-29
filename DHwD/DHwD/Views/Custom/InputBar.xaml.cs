@@ -1,5 +1,4 @@
-﻿using DHwD.ViewModels.GameInterface;
-using System;
+﻿using System;
 using Xamarin.Forms;
 
 namespace DHwD.Views.Custom

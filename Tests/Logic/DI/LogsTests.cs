@@ -1,5 +1,5 @@
-﻿using System;
-using DHwD.Repository.Interfaces;
+﻿using DHwD.Repository.Interfaces;
+using System;
 using Xunit;
 
 namespace Tests.Logic.DI

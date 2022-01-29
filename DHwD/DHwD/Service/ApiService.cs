@@ -1,5 +1,5 @@
-﻿using System;
-using DHwD.Service.Interfaces;
+﻿using DHwD.Service.Interfaces;
+using System;
 
 namespace DHwD.Service
 {

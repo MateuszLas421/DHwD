@@ -1,7 +1,7 @@
-﻿using System;
-using DHwD.Repository;
+﻿using DHwD.Repository;
 using DHwD.Repository.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Tests
 {

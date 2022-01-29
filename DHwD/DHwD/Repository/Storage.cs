@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DHwD.Repository.Interfaces;
+using System;
 using System.Threading.Tasks;
-using DHwD.Repository.Interfaces;
 using Xamarin.Essentials;
 
 namespace DHwD.Repository

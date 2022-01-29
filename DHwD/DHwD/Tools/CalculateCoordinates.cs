@@ -4,12 +4,12 @@ namespace DHwD.Tools
 {
     public static class CalculateCoordinates
     {
-        private static double  DegreesToRadians(double degrees)
+        private static double DegreesToRadians(double degrees)
         {
             return degrees * Math.PI / 180;
         }
 
-        public static double  DistanceInKmBetweenEarthCoordinates(double lat1, double lon1, double lat2, double lon2)
+        public static double DistanceInKmBetweenEarthCoordinates(double lat1, double lon1, double lat2, double lon2)
         {
             var earthRadiusKm = 6371;
 

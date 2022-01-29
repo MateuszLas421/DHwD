@@ -1,5 +1,4 @@
-﻿using System;
-using DHwD.Service.Enums;
+﻿using DHwD.Service.Enums;
 
 namespace DHwD.Service.Interfaces
 {

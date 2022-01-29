@@ -1,5 +1,4 @@
-﻿using System;
-namespace DHwD.Service.Enums
+﻿namespace DHwD.Service.Enums
 {
     public enum EContentType
     {

@@ -1,16 +1,16 @@
-﻿using Prism.Commands;
-using Prism.Navigation;
-using System;
-using Xamarin.Forms;
-using Plugin.DeviceInfo;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
+﻿using DHwD.Repository.Interfaces;
 using DHwD.Service;
-using Prism.Services;
-using System.Threading;
-using DHwD.Repository.Interfaces;
 using DHwD.Tools;
 using Models.ModelsMobile.Common;
+using Plugin.DeviceInfo;
+using Prism.Commands;
+using Prism.Navigation;
+using Prism.Services;
+using System;
+using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace DHwD.ViewModels
 {
@@ -40,26 +40,26 @@ namespace DHwD.ViewModels
             NickNameColor = Color.Default;
             _restService = new RestService();
             bool userExist = false;
-            Task sqlTask =  Task.Run(async () =>
-            {
-                //UserRegistration user = await _sqliteService.GetItemAsync();
-                user.Token = await _storage.ReadData(Constans.JWT);
-                if (user != null)
-                {
-                    JWTToken jwt = new JWTToken();
-                    jwt = await _restService.LoginAsync(user); // Update
-                    if (jwt != null)
-                    {
-                        await _storage.SaveData(Constans.JWT, jwt.Token);
-                        jwt = null;
-                        userExist = true;
-                    }
-                    else if (jwt == null)
-                    {
-                        //await _sqliteService.DeleteUser();
-                    }
-                }
-            });
+            Task sqlTask = Task.Run(async () =>
+           {
+               //UserRegistration user = await _sqliteService.GetItemAsync();
+               user.Token = await _storage.ReadData(Constans.JWT);
+               if (user != null)
+               {
+                   JWTToken jwt = new JWTToken();
+                   jwt = await _restService.LoginAsync(user); // Update
+                   if (jwt != null)
+                   {
+                       await _storage.SaveData(Constans.JWT, jwt.Token);
+                       jwt = null;
+                       userExist = true;
+                   }
+                   else if (jwt == null)
+                   {
+                       //await _sqliteService.DeleteUser();
+                   }
+               }
+           });
             try
             {
                 while (sqlTask.IsCompleted == false)
@@ -113,15 +113,15 @@ namespace DHwD.ViewModels
             JWTToken jWT;
             Hash hash = new Hash();
             Func<string, string> token = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());
-            if (string.IsNullOrEmpty(user.NickName))    
+            if (string.IsNullOrEmpty(user.NickName))
             {
                 NickNameColor = Color.Red;
-                await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK"); 
-                return; 
+                await _dialogService.DisplayAlertAsync("Alert!", "Please enter your nickname", "OK");
+                return;
             }
             user.Token = token(CrossDeviceInfo.Current.Id.ToString());
             jWT = await _restService.LoginAsync(user);  // Update
-            if (jWT!=null) 
+            if (jWT != null)
             {
                 //await _sqliteService.SaveUser(user);
                 await _storage.SaveData(Constans.JWT, jWT.Token);
@@ -129,13 +129,13 @@ namespace DHwD.ViewModels
                 {
                     { "JWT", jWT }
                 };
-                await _navigationService.NavigateAsync("NavigationPage/GameListView",p, useModalNavigation: true, animated: true);
-            }                                                                        
-            else 
+                await _navigationService.NavigateAsync("NavigationPage/GameListView", p, useModalNavigation: true, animated: true);
+            }
+            else
             {
-                bool Register=false;
+                bool Register = false;
                 Register = await _restService.RegisterNewUserAsync(user);
-                if (Register==false)    { await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return; }
+                if (Register == false) { await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return; }
                 jWT = await _restService.LoginAsync(user);
                 if (jWT != null)
                 {
@@ -148,8 +148,8 @@ namespace DHwD.ViewModels
                     await _navigationService.NavigateAsync("NavigationPage/GameListView", p, useModalNavigation: true, animated: true);
                 }
                 else
-                    await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return;   
-            } 
+                    await _dialogService.DisplayAlertAsync("Alert!", "Ups Something was wrong", "OK"); return;
+            }
         }
 
     }

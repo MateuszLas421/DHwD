@@ -341,8 +341,5 @@ healthchecksdb
 
 *.vsdx
 
-<<<<<<< HEAD
 DHwD/DHwD/Service/URl_data.cs
-=======
-/DHwD/DHwD/Service/Url_data.cs
->>>>>>> mlas
+Logs/*

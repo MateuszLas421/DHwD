@@ -1,5 +1,4 @@
 ﻿using DHwD.Tools;
-using System;
 using System.Security.Cryptography;
 using Xunit;
 

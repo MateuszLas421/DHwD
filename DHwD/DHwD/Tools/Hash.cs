@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DHwD.Tools
 {
-    public class Hash: IHash
+    public class Hash : IHash
     {
         public string ComputeHash(string input, HashAlgorithm algorithm)  //Hash
         {

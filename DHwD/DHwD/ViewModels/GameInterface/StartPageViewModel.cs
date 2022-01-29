@@ -37,7 +37,7 @@ namespace DHwD.ViewModels.GameInterface
         #region Navigation
         public override async void Initialize(INavigationParameters parameters)
         {
-            
+
             if (parameters.ContainsKey("Team"))
             {
                 _Team = parameters.GetValue<MobileTeam>("Team");
@@ -71,7 +71,7 @@ namespace DHwD.ViewModels.GameInterface
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.GetNavigationMode()==NavigationMode.Back)
+            if (parameters.GetNavigationMode() == NavigationMode.Back)
             {
                 if (parameters.ContainsKey("Team"))
                 {
@@ -128,7 +128,7 @@ namespace DHwD.ViewModels.GameInterface
 
         private INavigationService _navigationService;
 
-        private IDialogService  _pageDialog;
+        private IDialogService _pageDialog;
 
         private DelegateCommand _map, _chat, _settings, _teampage;
 
@@ -182,7 +182,7 @@ namespace DHwD.ViewModels.GameInterface
         }
         async void ExecuteSettingsCommand()
         {
-                var p = new NavigationParameters
+            var p = new NavigationParameters
                 {
                     { "Team", _Team },
                     { "JWT", jWT }
@@ -223,7 +223,7 @@ namespace DHwD.ViewModels.GameInterface
             }
             else
             {
-                
+
             }
         }
 
@@ -241,17 +241,17 @@ namespace DHwD.ViewModels.GameInterface
                         getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Game", _game.Id.ToString());
                         getRequest = await PrepareGetRequest.PrepareMoreParametr(getRequest, "DateTimeCreate", currenttimeforChat.ToString());
 
-                        list = await BaseREST.GetExecuteAsync<List<Chats>>(jWT,getRequest);
+                        list = await BaseREST.GetExecuteAsync<List<Chats>>(jWT, getRequest);
                         foreach (var item in list)
                         {
-                                chat.Insert(0,item);
+                            chat.Insert(0, item);
                         }
                     }
                     else
-                    await Startchat();
+                        await Startchat();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Crashes.TrackError(ex);
             }
@@ -259,19 +259,19 @@ namespace DHwD.ViewModels.GameInterface
 
         internal async Task Startchat()
         {
-            await foreach (var item in  _restService.GetChat(jWT, _game.Id))
+            await foreach (var item in _restService.GetChat(jWT, _game.Id))
             {
-                if(item.Text!=null)
+                if (item.Text != null)
                     chat.Add(item);
             }
         }
-        private async Task<ActivePlace> CheckTask(Team  team)
+        private async Task<ActivePlace> CheckTask(Team team)
         {
             GetRequest getRequest = new GetRequest(url_Data.Check.ToString());
             getRequest = await PrepareGetRequest.PrepareFirstParametr(getRequest, "Id_Team", team.Id.ToString());
 
             var result = await BaseREST.GetExecuteAsync<ActivePlace>(jWT, getRequest);
-            return await Task.FromResult(result); 
+            return await Task.FromResult(result);
         }
 
         #endregion

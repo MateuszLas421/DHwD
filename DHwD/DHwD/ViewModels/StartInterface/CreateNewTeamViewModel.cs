@@ -16,7 +16,7 @@ namespace DHwD.ViewModels
     public class CreateNewTeamViewModel : ViewModelBase, INavigationAware
     {
         public CreateNewTeamViewModel(INavigationService navigationService,
-            IStorage storage ,IPageDialogService dialogService) : base(navigationService)
+            IStorage storage, IPageDialogService dialogService) : base(navigationService)
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
@@ -27,7 +27,7 @@ namespace DHwD.ViewModels
         }
         public override void Initialize(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("Game"))  
+            if (parameters.ContainsKey("Game"))
                 Game = parameters.GetValue<Games>("Game");
             ChboX = false;
         }
@@ -63,24 +63,24 @@ namespace DHwD.ViewModels
         public DelegateCommand BtnCreateTeam =>
             _btnCreateTeam ?? (_btnCreateTeam = new DelegateCommand(CreateTeamCommand));
         #endregion
-        
+
         async void CreateTeamCommand()
         {
             jwt = new JWTToken { Token = await _storage.ReadData(Constans.JWT) };
             Team.StatusPassword = ChboX;
             Team.Games = new Games();
             Team.Games.Id = Game.Id;
-            if (Team.StatusPassword == false) 
-            { 
-                Team.Password = null; 
+            if (Team.StatusPassword == false)
+            {
+                Team.Password = null;
             }
-            else 
+            else
             {
                 Hash hash = new Hash();
                 Func<string, string> token = r => hash.ComputeHash(r, new SHA256CryptoServiceProvider());
                 Team.Password = token(Team.Password);
             }
-            bool result= await _restService.CreateNewTeam(jwt, Team);
+            bool result = await _restService.CreateNewTeam(jwt, Team);
             Thread.Sleep(100);
             if (result == false)
             {

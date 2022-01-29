@@ -77,7 +77,7 @@ namespace DHwD.ViewModels.Dialogs
             };
             Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
             {
-                Observable.Create<Task>(async o => await GetPlace(Place.Location.ID) )
+                Observable.Create<Task>(async o => await GetPlace(Place.Location.ID))
                 .SubscribeOn(Scheduler.CurrentThread)
                 .Subscribe();
             });

@@ -90,7 +90,7 @@ namespace DHwD.ViewModels.GameInterface
         internal Team _Team { get; private set; }
         internal Games _game { get; private set; }
         #endregion
-         
+
         void OnMessageAppearing(Chats message)
         {
             var idx = chat.IndexOf(message);
@@ -140,7 +140,7 @@ namespace DHwD.ViewModels.GameInterface
                     gameid = _game.Id
                 };
                 var result = await BaseREST.PostExecuteAsync<Message, BaseResponse>(url_Data.Chat.ToString(), jWT, message);
-                if (result.Succes == false) 
+                if (result.Succes == false)
                 {
                     try
                     {
@@ -175,7 +175,7 @@ namespace DHwD.ViewModels.GameInterface
                     //return ;
                 }
 
-                if (activePlace.TypePlace==2 &&  !String.IsNullOrEmpty(activePlace.QuizStatus) && Int32.Parse(activePlace.QuizStatus) > 0)    // TypePlace==2 Quiz
+                if (activePlace.TypePlace == 2 && !String.IsNullOrEmpty(activePlace.QuizStatus) && Int32.Parse(activePlace.QuizStatus) > 0)    // TypePlace==2 Quiz
                 {
                     await QuizRequest();
                     GetRequest getRequest = new GetRequest(url_Data.ActivePlace.ToString());
@@ -214,16 +214,16 @@ namespace DHwD.ViewModels.GameInterface
 
                     getRequest = new GetRequest(url_Data.ActivePlace.ToString());
                     getRequest = await PrepareGetRequest.AddOnlyValue(getRequest, activePlace.ID.ToString());
-                    activePlace = await BaseREST.GetExecuteAsync<ActivePlace>(jWT ,getRequest);
+                    activePlace = await BaseREST.GetExecuteAsync<ActivePlace>(jWT, getRequest);
                     if (activePlace.IsCompleted == true)
                         activePlace = null;
-                }    
+                }
                 await Updatechat();
                 int i = 0;
                 var startTimeSpan = TimeSpan.Zero;
                 var periodTimeSpan = TimeSpan.FromMilliseconds(400);
                 Timer timer;
-                timer = new Timer(async (e) => 
+                timer = new Timer(async (e) =>
                 {
                     if (toaddedchats.Count > i)
                         AddChat(toaddedchats[i]);
@@ -251,7 +251,7 @@ namespace DHwD.ViewModels.GameInterface
                 TextSolution = TextToSend,
                 Id_Team = _Team.Id
             };
-            var result = await BaseREST.PostExecuteAsync<QuizSolution ,BaseResponse>(url_Data.Quiz.ToString(), jWT, quizSolution);
+            var result = await BaseREST.PostExecuteAsync<QuizSolution, BaseResponse>(url_Data.Quiz.ToString(), jWT, quizSolution);
         }
 
         internal async Task Updatechat()
@@ -265,7 +265,7 @@ namespace DHwD.ViewModels.GameInterface
         private void AddChat(Chats item)
         {
             chat.Insert(0, item);
-            
+
         }
         #endregion
     }
