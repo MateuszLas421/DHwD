@@ -7,9 +7,14 @@ namespace Tests
 {
     public class Startup
     {
+        public Startup()
+        {
+            var config = new ConfigurationBuilder();
+            Configuration = config.Build();
+        }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ILogs, LogsRepository>();
+            services.AddSingleton<ILogs, LogsRepository>();
         }
 
         public void Configure(IServiceProvider provider)
