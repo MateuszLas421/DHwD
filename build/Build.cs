@@ -16,13 +16,21 @@ using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using System.Collections.Generic;
 using Operations;
+using Octokit;
 
+[GitHubActions(
+    "nuke",
+    GitHubActionsImage.MacOsLatest,
+    OnPushBranches = new[] { "testaction" },
+    InvokedTargets = new[] { nameof(Compile) },
+    AutoGenerate = false
+    )]
 class Build : NukeBuild
 {  
     public static int Main () => Execute<Build>(x => x.Clean);
 
     [Parameter("Build config")]
-    string BuildConfig { get; set; }
+    string BuildConfig { get; set; } = "Release";
 
     AbsolutePath DirectoryAndroidBin => RootDirectory / "DHwD/DHwD.Android/bin";
     AbsolutePath DirectoryAndroidObj => RootDirectory / "DHwD/DHwD.Android/obj";
