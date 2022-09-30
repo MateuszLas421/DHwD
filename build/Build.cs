@@ -30,7 +30,7 @@ class Build : NukeBuild
     public static int Main () => Execute<Build>(x => x.Clean);
 
     [Parameter("Build config")]
-    string BuildConfig { get; set; } = "Release";
+    string BuildConfig { get; set; }
 
     AbsolutePath DirectoryAndroidBin => RootDirectory / "DHwD/DHwD.Android/bin";
     AbsolutePath DirectoryAndroidObj => RootDirectory / "DHwD/DHwD.Android/obj";

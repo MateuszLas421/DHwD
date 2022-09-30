@@ -19,4 +19,4 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Run './build.cmd Compile'
-        run: ./build.cmd Compile
+        run: ./build.cmd Compile -BuildConfig Release
