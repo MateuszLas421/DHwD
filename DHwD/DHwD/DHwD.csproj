@@ -16,6 +16,7 @@
     <None Remove="Service\Interface.cs\" />
     <None Remove="Service\Enums\" />
     <None Remove="Polly" />
+    <None Remove="Tools\Extensions\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -210,5 +211,6 @@
     <Folder Include="Repository\Interfaces\" />
     <Folder Include="Service\Interfaces\" />
     <Folder Include="Service\Enums\" />
+    <Folder Include="Tools\Extensions\" />
   </ItemGroup>
 </Project>
